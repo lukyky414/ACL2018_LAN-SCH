@@ -1,0 +1,54 @@
+Si il y a eu un changement dans la meme partie du meme fichier, Git ne peut 
+pas fusionner les deux commit correctement. Il y a donc un conflit qui 
+ressemblera a ca:
+
+
+$ git merge <NomDeLaBranche>
+Auto-merging <FichierModifie>
+CONFLICT (content): Merge conflict in <FichierModifie>
+Automatic merge failed; fix conflicts and then commit the result.
+
+
+Git a donc arrete le merge en attendant que le conflit soit resolu. Pour 
+voir quels fichiers n'ont pas ete merge, il faut faire le git status:
+
+
+$ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+    both modified:      <FichierModifie>
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+
+Tous les fichiers qui n'ont pas ete merge auront du texte ajoute dedans. 
+Bien sur l'IDE utilise (comme Eclipse) soulignera tout en rouge car ca n'est 
+plus du code, mais c'est assez simple a comprendre:
+
+
+<<<<<<< HEAD:<FichierModifie>
+[Du Code, celui de la branche HEAD (= actuellement selectionnee)]
+=======
+[Un autre code, different, celui de la branche que l'on merge}
+>>>>>>> <NomDeLaBranche>:<FichierModifie>
+
+
+Il faudra donc choisi soit un soit l'autre bloc, ou alors faire une sorte de 
+fusion des deux.
+Imaginons un ToString qui change, celui de base mais le nom+prenom.
+Le HEAD ajoute en plus l'age
+L'autre ajoute en plus le salaire.
+On choisit soit de ne mettre que nom prenom age, soit nom prenom salaire, 
+Mais aussi on peut fusionner en mettant toutes les infos (nom prenom age 
+salaire).
+Git ne peut pas le faire automatiquement, il faut le resoudre a la main, et 
+bien sur enlever les lignes <<<< ==== >>>> .
+
+Apres resolution, il faut faire:
+git add <FichierResolu>
+sur chaques fichiers pour les marque comme resulu et pouvoir ensuite COMMIT.

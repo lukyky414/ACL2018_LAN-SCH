@@ -1,0 +1,83 @@
+Pour pouvoir cloner le projet, il faut deja que j'ajoute le compte en 
+collaborateur, puis que j'ajoute la cle publique SSH generee.
+Pour generer une cle SSH il faut faire la commande suivante:
+
+ssh-keygen -t rsa -b 4096 -C "<Adresse Email du compte Git>"
+
+(machine perso)
+  Si la commande ssh-keygen n'est pas reconnu, il faut installer le paquet
+  "openssh" (je suis sous ArchLinux)
+
+Ensuite il faut preciser le chemin pour creer la cle.
+De base cela va mettre dans "/home/<USR>/.ssh/id_rsa"
+Cela va donc creer deux fichier:
+/home/<USR>/.ssh/id_rsa     -   la cle privee
+/home/<USR>/.ssh/id_rsa.pub -   la cle publique.
+
+Ensuite il est demande de mettre un mot de passe (pour proteger la cle 
+privee).
+
+Your identification has been saved in <CHEMIN>/id_rsa.
+Your public key has been saved in <CHEMIN>/id_rsa.pub.
+The key fingerprint is:
+SHA256:ArVBhJi/GR6XaS5ULbYSNz4f2ST2DR4NqKXN7t3BkqU <Email>
+The key's randomart image is:
++---[RSA 4096]----+
+|   o +=. ..o     |
+|  o o.*o* + .    |
+|   ..*.& B +     |
+|    *.@ = + o    |
+|   o X.+S. =     |
+|    = ..o E o    |
+|     . . . o .   |
+|        . . .    |
+|                 |
++----[SHA256]-----+
+
+Comme ce fingerprint ou l'image n'est pas dans les fichiers genere, je 
+conseil de copier les lignes de "The key fingerprint is:" a la fin dans un 
+fichier avec les deux autres.
+IL FAUT GARDER CES TROIS FICHIER SUR SA CLE, ou dans un endroit ou l'on est 
+sur de les retrouver. Si on perd le fichier de la cle privee (id_rsa), 
+impossible de le retrouver automatiquement, il faudra donc tout regenerer, 
+et on en a besoin pour chaque connection.
+
+
+Ensuite, il faut ajouter cette cle sur le github, il faut donc aller sur son 
+profil (en haut a droite, la petite fleche > Settings).
+On va dans la categorie SSH and GPG key
+Add New SSH Key (en haut)
+Le nom on peut mettre ce que l'on veut, et la partie cle il faut mettre 
+l'integralite du contenu du fichier id_rsa.pub
+Par exemple:
+
+ssh-rsa 
+AAAAB3NzaC1yc2EAAAADAQABAAACAQDfkqtKAU40o/ZYPznXuOFPyqCwquyOPMbAibYgI7AjjLpK/9mWJAE
+YY+WnzqLcM6Ha9iURhAu9pvl7LG1HLP4X1qWuMXmcdF2TgXxXPi8kx5SeYx21vLCW/D7XMo7CXbwrlSKOlF
+uBI4UUDfKfCHEsTVVCU9EyAmhp4lNcOF59B+EJdhDy8ikn9JkyJ6Spsg1Hv6crQIlKAtlZ/wbq5lZ4jxzSr
+4xhrvPCSiz19sXo/9/zmmG3L0Wq+LGdja4+MUksEA/1bPAuPjQmqTyLIR+ZgysJt65lnxTMSwTuYcIomSIu
+DMWsr1SsKuDyMzRxZYF6Fpm9H5KO8ZrBiY71yfrZEfaHBsevyPPdXMAKzXi1I/zoecG1NGKehU1j6b8leCQ
+lcBnPsM0YLE8LCaienDk0AnsOE9nLrRgEHwWLZSXIz8R1mxHMfj2CoYtEds0LX3v1eB3v/LnZAPXbUefHB5
+wDowu7qKV2wQkVmBLEzOdsSXpeoOClvJ3lO4MZcflRMiUTv1Shh0Qq3aBhrijy70Ay+ugfE6A01U9ITpPtp
+4wL/KUKYsqA4yrSG5UiM8UOEnEH6xjrfixCP7iqNOJIOpdtIKaJx74DOFgcq1Kgwjy+FE3Hf/dLOfoIKQSb
+h0qkTJz0DS0tbRyYytx9Mry60NYTkJhwMP25CYExp3wCpcXoBQ== <EMAIL>
+
+Une fois la cle ajoute sur son profil, si j'ai deja ajoute ce profil en 
+collaborateur sur le repo, l'acces est normalement debloque.
+
+Pour cloner le projet:
+Aller sur la page du projet, je conseille de suivre mon compte (Lukyky414) 
+afin de retrouver facilement le projet (voir les personnes suivi est facile, 
+voir les projets de cette personne aussi).
+Cliquer sur "Clone or Download", verifier que l'on est bien en "Clone with 
+SSH", sinon cliquer sur le petit "Use SSH" en bleu a cote.
+Copier le lien, aller sur le DOS, dans le repertoire ou le projet sera clone 
+(un dossier ACL2018_... sera cree), puis faire cette commande
+
+git clone git@github.com:lukyky414/ACL2018_LAN-YVO-NIC-SCH.git
+
+Ma cle privee a ete automatiquement trouvee car dans mon dossier ~/.ssh/, 
+sinon je pense qu'il faut preciser le chemin (CLE PRIVE: soit id_rsa 
+seulement)
+Ensuite om faut entrer la "passphrase" ou mot de passe protegeant cette cle 
+privee, puis le projet se clone.

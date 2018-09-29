@@ -1,0 +1,60 @@
+Ce fichier donne les commandes pour pouvoir merge ou fusionner des branches. 
+Si chaque developpeur travaille sur sa branche, cela evite enormement de 
+conflit (en supposant encore que le travail a bien ete divise).
+Le dev peut faire autant de commit qu'il veut sur sa branche, et quand il a 
+termine une grosse partie, il faut la mettre sur la branche principale.
+Pour eviter que la branche principale contienne tous les commits inutile 
+(modif fichier1, remodif fichier1, correction du remodif fichier1, ....) et 
+de n'avoir qu'un seul gros commit, il va falloir REBASE.
+
+D'abord, il faut aller sur le site GitHub, et recuperer la cle du 1e commit 
+a partir du quel on va fusionner.
+Il faut simplement aller sur le projet, cliquer sur l'onglet "Branch", 
+cliquer sur sa branche, puis sur l'onglet "Commits".
+
+On voit ici tous les commits, et sur la droite on voit une partie de la cle 
+de chaque commit. En cliquant dessus on va afficher la page de ce commit, et 
+en dessous du titre et de la description, on voit l'utilisateur, la date, la 
+cle du commit parent et ensuite la cle entiere de ce commit.
+Pour etre sur, on peut utiliser git log qui va lister les commits:
+
+git log
+a5f4a0d TROISIEME
+310154e DEUXIEME
+ff4609d PREMIER
+
+Il faut la copier (par exemple: ff4609d2b6016f6d0e69919703e6c0c7ad22236c)
+
+git rebase -i ff4609d2b6016f6d0e69919703e6c0c7ad22236c
+
+On va voir maintenant tous les commits effectues:
+
+pick ff4609d PREMIER
+pick 310154e DEUXIEME
+pick a5f4a0d TROISIEME
+
+# Rebase 710f0f8..a5f4a0d onto 710f0f8
+#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+#
+
+
+On remarque que chaques commit est precede d'un "pick".
+Il suffit simplement de remplacer tous les picks par un "s" ou "squash" 
+(sauf le premier):
+
+pick ff4609d PREMIER
+s 310154e DEUXIEME
+s a5f4a0d TROISIEME
+
+
+
+
+Normalement, cela fusionne tous les commit, et on peut ensuite faire le 
+merge.

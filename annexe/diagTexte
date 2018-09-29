@@ -1,0 +1,68 @@
+@startuml
+hide empty methods
+hide empty field
+
+GameEngineGraphical --> "0..1" GraphicalInterface
+GameEngineGraphical --> "0..1" GamePainter
+GameEngineGraphical --> "0..1" Game
+GameEngineGraphical --> "0..1" GameController
+DrawingPanel--> "0..1" GamePainter
+GraphicalInterface --> DrawingPanel
+
+GameController <.. LabyrinthController
+Game <.. LabyrinthGame
+GamePainter <.. LabyrinthPainter
+LabyrinthGame "0..1" <-- LabyrinthPainter
+
+
+
+Interface GamePainter
+
+Interface Game
+
+Interface GameController
+
+abstract Effect
+abstract Entity
+abstract Movable
+abstract Playable
+'abstract Monster
+abstract AbstractDAOFactory
+
+'CASES -EFFETS
+
+LabyrinthGame --> Map
+Map --> "*" Square
+Square "1"--> "0..1" Entity
+Square <.. Wall : evite un couplage fort entre Wall et Effet
+Square --> "*" Effect
+/'
+Effect <.. Magic
+Effect <.. Treasure
+Effect <.. Trap
+Effect <.. SecretPassage
+'/
+
+
+'ENTITE
+
+LabyrinthGame --> "1" Hero
+Entity <.. Movable 
+Movable <.. Playable
+Playable <.. Hero
+/'
+Movable <.. Monster
+Monster <.. Goblin
+Monster <.. Ghost
+'/
+
+'DAO
+
+AbstractDAOFactory <.. ConcreteTxtFactory
+MapDAO <.. MapTxtDAO
+ConcreteTxtFactory -- MapTxtDAO
+Map <-- MapDAO : creates
+
+
+@enduml
+

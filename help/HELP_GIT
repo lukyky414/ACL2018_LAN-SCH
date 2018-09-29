@@ -1,0 +1,82 @@
+Ne pas commit sur la branche principale lors des developpement!
+Seul le premier commit (ajouter son nom sur le fichier README) est a faire sur la
+branche MASTER
+Pour creer sa branche:
+  Creer la branche en local:
+    git branch <NomDeLaBranche>
+
+  Travailler sur la branche (la branche cree n'est pas selectionnee de base):
+    git checkout <NomDeLaBranche>
+
+  Envoyer la creation de branche sur GitHub:
+    git push origin <NomDeLaBranche>
+
+
+
+Pour commit:
+  Ajouter les fichiers au repo local:
+    git add <fichier1> <fichier2> ...
+    git add --all
+
+  Enlever des fichiers du repo local:
+    git rm <fichier>
+
+  Pour commit:
+    git commit
+
+  Si on veut modifier le dernier commit au lieu d'en creer un autre:
+    git commit --amend
+
+  Si l'editeur de texte sur le dos est nul (vim) utiliser:
+    git config --global core.editor "nano"
+  (peut ne pas fonctionner sur les ordinateurs de la fac, et seulement en linux)
+
+
+
+Mettre a jour le repo distant:
+  Recuperer les mise a jour du repo distant:
+    git pull
+
+  Envoyer ses mises a jours sur le repo distant:
+    git push
+
+
+
+---Pour les branches---
+Changer de branche:
+  git checkout <NomDeLaBranche>
+
+  Le nom de la branche de base est "Master".
+  /!\Attention, il faut avoir commit et push avant, chaques changements seront
+  perdu ou creeront un conflit!
+
+
+
+Voir la branche actuelle:
+  git status
+
+  La 1e ligne: On branch <NomDeLaBranche>
+
+
+Supprimer une branche:
+  git branch -d <NomDeLaBranche>
+
+  /!\Attention, verifier que tout a ete merge sur la branche principale avant, ou
+  les commit & push seront perdu.
+
+
+
+Envoyer ses commit d'une branche a une autre:
+  git checkout <Branche_Qui_Recevra_Les_Commit>
+  git merge <Branche_Qui_Envoie_Les_Commit>
+
+  /!\Attention, risque de conflit si la branche qui recoit est alle plus loin que 
+  la racine de la branche qui envoit.
+  En gros si quelqu'un push sur le Master avant que t'envoie de ta branche perso,
+  conflit (si les memes fichiers ont ete modifie)
+  Avec une bonne distribution de travail et un bon depart de projet, personne n'est
+  cense modifier les meme fichiers.
+
+
+
+

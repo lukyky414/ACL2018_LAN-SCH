@@ -1,0 +1,51 @@
+@startuml
+hide empty methods
+hide empty field
+
+GameEngineGraphical --> "0..1" GraphicalInterface
+GameEngineGraphical --> "0..1" GamePainter
+GameEngineGraphical --> "0..1" Game
+GameEngineGraphical --> "0..1" GameController
+DrawingPanel--> "0..1" GamePainter
+GraphicalInterface --> DrawingPanel
+
+GameController <.. LabyrinthController
+Game <.. LabyrinthGame
+GamePainter <.. LabyrinthPainter
+LabyrinthGame "0..1" <-- LabyrinthPainter
+
+
+
+Interface GamePainter
+
+Interface Game
+
+Interface GameController
+
+
+LabyrinthGame --> "*" Square
+Square "1"--> "0..1" Entity
+Square <.. Wall
+Wall <.. SecretPassage
+Wall <.. SolidWall
+Square <.. Special
+Special <.. Magic
+Special <.. Treasure
+Special <.. Trap
+
+
+
+
+LabyrinthGame --> "*" Entity
+Entity <.. Movable 
+Entity <.. Playable
+Playable <.. Hero
+Movable <.. Monster
+Monster <.. Goblin
+Monster <.. Ghost
+
+
+
+
+@enduml
+

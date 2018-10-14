@@ -22,16 +22,21 @@ Interface Game
 
 Interface GameController
 
+abstract Effect
+abstract Entity
+abstract Movable
+abstract Playable
+abstract Monster
+
 
 LabyrinthGame --> "*" Square
 Square "1"--> "0..1" Entity
 Square <.. Wall
-Wall <.. SecretPassage
-Wall <.. SolidWall
-Square <.. Special
-Special <.. Magic
-Special <.. Treasure
-Special <.. Trap
+Square --> "*" Effect
+Effect <.. Magic
+Effect <.. Treasure
+Effect <.. Trap
+Effect <.. SecretPassage
 
 
 

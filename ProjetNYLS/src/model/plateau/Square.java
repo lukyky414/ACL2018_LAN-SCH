@@ -1,18 +1,20 @@
 package model.plateau;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Square {
 	
 	int posx;
 	int posy;
-	List<Effect> effets;
+	Set<Effect> effets;
 
 	public Square(int x, int y){
 		posx=x;
 		posy=y;
-		effets = new ArrayList<Effect>();  // une setlist serai meilleure (mais il est tard ^^)
+		effets = new HashSet<Effect>();  
 	}
 	
 	public void addEffect(Effect e){

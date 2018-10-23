@@ -3,7 +3,7 @@ package dao_Txt;
 public class ConcreteTxtFactory extends AbstractDAOFactory{
 
 	@Override
-	public Map getMapDAO() {
+	public MapDAO getMapDAO() {
 		// TODO Auto-generated method stub
 		return MapTxtDAO.getInstance();
 	}

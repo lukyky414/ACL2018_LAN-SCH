@@ -6,4 +6,5 @@ public class Goblin extends Monster {
 	public Goblin(Square position) {
 		super(position);
 	}
+
 }

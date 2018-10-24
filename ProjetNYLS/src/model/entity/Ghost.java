@@ -7,4 +7,5 @@ public class Ghost extends Monster{
 	public Ghost(Square position) {
 		super(position);
 	}
+
 }

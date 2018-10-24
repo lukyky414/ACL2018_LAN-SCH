@@ -1,5 +1,7 @@
 package model.plateau;
 
+import model.entity.Entity;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +13,8 @@ public class Square {
 	int posy;
 	Set<Effect> effets;
 
+	Entity entity;
+
 	public Square(int x, int y){
 		posx=x;
 		posy=y;
@@ -20,4 +24,7 @@ public class Square {
 	public void addEffect(Effect e){
 		effets.add(e);
 	}
+
+	public Entity getEntity(){return entity;}
+	public void changeEntity(Entity entity){this.entity = entity;}
 }

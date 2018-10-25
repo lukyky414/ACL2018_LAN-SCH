@@ -8,8 +8,18 @@ public abstract class Monster extends Movable {
 		super(position);
 	}
 
+	public void comportement(Movable m){
+		this.attack(m);
+	}
 
-	private void comportement(Monster m){
+	abstract void attack(Movable m);
+
+	@Override
+	boolean canMove(int dir){
+		return false;
+	}
+
+	/*private void comportement(Monster m){
 		canMove = false;
 	}
 
@@ -18,5 +28,5 @@ public abstract class Monster extends Movable {
 		//poursuite
 		//kill le playable
 		// implémenter quand l'attaque sera au programme
-	}
+	}*/
 }

@@ -8,4 +8,6 @@ public class Ghost extends Monster{
 		super(position);
 	}
 
+	public void attack(Movable m){}
+
 }

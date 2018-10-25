@@ -7,4 +7,6 @@ public class Goblin extends Monster {
 		super(position);
 	}
 
+	public void attack(Movable m){}
+
 }

@@ -8,7 +8,13 @@ public abstract class Playable extends Movable{
 		super(position);
 	}
 
-	private void comportement(Goblin g){
+	public void comportement(Movable m){
+		this.attack(m);
+	}
+
+	abstract void attack(Movable m);
+
+	/*private void comportement(Goblin g){
 		canMove = false;
 		//à implementer quand l'attaque sera dispo
 	}
@@ -16,5 +22,5 @@ public abstract class Playable extends Movable{
 	private void comportement(Ghost g){
 		canMove = false;
 		//perso meurt ? à implémenter quand on abordera l'attaque
-	}
+	}*/
 }

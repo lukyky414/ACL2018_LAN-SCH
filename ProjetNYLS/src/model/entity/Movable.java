@@ -7,22 +7,23 @@ public abstract class Movable extends Entity {
 	public static final int HAUT = 0, DROITE = 1, BAS = 2, GAUCHE = 3;
 
 	Square nextPos = null;
-	boolean canMove = true;
+
 
 	public Movable(Square position) {
 		super(position);
 	}
 
-	private boolean canMove(int dir){
+	boolean canMove(int dir){
 
 		return true;
 	}
+
+
 
 	public void move(int dir){
 		changeNextPos(dir);
 		//if(nextPos.getEntity()!=null) ->collision
 
-		//if(canMove)
 		if(canMove(dir)){
 
 		}
@@ -33,10 +34,6 @@ public abstract class Movable extends Entity {
 	}
 
 	private void collision(Movable m){
-		if(nextPos instanceof Wall){
-			if(!(this instanceof Ghost))
-				canMove = false;
-		}
 		this.comportement(m);
 	}
 

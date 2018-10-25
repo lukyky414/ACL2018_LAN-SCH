@@ -12,13 +12,15 @@ public class Square {
 	int posx;
 	int posy;
 	Set<Effect> effets;
+	Map map;
 
 	Entity entity;
 
-	public Square(int x, int y){
+	public Square(int x, int y,Map m){
 		posx=x;
 		posy=y;
-		effets = new HashSet<Effect>();  
+		effets = new HashSet<Effect>();
+		map=m;
 	}
 	
 	public void addEffect(Effect e){
@@ -27,4 +29,7 @@ public class Square {
 
 	public Entity getEntity(){return entity;}
 	public void changeEntity(Entity entity){this.entity = entity;}
+	public int getPosX(){return posx;}
+	public int getPosY(){return posy;}
+	public Map getMap(){ return map;}
 }

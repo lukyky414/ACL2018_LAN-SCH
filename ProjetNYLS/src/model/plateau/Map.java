@@ -1,7 +1,7 @@
 package model.plateau;
 
 public class Map {
-	Square[][] cases;
+	Square[][] cases;  //La case 0,0 est le coin haut-gauche
 	
 	public Map(){
 		
@@ -26,10 +26,10 @@ public class Map {
 	public void setTileType(int x,int y ,String s){
 		switch (s){
 		case "Wall":
-			cases[x][y]= new Wall(x,y);
+			cases[x][y]= new Wall(x,y,this);
 			break;
 		case "Basic":
-			cases[x][y]= new Square(x,y);
+			cases[x][y]= new Square(x,y,this);
 		}
 	}
 }

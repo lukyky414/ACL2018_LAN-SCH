@@ -44,7 +44,7 @@ public class LabyrinthGame implements engine.Game {
 		map = MapTxtDAO.getInstance().load(0);
 		System.out.println(map.toString());
 
-		hero = new Hero(map.getSquare(7,6));
+		hero = new Hero(map.getSquare(7,5));
 	}
 
 	public Map getMap(){
@@ -60,7 +60,7 @@ public class LabyrinthGame implements engine.Game {
 	public void evolve(Cmd commande) {
 		System.out.println("Execute "+commande);
 		hero.move(commande);
-		System.out.println(hero.getPos())	;
+		System.out.println(hero.getPos());
 	}
 
 	/**

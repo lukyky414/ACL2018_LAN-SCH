@@ -38,8 +38,8 @@ public abstract class Movable extends Entity {
 		* 	que l'on peut se deplacer.*/
 
 		if(canMove()){
-			this.getPos().changeEntity(null);
-			this.nextPos.changeEntity(this);
+			this.getPos().setEntity(null);
+			this.nextPos.setEntity(this);
 			this.setPos(nextPos);
 			this.nextPos = null;
 		}

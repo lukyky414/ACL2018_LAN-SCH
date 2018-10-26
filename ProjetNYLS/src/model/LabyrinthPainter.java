@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import engine.Game;
 import engine.GamePainter;
 import model.entity.Entity;
 import model.plateau.Map;
@@ -15,7 +14,7 @@ import model.plateau.Map;
  * afficheur graphique pour le game
  * 
  */
-public class PacmanPainter implements GamePainter {
+public class LabyrinthPainter implements GamePainter {
 
 	/**
 	 * la taille des cases
@@ -24,14 +23,14 @@ public class PacmanPainter implements GamePainter {
 	protected static final int HEIGHT = 500;
 
 
-	private Game game;
+	private engine.Game game;
 	/**
 	 * appelle constructeur parent
 	 *
      * @param game
      *            le jeutest a afficher
      */
-	public PacmanPainter(Game game) {
+	public LabyrinthPainter(engine.Game game) {
 		this.game = game;
 	}
 
@@ -47,7 +46,7 @@ public class PacmanPainter implements GamePainter {
 	private void drawMap(Graphics2D crayon) {
 		int x;
 		int y;
-		PacmanGame g = (PacmanGame) game;
+		LabyrinthGame g = (LabyrinthGame) game;
 		Map map = g.getMap();
 		int width = map.getWidth();
 		int height = map.getHeigth();

@@ -12,7 +12,7 @@ import engine.GameController;
  * controleur de type KeyListener
  * 
  */
-public class PacmanController implements GameController {
+public class LabyrinthController implements GameController {
 
 	/**
 	 * commande en cours
@@ -22,7 +22,7 @@ public class PacmanController implements GameController {
 	/**
 	 * construction du controleur par defaut le controleur n'a pas de commande
 	 */
-	public PacmanController() {
+	public LabyrinthController() {
 		this.commandeEnCours = Cmd.IDLE;
 	}
 
@@ -43,10 +43,25 @@ public class PacmanController implements GameController {
 	public void keyPressed(KeyEvent e) {
 
 		switch (e.getKeyChar()) {
+		// si on appuie sur 'z',commande joueur est haut
+		case 'z':
+		case 'Z':
+			this.commandeEnCours = Cmd.UP;
+			break;
 		// si on appuie sur 'q',commande joueur est gauche
-		case 'l':
-		case 'L':
+		case 'q':
+		case 'Q':
 			this.commandeEnCours = Cmd.LEFT;
+			break;
+		// si on appuie sur 's',commande joueur est bas
+		case 's':
+		case 'S':
+			this.commandeEnCours = Cmd.DOWN;
+			break;
+		// si on appuie sur 'd',commande joueur est droite
+		case 'd':
+		case 'D':
+			this.commandeEnCours = Cmd.RIGHT;
 			break;
 		}
 

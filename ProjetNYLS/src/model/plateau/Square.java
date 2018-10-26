@@ -32,11 +32,8 @@ public class Square {
 
 	public Entity getEntity(){return entity;}
 
-	public void setEntity(Entity ent){
-		entity = ent;
-	}
+	public void setEntity(Entity entity){this.entity = entity;}
 
-	public void changeEntity(Entity entity){this.entity = entity;}
 	public int getPosX(){return posx;}
 	public int getPosY(){return posy;}
 	public Map getMap(){ return map;}

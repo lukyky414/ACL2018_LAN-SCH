@@ -7,6 +7,7 @@ import java.io.IOException;
 import dao_Txt.MapTxtDAO;
 import engine.Cmd;
 import engine.Game;
+import model.entity.Hero;
 import model.plateau.Map;
 
 /**
@@ -16,7 +17,7 @@ import model.plateau.Map;
  *         versions suivantes.
  * 
  */
-public class PacmanGame implements Game {
+public class LabyrinthGame implements engine.Game {
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -25,7 +26,9 @@ public class PacmanGame implements Game {
 
 	private Map map;
 
-	public PacmanGame(String source) {
+	private Hero hero;
+
+	public LabyrinthGame(String source) {
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -40,6 +43,8 @@ public class PacmanGame implements Game {
 
 		map = MapTxtDAO.getInstance().load(0);
 		System.out.println(map.toString());
+
+		hero = new Hero(map.getSquare(7,6));
 	}
 
 	public Map getMap(){
@@ -54,6 +59,8 @@ public class PacmanGame implements Game {
 	@Override
 	public void evolve(Cmd commande) {
 		System.out.println("Execute "+commande);
+		hero.move(commande);
+		System.out.println(hero.getPos())	;
 	}
 
 	/**

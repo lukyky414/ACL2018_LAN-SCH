@@ -7,6 +7,7 @@ public abstract class Entity {
 
 	public Entity(Square position){
 		this.position = position;
+		position.setEntity(this);
 	}
 
 	public Square getPos(){return position;}

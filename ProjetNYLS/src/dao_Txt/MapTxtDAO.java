@@ -77,14 +77,6 @@ public class MapTxtDAO implements MapDAO{
 				}else{  //if != 1
 					m.setTileType(i,c,"basic");
 					Square tmp = m.getSquare(i, c);
-					switch (character){
-						case 'h':
-							m.setEntity(i, c, new Hero(tmp));
-							break;
-						default:
-							m.setEntity(i, c, null);
-							break;
-					}
 				}
 			}
 			c++;

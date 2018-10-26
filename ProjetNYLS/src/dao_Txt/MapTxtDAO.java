@@ -64,6 +64,7 @@ public class MapTxtDAO implements MapDAO{
 	private void loadMapTile(Map m) throws IOException{
 		int height = m.getHeigth();
 		int width = m.getWidth();
+		System.out.println("height : " + height);
 		int c = 0;
 		String line;
 		while((line = br.readLine()) != null && c<height){ 

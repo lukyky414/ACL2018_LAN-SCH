@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import dao_Txt.MapTxtDAO;
 import engine.Cmd;
 import engine.Game;
+import model.plateau.Map;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -20,6 +22,9 @@ public class PacmanGame implements Game {
 	 * constructeur avec fichier source pour le help
 	 * 
 	 */
+
+	private Map map;
+
 	public PacmanGame(String source) {
 		BufferedReader helpReader;
 		try {
@@ -32,6 +37,13 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
+
+		map = MapTxtDAO.getInstance().load(0);
+		System.out.println(map.toString());
+	}
+
+	public Map getMap(){
+		return map;
 	}
 
 	/**

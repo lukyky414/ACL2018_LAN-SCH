@@ -11,6 +11,7 @@ public class Square {
 	
 	int posx;
 	int posy;
+	boolean isWall;
 	Set<Effect> effets;
 	Map map;
 
@@ -21,6 +22,7 @@ public class Square {
 		posy=y;
 		effets = new HashSet<Effect>();
 		map=m;
+		isWall = false;
 	}
 	
 	public void addEffect(Effect e){
@@ -37,4 +39,8 @@ public class Square {
 	public String toString() {
 		return "Square(" + posx + "," + posy + ")";
 	}
+
+    public boolean getIsWall() {
+        return isWall;
+    }
 }

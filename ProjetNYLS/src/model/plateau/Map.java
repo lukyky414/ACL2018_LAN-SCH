@@ -13,7 +13,7 @@ public class Map {
 	}
 	
 	public void setSize(int x, int y){
-		cases = new Square[x][y];
+		cases = new Square[y][x];
 	}
 	
 	public int getWidth(){
@@ -28,8 +28,9 @@ public class Map {
 		case "Wall":
 			cases[y][x]= new Wall(x, y,this);
 			break;
-		case "Basic":
+		default:
 			cases[y][x]= new Square(x, y,this);
+			break;
 		}
 	}
 
@@ -43,5 +44,22 @@ public class Map {
 		if(x < 0 || x > getWidth() || y < 0 || y > getHeigth())
 			return null;
 		return cases[y][x];
+	}
+
+	public String toString(){
+		StringBuilder sb = new StringBuilder("");
+		int width = getWidth();
+		int height = getHeigth();
+		for (int i = 0; i != height; i++){
+			for (int j = 0; j != width; j++){
+				if (cases[i][j].getIsWall()){
+					sb.append("1");
+				}
+				else
+					sb.append("0");
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 }

@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import model.entity.Hero;
 import model.plateau.Map;
+import model.plateau.Square;
 
 public class MapTxtDAO implements MapDAO{
 
@@ -69,10 +71,20 @@ public class MapTxtDAO implements MapDAO{
 		String line;
 		while((line = br.readLine()) != null && c<height){ 
 			for(int i =0;i<width;i++){
-				if(line.charAt(i)=='0'){
-					m.setTileType(i,c,"Basic");
-				}else{  //if == '1'
+				char character = line.charAt(i);
+				if(character =='1'){
 					m.setTileType(i,c,"Wall");
+				}else{  //if != 1
+					m.setTileType(i,c,"basic");
+					Square tmp = m.getSquare(i, c);
+					switch (character){
+						case 'h':
+							m.setEntity(i, c, new Hero(tmp));
+							break;
+						default:
+							m.setEntity(i, c, null);
+							break;
+					}
 				}
 			}
 			c++;

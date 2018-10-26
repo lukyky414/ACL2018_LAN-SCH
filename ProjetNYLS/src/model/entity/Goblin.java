@@ -9,4 +9,8 @@ public class Goblin extends Monster {
 
 	public void attack(Movable m){}
 
+	@Override
+	public String getType() {
+		return "Goblin";
+	}
 }

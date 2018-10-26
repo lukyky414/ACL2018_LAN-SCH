@@ -1,5 +1,7 @@
 package model.plateau;
 
+import model.entity.Entity;
+
 public class Map {
 	Square[][] cases;  //La case 0,0 est le coin haut-gauche
 	
@@ -34,6 +36,10 @@ public class Map {
 		}
 	}
 
+	public void setEntity(int x, int y, Entity e){
+		cases[y][x].setEntity(e);
+	}
+
 	/**
 	 * Retourne le carre a la position x y
 	 * @param x la position horizontale
@@ -52,11 +58,7 @@ public class Map {
 		int height = getHeigth();
 		for (int i = 0; i != height; i++){
 			for (int j = 0; j != width; j++){
-				if (cases[i][j].getIsWall()){
-					sb.append("1");
-				}
-				else
-					sb.append("0");
+				sb.append(cases[i][j].getChar());
 			}
 			sb.append("\n");
 		}

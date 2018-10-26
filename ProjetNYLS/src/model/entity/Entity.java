@@ -10,6 +10,7 @@ public abstract class Entity {
 	}
 
 	public Square getPos(){return position;}
+
 	public void setPos(Square position){
 		if(position == null)
 			throw new NullPointerException("Position nulle a Entity");
@@ -17,5 +18,5 @@ public abstract class Entity {
 		this.position = position;
 	}
 
-
+	public abstract String getType();
 }

@@ -73,4 +73,5 @@ public abstract class Movable extends Entity {
 	}
 
 	abstract void comportement(Movable m);
+	public abstract String getType();
 }

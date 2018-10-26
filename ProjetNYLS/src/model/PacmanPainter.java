@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import engine.Game;
 import engine.GamePainter;
+import model.entity.Entity;
 import model.plateau.Map;
 
 /**
@@ -40,8 +41,6 @@ public class PacmanPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		crayon.setColor(Color.blue);
-		crayon.fillOval(0,0,10,10);
 		drawMap(crayon);
 	}
 
@@ -56,15 +55,28 @@ public class PacmanPainter implements GamePainter {
 		int sizeY = HEIGHT / height;
 		for (int i = 0; i != height; i++){
 			for (int j = 0; j != width; j++){
-				if (map.getSquare(j, i).getIsWall())
-					crayon.setColor(Color.black);
-				else
-					crayon.setColor(Color.white);
 				y = i * sizeY;
 				x = j * sizeX;
-				crayon.fillRect(x, y, sizeX, sizeY);
+				if (map.getSquare(j, i).getIsWall()) {
+					crayon.setColor(Color.black);
+					crayon.fillRect(x, y, sizeX, sizeY);
+				}
+				else {
+					Entity ent = map.getSquare(j, i).getEntity();
+					if (ent == null){}
+					else {
+						if (ent.getType().equals("Hero")) {
+							drawHero(x, y, crayon);
+						}
+					}
+				}
 			}
 		}
+	}
+
+	private void drawHero(int x, int y, Graphics2D crayon) {
+		crayon.setColor(Color.blue);
+		crayon.fillOval(x, y,20,20);
 	}
 
 	@Override

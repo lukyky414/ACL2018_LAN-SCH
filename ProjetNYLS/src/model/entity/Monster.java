@@ -13,6 +13,7 @@ public abstract class Monster extends Movable {
 	}
 
 	abstract void attack(Movable m);
+	public abstract String getType();
 
 	/*private void comportement(Monster m){
 		canMove = false;

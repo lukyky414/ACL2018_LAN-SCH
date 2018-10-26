@@ -20,6 +20,7 @@ public class Square {
 	public Square(int x, int y,Map m){
 		posx=x;
 		posy=y;
+		entity = null;
 		effets = new HashSet<Effect>();
 		map=m;
 		isWall = false;
@@ -30,6 +31,11 @@ public class Square {
 	}
 
 	public Entity getEntity(){return entity;}
+
+	public void setEntity(Entity ent){
+		entity = ent;
+	}
+
 	public void changeEntity(Entity entity){this.entity = entity;}
 	public int getPosX(){return posx;}
 	public int getPosY(){return posy;}
@@ -43,4 +49,15 @@ public class Square {
     public boolean getIsWall() {
         return isWall;
     }
+
+    public char getChar() {
+		char ret = '0';
+		if (isWall == true)
+			ret = '1';
+		if (entity != null){
+			if (entity.getType().equals("Hero"))
+				ret = 'h';
+		}
+		return ret;
+	}
 }

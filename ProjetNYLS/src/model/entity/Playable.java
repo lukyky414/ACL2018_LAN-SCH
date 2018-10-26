@@ -13,6 +13,7 @@ public abstract class Playable extends Movable{
 	}
 
 	abstract void attack(Movable m);
+	public abstract String getType();
 
 	/*private void comportement(Goblin g){
 		canMove = false;

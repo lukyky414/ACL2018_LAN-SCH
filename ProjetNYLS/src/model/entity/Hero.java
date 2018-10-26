@@ -7,5 +7,10 @@ public class Hero extends Playable {
 		super(position);
 	}
 
+	@Override
+	public String getType() {
+		return "Hero";
+	}
+
 	public void attack(Movable m){}
 }

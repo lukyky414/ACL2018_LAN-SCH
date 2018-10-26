@@ -10,4 +10,8 @@ public class Ghost extends Monster{
 
 	public void attack(Movable m){}
 
+	@Override
+	public String getType() {
+		return "Ghost";
+	}
 }

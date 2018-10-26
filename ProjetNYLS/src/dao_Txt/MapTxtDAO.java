@@ -69,9 +69,9 @@ public class MapTxtDAO implements MapDAO{
 		while((line = br.readLine()) != null && c<height){ 
 			for(int i =0;i<width;i++){
 				if(line.charAt(i)=='0'){
-					m.setTileType(c,i,"Basic");
+					m.setTileType(i,c,"Basic");
 				}else{  //if == '1'
-					m.setTileType(c,i,"Wall");
+					m.setTileType(i,c,"Wall");
 				}
 			}
 			c++;

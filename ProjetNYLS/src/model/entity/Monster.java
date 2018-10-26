@@ -14,11 +14,6 @@ public abstract class Monster extends Movable {
 
 	abstract void attack(Movable m);
 
-	@Override
-	boolean canMove(int dir){
-		return false;
-	}
-
 	/*private void comportement(Monster m){
 		canMove = false;
 	}

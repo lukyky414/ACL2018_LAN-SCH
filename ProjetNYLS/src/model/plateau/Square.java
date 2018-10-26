@@ -32,4 +32,9 @@ public class Square {
 	public int getPosX(){return posx;}
 	public int getPosY(){return posy;}
 	public Map getMap(){ return map;}
+
+	@Override
+	public String toString() {
+		return "Square(" + posx + "," + posy + ")";
+	}
 }

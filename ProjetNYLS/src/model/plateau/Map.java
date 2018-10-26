@@ -26,10 +26,22 @@ public class Map {
 	public void setTileType(int x,int y ,String s){
 		switch (s){
 		case "Wall":
-			cases[x][y]= new Wall(x,y,this);
+			cases[y][x]= new Wall(x, y,this);
 			break;
 		case "Basic":
-			cases[x][y]= new Square(x,y,this);
+			cases[y][x]= new Square(x, y,this);
 		}
+	}
+
+	/**
+	 * Retourne le carre a la position x y
+	 * @param x la position horizontale
+	 * @param y la position verticale
+	 * @return la case si position dans la map, null sinon
+	 */
+	public Square getSquare(int x, int y){
+		if(x < 0 || x > getWidth() || y < 0 || y > getHeigth())
+			return null;
+		return cases[y][x];
 	}
 }

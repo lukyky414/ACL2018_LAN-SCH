@@ -26,30 +26,42 @@ abstract Effect
 abstract Entity
 abstract Movable
 abstract Playable
-abstract Monster
+'abstract Monster
+abstract AbstractDAOFactory
 
+'CASES -EFFETS
 
-LabyrinthGame --> "*" Square
+LabyrinthGame --> Map
+Map --> "*" Square
 Square "1"--> "0..1" Entity
-Square <.. Wall
+Square <.. Wall : evite un couplage fort entre Wall et Effet
 Square --> "*" Effect
+/'
 Effect <.. Magic
 Effect <.. Treasure
 Effect <.. Trap
 Effect <.. SecretPassage
+'/
 
 
+'ENTITE
 
-
-LabyrinthGame --> "*" Entity
+LabyrinthGame --> "1" Hero
 Entity <.. Movable 
-Entity <.. Playable
+Movable <.. Playable
 Playable <.. Hero
+/'
 Movable <.. Monster
 Monster <.. Goblin
 Monster <.. Ghost
+'/
 
+'DAO
 
+AbstractDAOFactory <.. ConcreteTxtFactory
+MapDAO <.. MapTxtDAO
+ConcreteTxtFactory -- MapTxtDAO
+Map <-- MapDAO : creates
 
 
 @enduml

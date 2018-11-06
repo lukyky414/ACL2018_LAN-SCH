@@ -20,4 +20,7 @@ public abstract class Entity {
 	}
 
 	public abstract String getType();
+	public void activateEffect(){
+		position.triggerEffects(this);
+	}
 }

@@ -57,4 +57,14 @@ public class Square {
 		}
 		return ret;
 	}
+    
+    public void treasureTaken(){
+    	map.treasureTaken();
+    }
+    
+    public void triggerEffects(Entity h){
+    	for (Effect e: effets){
+    		e.trigger(h,this);
+    	}
+    }
 }

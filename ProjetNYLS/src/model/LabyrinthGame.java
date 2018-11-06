@@ -61,6 +61,13 @@ public class LabyrinthGame implements engine.Game {
 		System.out.println("Execute "+commande);
 		hero.move(commande);
 		System.out.println(hero.getPos());
+		switch(commande){							//TODO Trouver un moyen de reconnaitre une commande sans switch
+		case IDLE:
+			break;
+		default:
+			hero.activateEffect();                  // on active les effets uniquement si on bouge;
+		}
+		
 	}
 
 	/**

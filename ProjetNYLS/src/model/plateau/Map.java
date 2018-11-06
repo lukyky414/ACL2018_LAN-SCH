@@ -3,10 +3,11 @@ package model.plateau;
 import model.entity.Entity;
 
 public class Map {
-	Square[][] cases;  //La case 0,0 est le coin haut-gauche
+	private Square[][] cases;  //La case 0,0 est le coin haut-gauche
+	private boolean levelFinished;
 	
 	public Map(){
-		
+		levelFinished=false;
 	}
 
 	
@@ -63,5 +64,14 @@ public class Map {
 			sb.append("\n");
 		}
 		return sb.toString();
+	}
+
+
+	public void treasureTaken() {
+		levelFinished=true;
+	}
+	
+	public void addEffect(int x, int y, Effect e){
+		cases[y][x].addEffect(e);
 	}
 }

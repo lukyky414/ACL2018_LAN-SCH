@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import model.entity.Hero;
+import model.plateau.Effect;
 import model.plateau.Map;
 import model.plateau.Square;
+import model.plateau.Treasure;
 
 public class MapTxtDAO implements MapDAO{
 
@@ -43,6 +45,7 @@ public class MapTxtDAO implements MapDAO{
 			 br = new BufferedReader(new FileReader(file));
 			 loadMapSize(m);
 			 loadMapTile(m);
+			 loadModifiers(m);
 	     } catch (IOException e) {
 	            e.printStackTrace();
 	     }finally {
@@ -87,14 +90,30 @@ public class MapTxtDAO implements MapDAO{
 		String line;
 		while((line = br.readLine()) != null){
 			String[] s = line.split(" ");  //suivant le code, on load ennemie/ effet
+			switch(s[0]){
+			case "1":
+				loadEffects(m, s);
+				break;
+			case "2":
+				loadEnnemies(m,s);
+				break;
+			}
 		}
 	}
 	
-	private void loadEffects(Map m){
-		
+	private void loadEffects(Map m, String [] s){
+		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
+		int posy = Integer.parseInt(s[3]);
+		Effect e = null;
+		switch(s[1]){
+		case "1":
+			e=new Treasure();
+			break;
+		}
+		m.addEffect(posx, posy, e);
 	}
 	
-	private void loadEnnemies(Map m){
+	private void loadEnnemies(Map m, String[] s){
 		
 	}
 

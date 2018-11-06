@@ -44,7 +44,7 @@ public class LabyrinthGame implements engine.Game {
 		map = MapTxtDAO.getInstance().load(0);
 		System.out.println(map.toString());
 
-		hero = new Hero(map.getSquare(7,5));
+		hero = new Hero(map.getSquare(7,5), 25, 10);
 	}
 
 	public Map getMap(){
@@ -52,15 +52,19 @@ public class LabyrinthGame implements engine.Game {
 	}
 
 	/**
-	 * faire evoluer le jeu suite a une commande
+	 * faire evoluer le jeu avec la commande actuelle.
+	 * Est executee toutes les 100ms
 	 * 
 	 * @param commande
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		System.out.println("Execute "+commande);
-		hero.move(commande);
-		System.out.println(hero.getPos());
+
+		hero.evolve(commande);
+		if(hero.cooldown-- == 0) {
+			hero.move();
+		}
+		
 	}
 
 	/**

@@ -15,20 +15,20 @@ import engine.GameController;
 public class LabyrinthController implements GameController {
 
 	/**
-	 * commande en cours
+	 * Bouton actuellement appuye
 	 */
 	private Cmd commandeEnCours;
 	
 	/**
-	 * construction du controleur par defaut le controleur n'a pas de commande
+	 * Construction du controleur par defaut le controleur n'a pas de commande
 	 */
 	public LabyrinthController() {
 		this.commandeEnCours = Cmd.IDLE;
 	}
 
 	/**
-	 * quand on demande les commandes, le controleur retourne la commande en
-	 * cours
+	 * Quand on demande les commandes, le controleur retourne la commande en
+	 * cours.
 	 * 
 	 * @return commande faite par le joueur
 	 */

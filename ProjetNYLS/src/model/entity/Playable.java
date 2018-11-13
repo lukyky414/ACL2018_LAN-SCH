@@ -7,16 +7,12 @@ public abstract class Playable extends Movable{
 
 	private Cmd lastCmd;
 
-	public Playable(Square position, int cooldown) {
-		super(position, cooldown);
+	public Playable(Square position, int hp, int atk, int cooldown) {
+		super(position,hp, atk, cooldown);
 		lastCmd = Cmd.IDLE;
 	}
 
-	public void comportement(Movable m){
-		this.attack(m);
-	}
 
-	abstract void attack(Movable m);
 	public abstract String getType();
 
 	/**
@@ -27,9 +23,8 @@ public abstract class Playable extends Movable{
 	public void evolve(Cmd cmd){
 		if(cmd != Cmd.IDLE){
 			lastCmd = cmd;
+			this.nextPos = Movable.getNextPos(this.getPos(), lastCmd);
 		}
-
-		this.nextPos = Movable.getNextPos(this.getPos(), lastCmd);
 	}
 
 	/**
@@ -39,9 +34,22 @@ public abstract class Playable extends Movable{
 	 */
 	@Override
 	public void move() {
-		if(cooldown == 0)
-			lastCmd = Cmd.IDLE;
+		lastCmd = Cmd.IDLE;
 		super.move();
 	}
 
+	/** @Override de la fonction canMove() de Movable.
+	 * On implémente en plus le cas où l'entité qui se trouve sur la prochaine case
+	 * est un monstre. Si oui, on attaque.
+	 */
+	@Override
+	boolean canMove(){
+		if(nextPos == null)
+			return false;
+		if(nextPos.getEntity() != null){
+			if(nextPos.getEntity() instanceof Monster)
+				this.attackEntity(nextPos.getEntity());
+		}
+		return super.canMove();
+	}
 }

@@ -3,11 +3,11 @@ package model.entity;
 import model.plateau.Square;
 
 public class Goblin extends Monster {
-	public Goblin(Square position) {
-		super(position, 7);
+	
+	public Goblin(Square position, int hp, int atk) {
+		super(position,hp, atk, 14);
 	}
 
-	public void attack(Movable m){}
 
 	@Override
 	public String getType() {

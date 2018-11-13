@@ -6,14 +6,15 @@ import model.plateau.Wall;
 
 public abstract class Movable extends Entity {
 
+
 	Square nextPos = null;
-	int cooldown, base_cooldown;
+	public int cooldown;
+	int base_cooldown;
 
-
-	public Movable(Square position, int cooldown) {
-		super(position);
-		this.base_cooldown = cooldown;
-		this.cooldown = 0;
+	public Movable(Square position, int hp, int atk, int cooldown) {
+		super(position,hp,atk);
+			this.base_cooldown = cooldown;
+			this.cooldown = 0;
 	}
 
 	/**
@@ -47,15 +48,13 @@ public abstract class Movable extends Entity {
 	 * @return rien
 	 */
 	public void move(){
-		System.out.println(cooldown);
-		if(cooldown-- == 0) {
-			if (canMove()) {
-				this.getPos().setEntity(null);
-				this.nextPos.setEntity(this);
-				this.setPos(nextPos);
-				this.nextPos = null;
-			}
-			cooldown = base_cooldown;
+		if (canMove()) {
+			this.getPos().setEntity(null);
+			this.nextPos.setEntity(this);
+			this.setPos(nextPos);
+			this.nextPos = null;
+
+			this.getPos().triggerEffects(this);
 		}
 	}
 	/**
@@ -87,10 +86,14 @@ public abstract class Movable extends Entity {
 		return pos.getMap().getSquare(x, y);
 	}
 
-	private void collision(Movable m){
-		this.comportement(m);
+	public void resetCooldown(){
+		this.cooldown = this.base_cooldown;
 	}
 
-	abstract void comportement(Movable m);
+	public int getCooldown(){
+		return this.cooldown;
+	}
+
+
 	public abstract String getType();
 }

@@ -65,7 +65,7 @@ public class LabyrinthPainter implements GamePainter {
 					if (ent == null){}
 					else {
 						if (ent.getType().equals("Hero")) {
-							drawHero(x, y, crayon);
+							drawHero(x, y, crayon, sizeX, sizeY);
 						}
 					}
 				}
@@ -73,9 +73,9 @@ public class LabyrinthPainter implements GamePainter {
 		}
 	}
 
-	private void drawHero(int x, int y, Graphics2D crayon) {
+	private void drawHero(int x, int y, Graphics2D crayon, int sizeX, int sizeY) {
 		crayon.setColor(Color.blue);
-		crayon.fillOval(x, y,20,20);
+		crayon.fillOval(x + ((sizeX - 20) / 2), y + ((sizeY - 20) / 2),20,20);
 	}
 
 	@Override

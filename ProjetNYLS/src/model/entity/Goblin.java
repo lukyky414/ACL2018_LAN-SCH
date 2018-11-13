@@ -4,7 +4,7 @@ import model.plateau.Square;
 
 public class Goblin extends Monster {
 	public Goblin(Square position) {
-		super(position);
+		super(position, 7);
 	}
 
 	public void attack(Movable m){}

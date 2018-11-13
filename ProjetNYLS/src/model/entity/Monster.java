@@ -1,11 +1,12 @@
 package model.entity;
 
+import engine.Cmd;
 import model.plateau.Square;
 
 public abstract class Monster extends Movable {
 
-	public Monster(Square position) {
-		super(position);
+	public Monster(Square position, int cooldown) {
+		super(position, cooldown);
 	}
 
 	public void comportement(Movable m){
@@ -14,6 +15,11 @@ public abstract class Monster extends Movable {
 
 	abstract void attack(Movable m);
 	public abstract String getType();
+
+	@Override
+	public void evolve(Cmd cmd){
+		this.nextPos = getNextPos(this.getPos(), Cmd.RIGHT);
+	}
 
 	/*private void comportement(Monster m){
 		canMove = false;

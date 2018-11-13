@@ -1,11 +1,15 @@
 package model.entity;
 
+import engine.Cmd;
 import model.plateau.Square;
 
 public abstract class Playable extends Movable{
 
-	public Playable(Square position) {
-		super(position);
+	private Cmd lastCmd;
+
+	public Playable(Square position, int cooldown) {
+		super(position, cooldown);
+		lastCmd = Cmd.IDLE;
 	}
 
 	public void comportement(Movable m){
@@ -15,13 +19,29 @@ public abstract class Playable extends Movable{
 	abstract void attack(Movable m);
 	public abstract String getType();
 
-	/*private void comportement(Goblin g){
-		canMove = false;
-		//à implementer quand l'attaque sera dispo
+	/**
+	 * Choisis une nextPos avec la direction appuyee.
+	 *
+	 * @return rien
+	 */
+	public void evolve(Cmd cmd){
+		if(cmd != Cmd.IDLE){
+			lastCmd = cmd;
+		}
+
+		this.nextPos = Movable.getNextPos(this.getPos(), lastCmd);
 	}
 
-	private void comportement(Ghost g){
-		canMove = false;
-		//perso meurt ? à implémenter quand on abordera l'attaque
-	}*/
+	/**
+	 * Permet de remettre a zero le lastCmd.
+	 *
+	 * @return rien
+	 */
+	@Override
+	public void move() {
+		if(cooldown == 0)
+			lastCmd = Cmd.IDLE;
+		super.move();
+	}
+
 }

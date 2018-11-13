@@ -7,10 +7,13 @@ import model.plateau.Wall;
 public abstract class Movable extends Entity {
 
 	Square nextPos = null;
+	int cooldown, base_cooldown;
 
 
-	public Movable(Square position) {
+	public Movable(Square position, int cooldown) {
 		super(position);
+		this.base_cooldown = cooldown;
+		this.cooldown = 0;
 	}
 
 	/**
@@ -20,6 +23,8 @@ public abstract class Movable extends Entity {
 	 * @return false (si mur ou entite), true si valide
 	 */
 	boolean canMove(){
+		if(nextPos == null)
+			return false;
 		if(nextPos.getEntity() != null)
 			return false;
 		if(nextPos instanceof Wall)
@@ -27,25 +32,39 @@ public abstract class Movable extends Entity {
 		return true;
 	}
 
+	/**
+	 * Choisis une nextPos avec ou sans direction.
+	 *
+	 * @return rien
+	 */
+	public abstract void evolve(Cmd cmd);
 
 
-	public void move(Cmd dir){
-		changeNextPos(dir);
-
-		/*Rajouter un comportement ici,
-		* On a la position actuelle et la prochaine position.
-		* Tester tout ce qu'il faut ici, ou apres la verification
-		* 	que l'on peut se deplacer.*/
-
-		if(canMove()){
-			this.getPos().setEntity(null);
-			this.nextPos.setEntity(this);
-			this.setPos(nextPos);
-			this.nextPos = null;
+	/**
+	 * Bouge en fonction de la prochaine direction,
+	 * seulement si le cooldown est a zero.
+	 *
+	 * @return rien
+	 */
+	public void move(){
+		System.out.println(cooldown);
+		if(cooldown-- == 0) {
+			if (canMove()) {
+				this.getPos().setEntity(null);
+				this.nextPos.setEntity(this);
+				this.setPos(nextPos);
+				this.nextPos = null;
+			}
+			cooldown = base_cooldown;
 		}
 	}
-
-	private void changeNextPos(Cmd dir){
+	/**
+	 * Retourne, en fonction d'une direction et d'une case donnee,
+	 * la prochaine position.
+	 *
+	 * @return Une position
+	 */
+	public static Square getNextPos(Square pos, Cmd dir){
 		int x = 0, y = 0;
 		switch(dir){
 			case UP:
@@ -62,10 +81,10 @@ public abstract class Movable extends Entity {
 				break;
 			default: // idle, x=0, y=0
 		}
-		x += this.getPos().getPosX();
-		y += this.getPos().getPosY();
+		x += pos.getPosX();
+		y += pos.getPosY();
 
-		this.nextPos = this.getPos().getMap().getSquare(x, y);
+		return pos.getMap().getSquare(x, y);
 	}
 
 	private void collision(Movable m){

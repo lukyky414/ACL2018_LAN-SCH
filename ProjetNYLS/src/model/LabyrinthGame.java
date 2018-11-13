@@ -52,21 +52,22 @@ public class LabyrinthGame implements engine.Game {
 	}
 
 	/**
-	 * faire evoluer le jeu suite a une commande
+	 * faire evoluer le jeu avec la commande actuelle.
+	 * Est executee toutes les 100ms
 	 * 
 	 * @param commande
 	 */
 	@Override
 	public void evolve(Cmd commande) {
 		System.out.println("Execute "+commande);
-		hero.move(commande);
+
+		hero.evolve(commande);
+		hero.move();
 		System.out.println(hero.getPos());
-		switch(commande){							//TODO Trouver un moyen de reconnaitre une commande sans switch
-		case IDLE:
-			break;
-		default:
+
+
+		if(commande != Cmd.IDLE)
 			hero.activateEffect();                  // on active les effets uniquement si on bouge;
-		}
 		
 	}
 

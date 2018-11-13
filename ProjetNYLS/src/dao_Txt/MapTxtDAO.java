@@ -131,14 +131,16 @@ public class MapTxtDAO implements MapDAO{
 	private void loadEnnemies(Map m, String[] s){
 		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 		int posy = Integer.parseInt(s[3]);
+		int vie = Integer.parseInt(s[4]);
+		int attaque= Integer.parseInt(s[5]);
 		Square sq = m.getSquare(posx, posy);
 		Monster mon =null;
 		switch(s[1]){
 		case "1":
-			mon = new Goblin(sq);
+			mon = new Goblin(sq,vie,attaque);
 			break;
 		case "2":
-			mon = new Ghost(sq);
+			mon = new Ghost(sq,vie,attaque);
 			break;
 		default:
 			// throw IncorrectFileException

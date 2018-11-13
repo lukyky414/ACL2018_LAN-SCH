@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 import engine.GamePainter;
 import model.entity.Entity;
-import model.plateau.Map;
+import model.plateau.*;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -52,21 +52,40 @@ public class LabyrinthPainter implements GamePainter {
 		int height = map.getHeigth();
 		int sizeX = WIDTH / width;
 		int sizeY = HEIGHT / height;
+		Square sq;
+
 		for (int i = 0; i != height; i++){
 			for (int j = 0; j != width; j++){
 				y = i * sizeY;
 				x = j * sizeX;
-				if (map.getSquare(j, i).getIsWall()) {
+				sq = map.getSquare(j, i);
+
+				//Dessiner la case si c'est un mur
+				if (sq instanceof Wall) {
 					crayon.setColor(Color.black);
 					crayon.fillRect(x, y, sizeX, sizeY);
 				}
+
+				//Dessiner les effets de la case
+				for (Effect e : sq) {
+					if(e instanceof SecretPassage){
+						crayon.setColor(Color.RED);
+						crayon.drawLine(x, y, x + sizeX, y + sizeY);
+						crayon.drawLine(x + sizeX, y, x, y + sizeY);
+					}
+					else if(e instanceof Treasure){
+						crayon.setColor(Color.YELLOW);
+						crayon.drawOval(x, y, sizeX, sizeY);
+
+					}
+				}
+
+				//Dessiner l'entite habitant la case
+				Entity ent = sq.getEntity();
+				if (ent == null){}
 				else {
-					Entity ent = map.getSquare(j, i).getEntity();
-					if (ent == null){}
-					else {
-						if (ent.getType().equals("Hero")) {
-							drawHero(x, y, crayon, sizeX, sizeY);
-						}
+					if (ent.getType().equals("Hero")) {
+						drawHero(x, y, crayon, sizeX, sizeY);
 					}
 				}
 			}

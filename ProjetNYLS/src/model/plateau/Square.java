@@ -2,12 +2,9 @@ package model.plateau;
 
 import model.entity.Entity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class Square {
+public class Square implements Iterable<Effect> {
 	
 	int posx;
 	int posy;
@@ -67,4 +64,9 @@ public class Square {
     		e.trigger(h,this);
     	}
     }
+
+	@Override
+	public Iterator<Effect> iterator() {
+		return effets.iterator();
+	}
 }

@@ -44,7 +44,7 @@ public class LabyrinthGame implements engine.Game {
 		map = MapTxtDAO.getInstance().load(0);
 		System.out.println(map.toString());
 
-		hero = new Hero(map.getSquare(7,5));
+		hero = new Hero(map.getSquare(7,5), 25, 10);
 	}
 
 	public Map getMap(){
@@ -62,13 +62,9 @@ public class LabyrinthGame implements engine.Game {
 		System.out.println("Execute "+commande);
 
 		hero.evolve(commande);
-		hero.move();
+		if(hero.cooldown-- == 0)
+			hero.move();
 		System.out.println(hero.getPos());
-
-
-		if(commande != Cmd.IDLE)
-			hero.activateEffect();                  // on active les effets uniquement si on bouge;
-		
 	}
 
 	/**

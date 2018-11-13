@@ -48,6 +48,7 @@ public abstract class Movable extends Entity {
 	 * @return rien
 	 */
 	public void move(){
+		this.resetCooldown();
 		if (canMove()) {
 			this.getPos().setEntity(null);
 			this.nextPos.setEntity(this);

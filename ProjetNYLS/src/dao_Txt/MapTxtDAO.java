@@ -50,7 +50,7 @@ public class MapTxtDAO implements MapDAO{
 			 br = new BufferedReader(new FileReader(file));
 			 loadMapSize(m);
 			 loadMapTile(m);
-			 Hero h = loadHero(m);
+			 Hero h = loadHero(m); //Obligatoire pour donner une cible aux monstres crées aprés
 			 loadModifiers(m,h);
 	     } catch (IOException e) {
 	            e.printStackTrace();
@@ -72,7 +72,8 @@ public class MapTxtDAO implements MapDAO{
 		String[] s;
 		if((line = br.readLine()) != null){
 			s= line.split(" ");
-			if(s[0] =="0"){
+			System.out.println(s[0]);
+			if(s[0].equals("0")){	
 				int posx = Integer.parseInt(s[1]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 				int posy = Integer.parseInt(s[2]);
 				int vie = Integer.parseInt(s[3]);

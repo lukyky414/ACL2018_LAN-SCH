@@ -70,8 +70,6 @@ public class LabyrinthGame implements engine.Game {
 						break;
 				}
 		}
-
-		hero = new Hero(map.getSquare(7,5), 25, 10);
 	}
 
 	public Map getMap(){

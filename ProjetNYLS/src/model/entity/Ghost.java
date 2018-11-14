@@ -1,6 +1,7 @@
 package model.entity;
 
 import engine.Cmd;
+import model.factory.TextureFactory;
 import model.plateau.Square;
 import model.plateau.Wall;
 
@@ -10,6 +11,7 @@ public class Ghost extends Monster{
 
 	public Ghost(Square position, int hp, int atk, Hero target) {
 		super(position,hp, atk, 14, target);
+		texture = TextureFactory.getInstance().getTexGhost();
 	}
 
 	@Override
@@ -19,7 +21,22 @@ public class Ghost extends Monster{
 
 	@Override
 	public Image getTexture() {
-		return null;
+		Image ret = null;
+		switch(orientation){
+			case NORTH:
+				ret = texture.getSubimage(0, 12, 70, 76);
+				break;
+			case WEST:
+				ret = texture.getSubimage(0, 238, 70, 76);
+				break;
+			case SOUTH:
+				ret = texture.getSubimage(0, 166, 70, 76);
+				break;
+			case EAST:
+				ret = texture.getSubimage(0, 88, 70, 76);
+				break;
+		}
+		return ret;
 	}
 
 	/**

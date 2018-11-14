@@ -1,6 +1,7 @@
 package model.entity;
 
 import engine.Cmd;
+import model.factory.TextureFactory;
 import model.plateau.Square;
 
 import java.awt.*;
@@ -9,6 +10,7 @@ public class Goblin extends Monster {
 	
 	public Goblin(Square position, int hp, int atk, Hero target) {
 		super(position,hp, atk, 14, target);
+		texture = TextureFactory.getInstance().getTexGoblin();
 	}
 
 
@@ -19,7 +21,22 @@ public class Goblin extends Monster {
 
 	@Override
 	public Image getTexture() {
-		return null;
+		Image ret = null;
+		switch(orientation){
+			case NORTH:
+				ret = texture.getSubimage(0, 138, 60, 65);
+				break;
+			case WEST:
+				ret = texture.getSubimage(0, 193, 60, 65);
+				break;
+			case SOUTH:
+				ret = texture.getSubimage(0, 0, 60, 70);
+				break;
+			case EAST:
+				ret = texture.getSubimage(0, 60, 60, 70);
+				break;
+		}
+		return ret;
 	}
 
 	/**

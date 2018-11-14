@@ -61,19 +61,7 @@ public class LabyrinthPainter implements GamePainter {
 			x = entitie.getPos().getPosX() * sizeX;
 			y = entitie.getPos().getPosY() * sizeY;
 			sprite = entitie.getTexture();
-			if (sprite == null) {
-				switch (entitie.getType()) {
-					case "Hero":
-						drawHero(x, y, crayon, sizeX, sizeY);
-						break;
-					case "Goblin":
-						drawGoblin(x, y, crayon, sizeX, sizeY);
-						break;
-					case "Ghost":
-						drawGhost(x, y, crayon, sizeX, sizeY);
-				}
-			}
-			else{
+			if (sprite != null) {
 				sprite = sprite.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 				crayon.drawImage(sprite, x, y, null);
 			}
@@ -119,21 +107,6 @@ public class LabyrinthPainter implements GamePainter {
 				}
 			}
 		}
-	}
-
-	private void drawHero(int x, int y, Graphics2D crayon, int sizeX, int sizeY) {
-		crayon.setColor(Color.blue);
-		crayon.fillOval(x + ((sizeX - 20) / 2), y + ((sizeY - 20) / 2),20,20);
-	}
-
-	private void drawGoblin(int x, int y, Graphics2D crayon, int sizeX, int sizeY) {
-		crayon.setColor(Color.green);
-		crayon.fillOval(x + ((sizeX - 20) / 2), y + ((sizeY - 20) / 2),20,20);
-	}
-
-	private void drawGhost(int x, int y, Graphics2D crayon, int sizeX, int sizeY) {
-		crayon.setColor(Color.red);
-		crayon.fillOval(x + ((sizeX - 20) / 2), y + ((sizeY - 20) / 2),20,20);
 	}
 
 	@Override

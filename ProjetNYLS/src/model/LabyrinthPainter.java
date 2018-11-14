@@ -1,12 +1,16 @@
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import engine.GamePainter;
 import model.entity.Entity;
+import model.factory.TextureFactory;
 import model.plateau.*;
+
+import javax.imageio.ImageIO;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -21,7 +25,6 @@ public class LabyrinthPainter implements GamePainter {
 	 */
 	protected static final int WIDTH = 500;
 	protected static final int HEIGHT = 500;
-
 
 	private engine.Game game;
 	/**
@@ -52,6 +55,8 @@ public class LabyrinthPainter implements GamePainter {
 		int height = map.getHeigth();
 		int sizeX = WIDTH / width;
 		int sizeY = HEIGHT / height;
+		Image wall = TextureFactory.getInstance().getTexWall();
+		wall = wall.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 		Square sq;
 
 		for (int i = 0; i != height; i++){
@@ -62,6 +67,10 @@ public class LabyrinthPainter implements GamePainter {
 
 				//Dessiner la case si c'est un mur
 				if (sq instanceof Wall) {
+					crayon.drawImage(wall, x, y, null);
+				}
+				else
+				{
 					crayon.setColor(Color.black);
 					crayon.fillRect(x, y, sizeX, sizeY);
 				}

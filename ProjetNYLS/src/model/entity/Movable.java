@@ -4,17 +4,19 @@ import engine.Cmd;
 import model.plateau.Square;
 import model.plateau.Wall;
 
+import java.awt.*;
+
 public abstract class Movable extends Entity {
 
 
-	Square nextPos = null;
-	public int cooldown;
-	int base_cooldown;
+	protected Square nextPos = null;
+	protected int cooldown;
+	protected int base_cooldown;
 
 	public Movable(Square position, int hp, int atk, int cooldown) {
 		super(position,hp,atk);
 			this.base_cooldown = cooldown;
-			this.cooldown = 0;
+			this.cooldown = cooldown;
 	}
 
 	/**
@@ -50,6 +52,27 @@ public abstract class Movable extends Entity {
 	public void move(){
 		this.resetCooldown();
 		if (canMove()) {
+			
+			int x = nextPos.getPosX() - this .getPos().getPosX();
+			int y = nextPos.getPosY() - this .getPos().getPosY();
+			
+			switch(x){
+			case(-1):
+				this.setOrientation(Orientation.WEST);
+				break;
+			case(1):
+				this.setOrientation(Orientation.EAST);
+				break;
+			case(0):
+				switch(y){
+				case(-1):
+					this.setOrientation(Orientation.NORTH);
+					break;
+				case(1):
+					this.setOrientation(Orientation.SOUTH);
+					break;
+				}
+			}
 			this.getPos().setEntity(null);
 			this.nextPos.setEntity(this);
 			this.setPos(nextPos);
@@ -91,10 +114,7 @@ public abstract class Movable extends Entity {
 		this.cooldown = this.base_cooldown;
 	}
 
-	public int getCooldown(){
-		return this.cooldown;
-	}
-
 
 	public abstract String getType();
+	public abstract Image getTexture();
 }

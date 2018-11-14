@@ -2,16 +2,24 @@ package model.entity;
 
 import model.plateau.Square;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public abstract class Entity {
-	private Square position;
-	private int hp;
-	private int attack;
+	protected Square position;
+	protected BufferedImage texture;
+	protected int hp;
+	protected int attack;
+	protected Orientation orientation;
 
 	public Entity(Square position, int hp, int atk){
 		this.hp = hp;
 		this.attack = atk;
 		this.position = position;
 		position.setEntity(this);
+		orientation = orientation.NORTH;
+		texture = null;
+
 	}
 
 	public Square getPos(){return position;}
@@ -33,6 +41,7 @@ public abstract class Entity {
 		else return false;
 	}
 
+	public void setHp(int pv){this.hp = pv;}
 	public void diminuerHp(int attackPoint){
 		this.hp = hp-attackPoint;
 	}
@@ -42,12 +51,24 @@ public abstract class Entity {
 	Et simultanément va voir ses points de vie baisser en fonction de l'attaque de son ennemi
 	 */
 	public void attackEntity(Entity e){
-		do{
+		while((!e.isDead()) && (!this.isDead()))
+		{
 			e.diminuerHp(this.attack);
 			this.diminuerHp(e.getAttack());
-		}while(!(e.isDead()) || !(this.isDead()));
+			System.out.println("Vie de l'entite 1 : " + this.getHp() +"\nVie de l'entite 2 : " + e.getHp() + "\n" );
+		}
+		if(e.isDead())
+			System.out.println("L'entite 2 est morte");
+		if(this.isDead())
+			System.out.println("L'entite 1 est morte");
 
 	}
 
 	public abstract String getType();
+
+	public abstract Image getTexture();
+	public Orientation getOrientation(){return orientation;}
+	public void setOrientation(Orientation o){
+		orientation=o;
+	}
 }

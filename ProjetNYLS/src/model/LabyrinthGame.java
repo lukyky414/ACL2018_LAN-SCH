@@ -3,12 +3,15 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import dao_Txt.MapTxtDAO;
 import engine.Cmd;
 import engine.Game;
-import model.entity.Hero;
+import exceptions.CorruptDataException;
+import model.entity.*;
 import model.plateau.Map;
+import model.plateau.Square;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -18,6 +21,9 @@ import model.plateau.Map;
  * 
  */
 public class LabyrinthGame implements engine.Game {
+	private static int nbLevel = 3;
+	private int level =0 ;
+	private GameState state;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -27,8 +33,11 @@ public class LabyrinthGame implements engine.Game {
 	private Map map;
 
 	private Hero hero;
+	/*private Goblin goblin;
+	private Ghost ghost;*/
+	private ArrayList<Movable> entites;
 
-	public LabyrinthGame(String source) {
+	public LabyrinthGame(String source) throws CorruptDataException {
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -41,28 +50,62 @@ public class LabyrinthGame implements engine.Game {
 			System.out.println("Help not available");
 		}
 
-		map = MapTxtDAO.getInstance().load(0);
-		System.out.println(map.toString());
+		map = MapTxtDAO.getInstance().load(level);
+		//System.out.println(map.toString());
 
-		hero = new Hero(map.getSquare(7,5), 25, 10);
+		state = GameState.RUN;
+		loadEntity();
+	}
+
+	private void loadEntity(){
+		entites = new ArrayList<Movable>();
+		this.hero = null;
+		Entity ent;
+		for(Square sq : map){
+			ent = sq.getEntity();
+			if(ent != null){
+				entites.add((Movable) ent);
+				if(ent instanceof Hero)
+					this.hero = (Hero) ent;
+			}
+		}
 	}
 
 	public Map getMap(){
 		return map;
 	}
+	
+	/**
+	 * load the next level, if there is none, reload the current one
+	 * @throws CorruptDataException
+	 */
+	
+	public void loadNextLevel() throws CorruptDataException{
+		if(level<nbLevel){
+			level++;
+		}
+		map = MapTxtDAO.getInstance().load(level);
+		loadEntity();
+	}
+
+	@Override
+	public Hero getHero(){
+		return hero;
+	}
 
 	/**
 	 * faire evoluer le jeu avec la commande actuelle.
-	 * Est executee toutes les 100ms
+	 * Est executee toutes les 50ms
 	 * 
-	 * @param commande
+	 * @param cmd
 	 */
 	@Override
-	public void evolve(Cmd commande) {
-
-		hero.evolve(commande);
-		if(hero.cooldown-- == 0) {
-			hero.move();
+	public void evolve(Cmd cmd) {
+		if(state==GameState.RUN){
+			for(Movable e : entites){
+				e.evolve(cmd);
+				e.move();
+			}
 		}
 		
 	}
@@ -72,8 +115,18 @@ public class LabyrinthGame implements engine.Game {
 	 */
 	@Override
 	public boolean isFinished() {
-		// le jeu n'est jamais fini
-		return false;
+		return map.isFinished();
+	}
+	
+	public ArrayList<Movable> getEntities(){
+		return entites;
 	}
 
+	public GameState getState() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
+	}
 }

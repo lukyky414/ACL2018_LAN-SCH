@@ -3,13 +3,17 @@ package model.entity;
 import engine.Cmd;
 import model.plateau.Square;
 
+import java.awt.*;
+
 public abstract class Playable extends Movable{
 
 	private Cmd lastCmd;
+	private Cmd firstCmd;
 
 	public Playable(Square position, int hp, int atk, int cooldown) {
 		super(position,hp, atk, cooldown);
 		lastCmd = Cmd.IDLE;
+		firstCmd = Cmd.IDLE;
 	}
 
 
@@ -17,25 +21,32 @@ public abstract class Playable extends Movable{
 
 	/**
 	 * Choisis une nextPos avec la direction appuyee.
+	 * Il n'est pas necessaire de limiter la vitesse
+	 * a laquelle une commande est prise en compte.
 	 *
 	 * @return rien
 	 */
 	public void evolve(Cmd cmd){
-		if(cmd != Cmd.IDLE){
+		if(cmd != Cmd.IDLE || firstCmd != Cmd.IDLE)
 			lastCmd = cmd;
-			this.nextPos = Movable.getNextPos(this.getPos(), lastCmd);
-		}
+		if(lastCmd == Cmd.IDLE)
+			firstCmd = Cmd.IDLE;
 	}
 
 	/**
-	 * Permet de remettre a zero le lastCmd.
+	 * Permet de remettre a zero le lastCmd,
+	 * et de limiter la vitesse de deplacement
 	 *
 	 * @return rien
 	 */
 	@Override
 	public void move() {
-		lastCmd = Cmd.IDLE;
-		super.move();
+		if(cooldown-- == 0) {
+			this.nextPos = Movable.getNextPos(this.getPos(), lastCmd);
+			firstCmd = lastCmd;
+			lastCmd = Cmd.IDLE;
+			super.move();
+		}
 	}
 
 	/** @Override de la fonction canMove() de Movable.
@@ -52,4 +63,5 @@ public abstract class Playable extends Movable{
 		}
 		return super.canMove();
 	}
+	public abstract Image getTexture();
 }

@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 
 import engine.Cmd;
 import engine.GameController;
+import model.entity.Playable;
 
 
 /**
@@ -18,6 +19,12 @@ public class LabyrinthController implements GameController {
 	 * Bouton actuellement appuye
 	 */
 	private Cmd commandeEnCours;
+
+	/**
+	 * Garder le hero pour plus de reactivite
+	 * dans les deplacements
+	 */
+	private Playable hero;
 	
 	/**
 	 * Construction du controleur par defaut le controleur n'a pas de commande
@@ -35,6 +42,7 @@ public class LabyrinthController implements GameController {
 	public Cmd getCommand() {
 		return this.commandeEnCours;
 	}
+
 
 	@Override
 	/**
@@ -65,6 +73,7 @@ public class LabyrinthController implements GameController {
 			break;
 		}
 
+		this.notifyHero();
 	}
 
 	@Override
@@ -73,6 +82,7 @@ public class LabyrinthController implements GameController {
 	 */
 	public void keyReleased(KeyEvent e) {
 		this.commandeEnCours = Cmd.IDLE;
+		this.notifyHero();
 	}
 
 	@Override
@@ -82,5 +92,23 @@ public class LabyrinthController implements GameController {
 	public void keyTyped(KeyEvent e) {
 
 	}
+
+	/**
+	 * Permet de modifier le hero
+	 */
+	@Override
+	public void setPlayable(Playable hero) {
+		this.hero = hero;
+	}
+
+	/**
+	 * Notifie le hero qu'une touche est appuyee
+	 * Le tout pour un controle plus naturel.
+	 */
+	private void notifyHero(){
+		if(hero != null)
+			hero.evolve(this.commandeEnCours);
+	}
+
 
 }

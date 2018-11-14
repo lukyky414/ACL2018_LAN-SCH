@@ -3,6 +3,7 @@ package start;
 import model.LabyrinthGame;
 import model.LabyrinthPainter;
 import engine.GameEngineGraphical;
+import exceptions.CorruptDataException;
 import model.LabyrinthController;
 
 /**
@@ -10,7 +11,7 @@ import model.LabyrinthController;
  */
 public class Main {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, CorruptDataException {
 
 		// creation du jeu particulier et de son afficheur
 		LabyrinthGame game = new LabyrinthGame("helpFilePacman.txt");

@@ -1,5 +1,8 @@
 package engine;
 
+import exceptions.CorruptDataException;
+import model.entity.Hero;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -17,8 +20,20 @@ public interface Game {
 	public void evolve(Cmd userCmd);
 
 	/**
+	 * Chaque jeu doit posseder un hero. Voidi la maniere de le recuperer
+	 *
+	 * @return le hero*/
+	public Hero getHero();
+
+	/**
 	 * @return true si et seulement si le jeu est fini
 	 */
 	public boolean isFinished();
+	
+	/**
+	 * @throws CorruptDataException 
+	 * 
+	 */
+	public void loadNextLevel() throws CorruptDataException;
 
 }

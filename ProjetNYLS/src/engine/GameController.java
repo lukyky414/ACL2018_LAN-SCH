@@ -1,5 +1,7 @@
 package engine;
 
+import model.entity.Playable;
+
 import java.awt.event.KeyListener;
 
 /**
@@ -18,4 +20,5 @@ public interface GameController extends KeyListener {
 	 */
 	public Cmd getCommand();
 
+	public void setPlayable(Playable hero);
 }

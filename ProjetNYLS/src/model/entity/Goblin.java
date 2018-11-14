@@ -5,8 +5,8 @@ import model.plateau.Square;
 
 public class Goblin extends Monster {
 	
-	public Goblin(Square position, int hp, int atk) {
-		super(position,hp, atk, 14);
+	public Goblin(Square position, int hp, int atk, Hero target) {
+		super(position,hp, atk, 14, target);
 	}
 
 

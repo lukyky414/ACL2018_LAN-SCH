@@ -9,11 +9,12 @@ import java.util.Random;
 public abstract class Monster extends Movable {
 
 	static private Random rdm = new Random();
+	private Hero target;
 
-	public Monster(Square position, int hp, int atk, int cooldown) {
+	public Monster(Square position, int hp, int atk, int cooldown, Hero target) {
 		super(position,hp, atk, cooldown);
+		this.target = target;
 	}
-
 
 	public abstract String getType();
 	/**

@@ -6,8 +6,8 @@ import model.plateau.Wall;
 
 public class Ghost extends Monster{
 
-	public Ghost(Square position, int hp, int atk) {
-		super(position, hp, atk, 14);
+	public Ghost(Square position, int hp, int atk, Hero target) {
+		super(position,hp, atk, 14, target);
 	}
 
 	@Override
@@ -25,8 +25,8 @@ public class Ghost extends Monster{
 	@Override
 	public void evolve(Cmd cmd){
 		if(cooldown == 0) {
-			this.nextPos = getNextPos(this.getPos(), cmd);
-			//this.nextPos = getNextPos(this.getPos(), this.iaEasy());
+			//this.nextPos = getNextPos(this.getPos(), cmd);
+			this.nextPos = getNextPos(this.getPos(), this.iaEasy());
 		}
 	}
 

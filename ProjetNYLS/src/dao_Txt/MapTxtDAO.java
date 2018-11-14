@@ -50,7 +50,8 @@ public class MapTxtDAO implements MapDAO{
 			 br = new BufferedReader(new FileReader(file));
 			 loadMapSize(m);
 			 loadMapTile(m);
-			 loadModifiers(m);
+			 Hero h = loadHero(m);
+			 loadModifiers(m,h);
 	     } catch (IOException e) {
 	            e.printStackTrace();
 	     }finally {
@@ -65,6 +66,27 @@ public class MapTxtDAO implements MapDAO{
 		 return m;
 	}
 	
+	private Hero loadHero(Map m) throws IOException {
+		Hero h =null ;
+		String line;
+		String[] s;
+		if((line = br.readLine()) != null){
+			s= line.split(" ");
+			if(s[0] =="0"){
+				int posx = Integer.parseInt(s[1]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
+				int posy = Integer.parseInt(s[2]);
+				int vie = Integer.parseInt(s[3]);
+				int attaque= Integer.parseInt(s[4]);
+				Square sq = m.getSquare(posx, posy);
+				h=new Hero(sq,vie,attaque);
+				sq.setEntity(h);
+			}
+		}
+		return h;
+		
+	}
+
+
 	private void loadMapSize(Map m) throws IOException{
 		String l = br.readLine();
 		String[] t = l.split(" ");
@@ -91,8 +113,9 @@ public class MapTxtDAO implements MapDAO{
 		}
 	}
 	
-	private void loadModifiers(Map m) throws IOException{
+	private void loadModifiers(Map m, Hero h) throws IOException{
 		String line;
+		
 		while((line = br.readLine()) != null){
 			String[] s = line.split(" ");  //suivant le code, on load ennemie/ effet
 			switch(s[0]){
@@ -100,7 +123,7 @@ public class MapTxtDAO implements MapDAO{
 				loadEffects(m, s);
 				break;
 			case "2":
-				loadEnnemies(m,s);
+				loadEnnemies(m,s,h);
 				break;
 			}
 		}
@@ -128,7 +151,7 @@ public class MapTxtDAO implements MapDAO{
 		m.addEffect(posx, posy, e);
 	}
 	
-	private void loadEnnemies(Map m, String[] s){
+	private void loadEnnemies(Map m, String[] s, Hero h){
 		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 		int posy = Integer.parseInt(s[3]);
 		int vie = Integer.parseInt(s[4]);
@@ -137,10 +160,10 @@ public class MapTxtDAO implements MapDAO{
 		Monster mon =null;
 		switch(s[1]){
 		case "1":
-			mon = new Goblin(sq,vie,attaque);
+			mon = new Goblin(sq,vie,attaque,h);
 			break;
 		case "2":
-			mon = new Ghost(sq,vie,attaque);
+			mon = new Ghost(sq,vie,attaque,h);
 			break;
 		default:
 			// throw IncorrectFileException

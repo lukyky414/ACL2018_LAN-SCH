@@ -54,20 +54,29 @@ public class LabyrinthPainter implements GamePainter {
 	private void drawEntity(Graphics2D crayon) {
 		int x;
 		int y;
+		Image sprite;
 		LabyrinthGame game = (LabyrinthGame) this.game;
 		ArrayList<Movable> entities = game.getEntities();
 		for (Entity entitie : entities){
 			x = entitie.getPos().getPosX() * sizeX;
 			y = entitie.getPos().getPosY() * sizeY;
-			switch(entitie.getType()){
-				case "Hero":
-					drawHero(x, y, crayon, sizeX, sizeY);
-					break;
-				case "Goblin":
-					drawGoblin(x, y, crayon, sizeX, sizeY);
-					break;
-				case "Ghost":
-					drawGhost(x, y, crayon, sizeX, sizeY);
+			sprite = entitie.getTexture();
+			if (sprite == null) {
+				switch (entitie.getType()) {
+					case "Hero":
+						drawHero(x, y, crayon, sizeX, sizeY);
+						break;
+					case "Goblin":
+						drawGoblin(x, y, crayon, sizeX, sizeY);
+						break;
+					case "Ghost":
+						drawGhost(x, y, crayon, sizeX, sizeY);
+				}
+			}
+			else{
+				System.out.println("hero");
+				sprite = sprite.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
+				crayon.drawImage(sprite, x, y, null);
 			}
 		}
 	}

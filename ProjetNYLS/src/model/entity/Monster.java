@@ -4,6 +4,7 @@ import engine.Cmd;
 import model.plateau.Square;
 import model.plateau.Wall;
 
+import java.awt.*;
 import java.util.Random;
 
 public abstract class Monster extends Movable {
@@ -81,4 +82,5 @@ public abstract class Monster extends Movable {
 		}
 	}
 
+	public abstract Image getTexture();
 }

@@ -15,6 +15,7 @@ public abstract class Entity {
 		this.attack = atk;
 		this.position = position;
 		position.setEntity(this);
+		texture = null;
 	}
 
 	public Square getPos(){return position;}

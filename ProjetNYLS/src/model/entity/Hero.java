@@ -18,7 +18,7 @@ public class Hero extends Playable {
 
 	@Override
 	public Image getTexture() {
-		return null;
+		return texture;
 	}
 
 }

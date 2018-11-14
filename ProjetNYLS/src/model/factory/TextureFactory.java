@@ -12,8 +12,8 @@ public class TextureFactory {
 
     private TextureFactory(){
         try {
-            texWall = ImageIO.read(new File("ressources/texture/texWall.png"));
-            texHero = ImageIO.read(new File("ressources/texture/texHero.png"));
+            texWall = ImageIO.read(new File("texture/texWall.png"));
+            texHero = ImageIO.read(new File("texture/texHero.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

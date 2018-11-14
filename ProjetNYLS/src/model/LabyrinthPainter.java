@@ -4,9 +4,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import engine.GamePainter;
 import model.entity.Entity;
+import model.entity.Movable;
 import model.factory.TextureFactory;
 import model.plateau.*;
 
@@ -25,6 +27,8 @@ public class LabyrinthPainter implements GamePainter {
 	 */
 	protected static final int WIDTH = 500;
 	protected static final int HEIGHT = 500;
+	private int sizeX;
+	private int sizeY;
 
 	private engine.Game game;
 	/**
@@ -44,6 +48,28 @@ public class LabyrinthPainter implements GamePainter {
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 		drawMap(crayon);
+		drawEntity(crayon);
+	}
+
+	private void drawEntity(Graphics2D crayon) {
+		int x;
+		int y;
+		LabyrinthGame game = (LabyrinthGame) this.game;
+		ArrayList<Movable> entities = game.getEntities();
+		for (Entity entitie : entities){
+			x = entitie.getPos().getPosX() * sizeX;
+			y = entitie.getPos().getPosY() * sizeY;
+			switch(entitie.getType()){
+				case "Hero":
+					drawHero(x, y, crayon, sizeX, sizeY);
+					break;
+				case "Goblin":
+					drawGoblin(x, y, crayon, sizeX, sizeY);
+					break;
+				case "Ghost":
+					drawGhost(x, y, crayon, sizeX, sizeY);
+			}
+		}
 	}
 
 	private void drawMap(Graphics2D crayon) {
@@ -53,55 +79,36 @@ public class LabyrinthPainter implements GamePainter {
 		Map map = g.getMap();
 		int width = map.getWidth();
 		int height = map.getHeigth();
-		int sizeX = WIDTH / width;
-		int sizeY = HEIGHT / height;
+		sizeX = WIDTH / width;
+		sizeY = HEIGHT / height;
 		Image wall = TextureFactory.getInstance().getTexWall();
 		wall = wall.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 		Square sq;
 
 		for (int i = 0; i != height; i++){
-			for (int j = 0; j != width; j++){
+			for (int j = 0; j != width; j++) {
 				y = i * sizeY;
 				x = j * sizeX;
 				sq = map.getSquare(j, i);
-
 				//Dessiner la case si c'est un mur
 				if (sq instanceof Wall) {
 					crayon.drawImage(wall, x, y, null);
-				}
-				else
-				{
+				} else {
 					crayon.setColor(Color.black);
 					crayon.fillRect(x, y, sizeX, sizeY);
 				}
-
 				//Dessiner les effets de la case
 				for (Effect e : sq) {
-					if(e instanceof SecretPassage){
+					if (e instanceof SecretPassage) {
 						crayon.setColor(Color.RED);
 						crayon.drawLine(x, y, x + sizeX, y + sizeY);
 						crayon.drawLine(x + sizeX, y, x, y + sizeY);
-					}
-					else if(e instanceof Treasure){
+					} else if (e instanceof Treasure) {
 						crayon.setColor(Color.YELLOW);
 						crayon.drawOval(x, y, sizeX, sizeY);
 
 					}
 				}
-
-				//Dessiner l'entite habitant la case
-				Entity ent = sq.getEntity();
-				if(ent != null)
-					switch(ent.getType()){
-						case "Hero":
-							drawHero(x, y, crayon, sizeX, sizeY);
-							break;
-						case "Goblin":
-							drawGoblin(x, y, crayon, sizeX, sizeY);
-							break;
-						case "Ghost":
-							drawGhost(x, y, crayon, sizeX, sizeY);
-					}
 			}
 		}
 	}

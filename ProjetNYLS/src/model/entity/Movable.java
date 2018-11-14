@@ -14,7 +14,7 @@ public abstract class Movable extends Entity {
 	public Movable(Square position, int hp, int atk, int cooldown) {
 		super(position,hp,atk);
 			this.base_cooldown = cooldown;
-			this.cooldown = 0;
+			this.cooldown = cooldown;
 	}
 
 	/**

@@ -7,8 +7,12 @@ import java.io.IOException;
 import dao_Txt.MapTxtDAO;
 import engine.Cmd;
 import engine.Game;
+import model.entity.Entity;
+import model.entity.Ghost;
+import model.entity.Goblin;
 import model.entity.Hero;
 import model.plateau.Map;
+import model.plateau.Square;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -27,6 +31,8 @@ public class LabyrinthGame implements engine.Game {
 	private Map map;
 
 	private Hero hero;
+	private Goblin goblin;
+	private Ghost ghost;
 
 	public LabyrinthGame(String source) {
 		BufferedReader helpReader;
@@ -44,6 +50,27 @@ public class LabyrinthGame implements engine.Game {
 		map = MapTxtDAO.getInstance().load(0);
 		System.out.println(map.toString());
 
+		loadEntity();
+	}
+
+	private void loadEntity(){
+		Entity ent;
+		for(Square sq : map){
+			ent = sq.getEntity();
+			if(ent != null)
+				switch(ent.getType()){
+					case "Hero":
+						hero = (Hero)ent;
+						break;
+					case "Goblin":
+						goblin = (Goblin)ent;
+						break;
+					case "Ghost":
+						ghost = (Ghost)ent;
+						break;
+				}
+		}
+
 		hero = new Hero(map.getSquare(7,5), 25, 10);
 	}
 
@@ -55,16 +82,18 @@ public class LabyrinthGame implements engine.Game {
 	 * faire evoluer le jeu avec la commande actuelle.
 	 * Est executee toutes les 100ms
 	 * 
-	 * @param commande
+	 * @param cmd
 	 */
 	@Override
-	public void evolve(Cmd commande) {
+	public void evolve(Cmd cmd) {
+		hero.evolve(cmd);
+		hero.move();
 
-		hero.evolve(commande);
-		if(hero.cooldown-- == 0) {
-			hero.move();
-		}
-		
+		ghost.evolve(cmd);
+		ghost.move();
+
+		goblin.evolve(cmd);
+		goblin.move();
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package model.entity;
 
+import engine.Cmd;
 import model.plateau.Square;
 import model.plateau.Wall;
 
@@ -12,6 +13,21 @@ public class Ghost extends Monster{
 	@Override
 	public String getType() {
 		return "Ghost";
+	}
+
+	/**
+	 * Choisis une nextPos avec une IA.
+	 * On ne calcule pas a chaque Frame le chemin,
+	 * mais a chaque deplacement.
+	 *
+	 * @return rien
+	 */
+	@Override
+	public void evolve(Cmd cmd){
+		if(cooldown == 0) {
+			this.nextPos = getNextPos(this.getPos(), cmd);
+			//this.nextPos = getNextPos(this.getPos(), this.iaEasy());
+		}
 	}
 
 	/**

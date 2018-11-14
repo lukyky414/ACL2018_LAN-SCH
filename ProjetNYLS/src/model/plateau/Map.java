@@ -2,7 +2,9 @@ package model.plateau;
 
 import model.entity.Entity;
 
-public class Map {
+import java.util.Iterator;
+
+public class Map implements Iterable<Square> {
 	private Square[][] cases;  //La case 0,0 est le coin haut-gauche
 	private boolean levelFinished;
 	
@@ -48,7 +50,7 @@ public class Map {
 	 * @return la case si position dans la map, null sinon
 	 */
 	public Square getSquare(int x, int y){
-		if(x < 0 || x > getWidth() || y < 0 || y > getHeigth())
+		if(x < 0 || x >= getWidth() || y < 0 || y >= getHeigth())
 			return null;
 		return cases[y][x];
 	}
@@ -73,5 +75,10 @@ public class Map {
 	
 	public void addEffect(int x, int y, Effect e){
 		cases[y][x].addEffect(e);
+	}
+
+	@Override
+	public Iterator<Square> iterator() {
+		return new MapIterator(this);
 	}
 }

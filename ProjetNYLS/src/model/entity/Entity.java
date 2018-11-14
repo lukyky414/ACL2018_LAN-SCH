@@ -42,10 +42,16 @@ public abstract class Entity {
 	Et simultanément va voir ses points de vie baisser en fonction de l'attaque de son ennemi
 	 */
 	public void attackEntity(Entity e){
-		do{
+		while((!e.isDead()) && (!this.isDead()))
+		{
 			e.diminuerHp(this.attack);
 			this.diminuerHp(e.getAttack());
-		}while(!(e.isDead()) || !(this.isDead()));
+			System.out.println("Vie de l'entite 1 : " + this.getHp() +"\nVie de l'entite 2 : " + e.getHp() + "\n" );
+		}
+		if(e.isDead())
+			System.out.println("L'entite 2 est morte");
+		if(this.isDead())
+			System.out.println("L'entite 1 est morte");
 
 	}
 

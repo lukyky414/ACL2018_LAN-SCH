@@ -9,12 +9,14 @@ public abstract class Entity {
 	protected Image texture;
 	protected int hp;
 	protected int attack;
+	protected Orientation orientation;
 
 	public Entity(Square position, int hp, int atk){
 		this.hp = hp;
 		this.attack = atk;
 		this.position = position;
 		position.setEntity(this);
+		orientation = orientation.SOUTH;
 	}
 
 	public Square getPos(){return position;}
@@ -61,4 +63,8 @@ public abstract class Entity {
 	public abstract String getType();
 
 	public abstract Image getTexture();
+	public Orientation getOrientation(){return orientation;}
+	public void setOrientation(Orientation o){
+		orientation=o;
+	}
 }

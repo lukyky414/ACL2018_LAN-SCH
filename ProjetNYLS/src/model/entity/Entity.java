@@ -17,6 +17,8 @@ public abstract class Entity {
 		this.position = position;
 		position.setEntity(this);
 		orientation = orientation.SOUTH;
+		texture = null;
+
 	}
 
 	public Square getPos(){return position;}

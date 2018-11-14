@@ -2,10 +2,13 @@ package model.entity;
 
 import model.plateau.Square;
 
+import java.awt.*;
+
 public abstract class Entity {
-	private Square position;
-	private int hp;
-	private int attack;
+	protected Square position;
+	protected Image texture;
+	protected int hp;
+	protected int attack;
 
 	public Entity(Square position, int hp, int atk){
 		this.hp = hp;
@@ -56,4 +59,6 @@ public abstract class Entity {
 	}
 
 	public abstract String getType();
+
+	public abstract Image getTexture();
 }

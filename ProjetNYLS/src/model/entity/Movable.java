@@ -4,6 +4,8 @@ import engine.Cmd;
 import model.plateau.Square;
 import model.plateau.Wall;
 
+import java.awt.*;
+
 public abstract class Movable extends Entity {
 
 
@@ -97,4 +99,5 @@ public abstract class Movable extends Entity {
 
 
 	public abstract String getType();
+	public abstract Image getTexture();
 }

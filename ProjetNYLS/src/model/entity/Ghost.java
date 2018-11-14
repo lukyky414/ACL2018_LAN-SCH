@@ -4,6 +4,8 @@ import engine.Cmd;
 import model.plateau.Square;
 import model.plateau.Wall;
 
+import java.awt.*;
+
 public class Ghost extends Monster{
 
 	public Ghost(Square position, int hp, int atk, Hero target) {
@@ -13,6 +15,11 @@ public class Ghost extends Monster{
 	@Override
 	public String getType() {
 		return "Ghost";
+	}
+
+	@Override
+	public Image getTexture() {
+		return null;
 	}
 
 	/**

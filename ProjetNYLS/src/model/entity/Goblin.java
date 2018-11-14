@@ -3,6 +3,8 @@ package model.entity;
 import engine.Cmd;
 import model.plateau.Square;
 
+import java.awt.*;
+
 public class Goblin extends Monster {
 	
 	public Goblin(Square position, int hp, int atk, Hero target) {
@@ -13,6 +15,11 @@ public class Goblin extends Monster {
 	@Override
 	public String getType() {
 		return "Goblin";
+	}
+
+	@Override
+	public Image getTexture() {
+		return null;
 	}
 
 	/**

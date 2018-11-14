@@ -3,6 +3,8 @@ package model.entity;
 import engine.Cmd;
 import model.plateau.Square;
 
+import java.awt.*;
+
 public abstract class Playable extends Movable{
 
 	private Cmd lastCmd;
@@ -56,4 +58,5 @@ public abstract class Playable extends Movable{
 		}
 		return super.canMove();
 	}
+	public abstract Image getTexture();
 }

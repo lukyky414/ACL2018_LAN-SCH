@@ -73,10 +73,6 @@ public abstract class Movable extends Entity {
 					break;
 				}
 			}
-			System.out.println(this.getType()+" : "+orientation);
-			
-			
-			
 			this.getPos().setEntity(null);
 			this.nextPos.setEntity(this);
 			this.setPos(nextPos);

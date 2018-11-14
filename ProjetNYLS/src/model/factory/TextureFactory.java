@@ -2,12 +2,13 @@ package model.factory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class TextureFactory {
-    private static Image texWall;
-    private static Image texHero;
+    private static BufferedImage texWall;
+    private static BufferedImage texHero;
     private static TextureFactory instance = new TextureFactory();
 
     private TextureFactory(){
@@ -19,7 +20,7 @@ public class TextureFactory {
         }
     }
 
-    public Image getTexWall(){
+    public BufferedImage getTexWall(){
         return texWall;
     }
 
@@ -27,7 +28,7 @@ public class TextureFactory {
         return instance;
     }
 
-    public Image getTexHero() {
+    public BufferedImage getTexHero() {
         return texHero;
     }
 }

@@ -3,10 +3,11 @@ package model.entity;
 import model.plateau.Square;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class Entity {
 	protected Square position;
-	protected Image texture;
+	protected BufferedImage texture;
 	protected int hp;
 	protected int attack;
 	protected Orientation orientation;
@@ -16,7 +17,7 @@ public abstract class Entity {
 		this.attack = atk;
 		this.position = position;
 		position.setEntity(this);
-		orientation = orientation.SOUTH;
+		orientation = orientation.NORTH;
 		texture = null;
 
 	}

@@ -18,7 +18,22 @@ public class Hero extends Playable {
 
 	@Override
 	public Image getTexture() {
-		return texture;
+		Image ret = texture;
+		switch(orientation){
+			case NORTH:
+				ret = texture.getSubimage(0, 0, 50, 50);
+				break;
+			case WEST:
+				ret = texture.getSubimage(0, 60, 50, 50);
+				break;
+			case SOUTH:
+				ret = texture.getSubimage(0, 125, 50, 50);
+				break;
+			case EAST:
+				ret = texture.getSubimage(0, 190, 50, 50);
+				break;
+		}
+		return ret;
 	}
 
 }

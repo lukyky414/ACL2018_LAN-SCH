@@ -74,7 +74,6 @@ public class LabyrinthPainter implements GamePainter {
 				}
 			}
 			else{
-				System.out.println("hero");
 				sprite = sprite.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 				crayon.drawImage(sprite, x, y, null);
 			}

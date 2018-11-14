@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import exceptions.CorruptDataException;
+
 import model.entity.Ghost;
 import model.entity.Goblin;
 import model.entity.Hero;
@@ -41,7 +43,7 @@ public class MapTxtDAO implements MapDAO{
 	}
 
 	@Override
-	public Map load(int idMap) {
+	public Map load(int idMap) throws CorruptDataException{
 		String nomMap = "map"+idMap+".map";
 		Map m = new Map();
 		 try {
@@ -53,20 +55,20 @@ public class MapTxtDAO implements MapDAO{
 			 Hero h = loadHero(m); //Obligatoire pour donner une cible aux monstres crées aprés
 			 loadModifiers(m,h);
 	     } catch (IOException e) {
-	            e.printStackTrace();
+	    	 throw new CorruptDataException("Probléme de formatage du fichier");
 	     }finally {
 	         try {
 	        	 if (br != null) {
 	                    br.close();
 	                }
 	            } catch (IOException ex) {
-	                ex.printStackTrace();
+	            	throw new CorruptDataException("Probléme de formatage du fichier");
 	            }
 	        }
 		 return m;
 	}
 	
-	private Hero loadHero(Map m) throws IOException {
+	private Hero loadHero(Map m) throws IOException, CorruptDataException {
 		Hero h =null ;
 		String line;
 		String[] s;
@@ -81,6 +83,8 @@ public class MapTxtDAO implements MapDAO{
 				Square sq = m.getSquare(posx, posy);
 				h=new Hero(sq,vie,attaque);
 				sq.setEntity(h);
+			}else{
+				throw new CorruptDataException("Probléme de formatage du fichier");
 			}
 		}
 		return h;
@@ -114,7 +118,7 @@ public class MapTxtDAO implements MapDAO{
 		}
 	}
 	
-	private void loadModifiers(Map m, Hero h) throws IOException{
+	private void loadModifiers(Map m, Hero h) throws IOException, CorruptDataException{
 		String line;
 		
 		while((line = br.readLine()) != null){
@@ -126,11 +130,13 @@ public class MapTxtDAO implements MapDAO{
 			case "2":
 				loadEnnemies(m,s,h);
 				break;
+			default:
+				throw new CorruptDataException("Probléme de formatage des modificateurs");
 			}
 		}
 	}
 	
-	private void loadEffects(Map m, String [] s){
+	private void loadEffects(Map m, String [] s) throws CorruptDataException{
 		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 		int posy = Integer.parseInt(s[3]);
 		Effect e = null;
@@ -147,12 +153,12 @@ public class MapTxtDAO implements MapDAO{
 			e=new Trap();
 			break;
 		default:
-			// throw IncorrectFileException
+			throw new CorruptDataException("Probléme de formatage des effets");
 		}
 		m.addEffect(posx, posy, e);
 	}
 	
-	private void loadEnnemies(Map m, String[] s, Hero h){
+	private void loadEnnemies(Map m, String[] s, Hero h) throws CorruptDataException{
 		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 		int posy = Integer.parseInt(s[3]);
 		int vie = Integer.parseInt(s[4]);
@@ -167,7 +173,7 @@ public class MapTxtDAO implements MapDAO{
 			mon = new Ghost(sq,vie,attaque,h);
 			break;
 		default:
-			// throw IncorrectFileException
+			throw new CorruptDataException("Probléme de formatage des ennemies");
 		}
 		sq.setEntity(mon);
 

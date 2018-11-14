@@ -7,6 +7,7 @@ import java.io.IOException;
 import dao_Txt.MapTxtDAO;
 import engine.Cmd;
 import engine.Game;
+import exceptions.CorruptDataException;
 import model.entity.Entity;
 import model.entity.Ghost;
 import model.entity.Goblin;
@@ -34,7 +35,7 @@ public class LabyrinthGame implements engine.Game {
 	private Goblin goblin;
 	private Ghost ghost;
 
-	public LabyrinthGame(String source) {
+	public LabyrinthGame(String source) throws CorruptDataException {
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));

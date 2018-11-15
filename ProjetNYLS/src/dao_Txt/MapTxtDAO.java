@@ -12,6 +12,7 @@ import model.entity.Goblin;
 import model.entity.Hero;
 import model.entity.Monster;
 import model.plateau.Effect;
+import model.plateau.Magic;
 import model.plateau.Map;
 import model.plateau.SecretPassage;
 import model.plateau.Square;
@@ -153,7 +154,7 @@ public class MapTxtDAO implements MapDAO{
 			e=new Trap();
 			break;
 		case "4":
-			e=Magic();
+			e=new Magic();
 			break;
 		default:
 			throw new CorruptDataException("Probléme de formatage des effets");

@@ -11,6 +11,7 @@ public class TextureFactory {
     private static BufferedImage texHero;
     private static BufferedImage texGoblin;
     private static BufferedImage texGhost;
+    private static BufferedImage texChest;
     private static TextureFactory instance = new TextureFactory();
 
     private TextureFactory(){
@@ -19,6 +20,7 @@ public class TextureFactory {
             texHero = ImageIO.read(new File("texture/texHero.png"));
             texGoblin = ImageIO.read(new File("texture/texGoblin.png"));
             texGhost = ImageIO.read(new File("texture/texGhost.png"));
+            texChest = ImageIO.read(new File("texture/texChest.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -30,6 +32,10 @@ public class TextureFactory {
 
     public static BufferedImage getTexGhost() {
         return texGhost;
+    }
+
+    public static BufferedImage getTexChest() {
+        return texChest;
     }
 
     public BufferedImage getTexWall(){

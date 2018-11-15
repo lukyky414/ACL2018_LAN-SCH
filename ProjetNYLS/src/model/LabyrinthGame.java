@@ -9,11 +9,7 @@ import dao_Txt.MapTxtDAO;
 import engine.Cmd;
 import engine.Game;
 import exceptions.CorruptDataException;
-import model.entity.Entity;
-import model.entity.Ghost;
-import model.entity.Goblin;
-import model.entity.Hero;
-import model.entity.Movable;
+import model.entity.*;
 import model.plateau.Map;
 import model.plateau.Square;
 
@@ -35,8 +31,8 @@ public class LabyrinthGame implements engine.Game {
 
 	private Map map;
 
-	/*private Hero hero;
-	private Goblin goblin;
+	private Hero hero;
+	/*private Goblin goblin;
 	private Ghost ghost;*/
 	private ArrayList<Movable> entites;
 
@@ -66,6 +62,8 @@ public class LabyrinthGame implements engine.Game {
 			ent = sq.getEntity();
 			if(ent != null){
 				entites.add((Movable) ent);
+				if(ent instanceof Hero)
+					this.hero = (Hero) ent;
 			}
 		}
 	}
@@ -86,6 +84,11 @@ public class LabyrinthGame implements engine.Game {
 		map = MapTxtDAO.getInstance().load(level);
 		entites = new ArrayList<Movable>();
 		loadEntity();
+	}
+
+	@Override
+	public Hero getHero(){
+		return hero;
 	}
 
 	/**

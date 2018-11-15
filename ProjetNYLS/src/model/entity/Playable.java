@@ -8,10 +8,12 @@ import java.awt.*;
 public abstract class Playable extends Movable{
 
 	private Cmd lastCmd;
+	private Cmd firstCmd;
 
 	public Playable(Square position, int hp, int atk, int cooldown) {
 		super(position,hp, atk, cooldown);
 		lastCmd = Cmd.IDLE;
+		firstCmd = Cmd.IDLE;
 	}
 
 
@@ -25,8 +27,10 @@ public abstract class Playable extends Movable{
 	 * @return rien
 	 */
 	public void evolve(Cmd cmd){
-		//if(cmd != Cmd.IDLE)
+		if(cmd != Cmd.IDLE || firstCmd != Cmd.IDLE)
 			lastCmd = cmd;
+		if(lastCmd == Cmd.IDLE)
+			firstCmd = Cmd.IDLE;
 	}
 
 	/**
@@ -39,6 +43,7 @@ public abstract class Playable extends Movable{
 	public void move() {
 		if(cooldown-- == 0) {
 			this.nextPos = Movable.getNextPos(this.getPos(), lastCmd);
+			firstCmd = lastCmd;
 			lastCmd = Cmd.IDLE;
 			super.move();
 		}

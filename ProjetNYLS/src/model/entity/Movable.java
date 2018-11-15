@@ -114,10 +114,6 @@ public abstract class Movable extends Entity {
 		this.cooldown = this.base_cooldown;
 	}
 
-	public int getCooldown(){
-		return this.cooldown;
-	}
-
 
 	public abstract String getType();
 	public abstract Image getTexture();

@@ -7,13 +7,16 @@ import java.util.Iterator;
 public class Map implements Iterable<Square> {
 	private Square[][] cases;  //La case 0,0 est le coin haut-gauche
 	private boolean levelFinished;
+	private int level;
 	
 	public Map(){
 		levelFinished=false;
+		level = 0;
 	}
 
 	
 	public Map(int x, int y){
+		this();
 		setSize(x,y);
 	}
 	
@@ -28,14 +31,23 @@ public class Map implements Iterable<Square> {
 		return cases.length;
 	}
 	
+	public void setLevelNumber(int l) {
+		level =l;
+	}
+	
+	public int getLevelNumber() {
+		return level;
+	}
 	public void setTileType(int x,int y ,String s){
-		switch (s){
-		case "Wall":
-			cases[y][x]= new Wall(x, y,this);
-			break;
-		default:
-			cases[y][x]= new Square(x, y,this);
-			break;
+		if(x >= 0 && x <= getWidth() && y >= 0 && y <= getHeigth()) {
+			switch (s){
+			case "Wall":
+				cases[y][x]= new Wall(x, y,this);
+				break;
+			default:
+				cases[y][x]= new Square(x, y,this);
+				break;
+			}
 		}
 	}
 

@@ -25,11 +25,14 @@ public class LabyrinthController implements GameController {
 	 * dans les deplacements
 	 */
 	private Playable hero;
-	
+	private LabyrinthGame game;
+
 	/**
 	 * Construction du controleur par defaut le controleur n'a pas de commande
+	 * @param game
 	 */
-	public LabyrinthController() {
+	public LabyrinthController(LabyrinthGame game) {
+		this.game = game;
 		this.commandeEnCours = Cmd.IDLE;
 	}
 
@@ -50,30 +53,71 @@ public class LabyrinthController implements GameController {
 	 */
 	public void keyPressed(KeyEvent e) {
 
-		switch (e.getKeyChar()) {
-		// si on appuie sur 'z',commande joueur est haut
-		case 'z':
-		case 'Z':
-			this.commandeEnCours = Cmd.UP;
-			break;
-		// si on appuie sur 'q',commande joueur est gauche
-		case 'q':
-		case 'Q':
-			this.commandeEnCours = Cmd.LEFT;
-			break;
-		// si on appuie sur 's',commande joueur est bas
-		case 's':
-		case 'S':
-			this.commandeEnCours = Cmd.DOWN;
-			break;
-		// si on appuie sur 'd',commande joueur est droite
-		case 'd':
-		case 'D':
-			this.commandeEnCours = Cmd.RIGHT;
-			break;
+		if (game.getState() == GameState.RUN){
+			gereKeyRun(e);
+			this.notifyHero();
 		}
+		else if (game.getState() == GameState.PAUSE){
+			gereKeyPause(e);
+		}
+		else if (game.getState() == GameState.OVER){
+			gereKeyEnd(e);
+		}
+	}
 
-		this.notifyHero();
+	private void gereKeyEnd(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			game.newGame();
+		}
+	}
+
+	private void gereKeyPause(KeyEvent e) {
+		switch (e.getKeyCode()){
+			case KeyEvent.VK_DOWN:
+				game.getOption().addCurrent(1);
+				break;
+			case KeyEvent.VK_UP:
+				game.getOption().subCurrent(1);
+				break;
+			case KeyEvent.VK_ENTER:
+				game.getOption().doOption(game);
+				break;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			game.setState(GameState.RUN);
+		}
+	}
+
+	private void gereKeyRun(KeyEvent e) {
+		switch (e.getKeyChar()) {
+			// si on appuie sur 'z',commande joueur est haut
+			case 'z':
+			case 'Z':
+				this.commandeEnCours = Cmd.UP;
+				break;
+			// si on appuie sur 'q',commande joueur est gauche
+			case 'q':
+			case 'Q':
+				this.commandeEnCours = Cmd.LEFT;
+				break;
+			// si on appuie sur 's',commande joueur est bas
+			case 's':
+			case 'S':
+				this.commandeEnCours = Cmd.DOWN;
+				break;
+			// si on appuie sur 'd',commande joueur est droite
+			case 'd':
+			case 'D':
+				this.commandeEnCours = Cmd.RIGHT;
+				break;
+			//Si on appuie sur 'f', commande joueur pour attaquer
+			case 'f':
+			case 'F':
+				this.hero.attack();
+				break;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+			game.setState(GameState.PAUSE);
 	}
 
 	@Override
@@ -81,8 +125,21 @@ public class LabyrinthController implements GameController {
 	 * met a jour les commandes quand le joueur relache une touche
 	 */
 	public void keyReleased(KeyEvent e) {
-		this.commandeEnCours = Cmd.IDLE;
-		this.notifyHero();
+		switch(e.getKeyChar()){
+			case 'z':
+			case'Z':
+			case'q':
+			case 'Q':
+			case 's':
+			case'S':
+			case 'd':
+			case'D':
+				this.commandeEnCours = Cmd.IDLE;
+				this.notifyHero();
+				break;
+
+		}
+
 	}
 
 	@Override

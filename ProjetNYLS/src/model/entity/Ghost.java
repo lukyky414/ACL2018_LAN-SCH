@@ -9,9 +9,9 @@ import java.awt.*;
 
 public class Ghost extends Monster{
 
-	public Ghost(Square position, int hp, int atk, Hero target) {
-		super(position,hp, atk, 14, target);
-		texture = TextureFactory.getInstance().getTexGhost();
+	public Ghost(Square position, int hp, int atk, Hero target, int difficulty) {
+		super(position,hp, atk, 10, target, difficulty);
+		texture = TextureFactory.getTexGhost();
 	}
 
 	@Override
@@ -40,35 +40,27 @@ public class Ghost extends Monster{
 	}
 
 	/**
-	 * Choisis une nextPos avec une IA.
-	 * On ne calcule pas a chaque Frame le chemin,
-	 * mais a chaque deplacement.
-	 *
-	 * @return rien
-	 */
-	@Override
-	public void evolve(Cmd cmd){
-		if(cooldown == 0) {
-			//this.nextPos = getNextPos(this.getPos(), cmd);
-			this.nextPos = getNextPos(this.getPos(), this.iaEasy());
-		}
-	}
-
-	/**
 	 * Verifie si la prochaine case contient deja une entite pour attaquer
 	 * Permet de traverser des murs
 	 *
 	 * @return false (entite), true si valide
 	 */
 	@Override
-	boolean canMove(){
+	protected boolean canMove(Square nextPos){
 		if(nextPos == null)
 			return false;
 		if(nextPos.getEntity() != null){
-			if(nextPos.getEntity() instanceof Playable)
-				this.attackEntity(nextPos.getEntity());
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Utilise dans l'IA difficile.
+	 * Le fantome peut passer dans les murs.
+	 */
+	@Override
+	protected boolean validityTest(Square sq){
+		return sq != null/* && !(sq instanceof Wall)*/;
 	}
 }

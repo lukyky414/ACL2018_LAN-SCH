@@ -9,7 +9,8 @@ public class Square implements Iterable<Effect> {
 	int posx;
 	int posy;
 	boolean isWall;
-	Set<Effect> effets;
+	ArrayList<Integer> listeSuppr;
+	ArrayList<Effect> effets;
 	Map map;
 
 	Entity entity;
@@ -18,9 +19,10 @@ public class Square implements Iterable<Effect> {
 		posx=x;
 		posy=y;
 		entity = null;
-		effets = new HashSet<Effect>();
+		effets = new ArrayList<Effect>();
 		map=m;
 		isWall = false;
+		listeSuppr = new ArrayList<Integer>();
 	}
 	
 	public void addEffect(Effect e){
@@ -63,10 +65,62 @@ public class Square implements Iterable<Effect> {
     	for (Effect e: effets){
     		e.trigger(h,this);
     	}
+    	for (int i =0; i<effets.size();i++){
+			if(listeSuppr.contains(effets.get(i).getType())){
+				effets.remove(i);
+				i--;
+			}
+		}
+    	listeSuppr.clear();
     }
+
+	public ArrayList<Entity> lookAround(){
+		ArrayList<Entity> entitiesAround = new ArrayList<Entity>();
+		ArrayList<Square> n = this.neighboor();
+		Entity tmp;
+
+		for(Square s : n){
+			tmp = s.getEntity();
+			if(tmp != null)
+				entitiesAround.add(tmp);
+		}
+
+		return entitiesAround;
+	}
+
+	public ArrayList<Square> neighboor(){
+		ArrayList<Square> res = new ArrayList<>();
+
+		int x = this.getPosX();
+		int y = this.getPosY();
+		Map map = this.getMap();
+
+		Square tmp;
+
+		tmp = map.getSquare(x+1, y);
+		if(tmp != null)
+			res.add(tmp);
+
+		tmp = map.getSquare(x-1, y);
+		if(tmp != null)
+			res.add(tmp);
+
+		tmp = map.getSquare(x, y+1);
+		if(tmp != null)
+			res.add(tmp);
+
+		tmp = map.getSquare(x, y-1);
+		if(tmp != null)
+			res.add(tmp);
+
+		return res;
+	}
 
 	@Override
 	public Iterator<Effect> iterator() {
 		return effets.iterator();
+	}
+	public void addSuppr (int i){
+		listeSuppr.add(i);
 	}
 }

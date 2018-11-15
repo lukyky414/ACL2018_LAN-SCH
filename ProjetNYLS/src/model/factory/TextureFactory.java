@@ -12,15 +12,20 @@ public class TextureFactory {
     private static BufferedImage texGoblin;
     private static BufferedImage texGhost;
     private static BufferedImage texChest;
+    private static BufferedImage texPortal;
+    private static BufferedImage texHealingPotion;
     private static TextureFactory instance = new TextureFactory();
 
     private TextureFactory(){
         try {
-            texWall = ImageIO.read(new File("texture/texWall.png"));
-            texHero = ImageIO.read(new File("texture/texHero.png"));
-            texGoblin = ImageIO.read(new File("texture/texGoblin.png"));
-            texGhost = ImageIO.read(new File("texture/texGhost.png"));
-            texChest = ImageIO.read(new File("texture/texChest.png"));
+            ClassLoader classLoader = getClass().getClassLoader();
+            texWall = ImageIO.read(new File(classLoader.getResource("texture/texWall.png").getFile()));
+            texHero = ImageIO.read(new File(classLoader.getResource("texture/texHero.png").getFile()));
+            texGoblin = ImageIO.read(new File(classLoader.getResource("texture/texGoblin.png").getFile()));
+            texGhost = ImageIO.read(new File(classLoader.getResource("texture/texGhost.png").getFile()));
+            texChest = ImageIO.read(new File(classLoader.getResource("texture/texChest.png").getFile()));
+            texPortal = ImageIO.read(new File(classLoader.getResource("texture/texPortal.png").getFile()));
+            texHealingPotion = ImageIO.read(new File(classLoader.getResource("texture/texHealingPotion.png").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,6 +41,14 @@ public class TextureFactory {
 
     public static BufferedImage getTexChest() {
         return texChest;
+    }
+
+    public static BufferedImage getTexPortal() {
+        return texPortal;
+    }
+
+    public static BufferedImage getTexHealingPotion() {
+        return texHealingPotion;
     }
 
     public BufferedImage getTexWall(){

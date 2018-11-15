@@ -1,12 +1,16 @@
 package dao_Txt;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 
 import exceptions.CorruptDataException;
 
+import model.entity.Entity;
 import model.entity.Ghost;
 import model.entity.Goblin;
 import model.entity.Hero;
@@ -38,11 +42,108 @@ public class MapTxtDAO implements MapDAO{
 	}
 	
 	@Override
-	public void save(Map m) {  //Normalement pas utilisé, peut être utile pour creation de map
-		
+	public void save(Map m) {
+		//File f  = new File("ProjetNYLS/ressources/maps/map-1.map");
+		ClassLoader classLoader = getClass().getClassLoader();
+		File f = new File(classLoader.getResource("maps/map-1.map").getFile());
+		StringBuilder s = new StringBuilder();
+		FileWriter fw =null;
+		BufferedWriter bw=null;
+		try {
+			if(!f.exists()){
+				f.createNewFile();
+			}
+			fw = new FileWriter(f);
+			bw = new BufferedWriter(fw);
+			s.append(m.getLevelNumber()+"\n");  //enregistre le numero du niveau pour pouvoir reprendre au même stade
+			saveLayout(s,m);
+			s.append("\n"); //toujours une ligne vide entre le layout et les modifiers
+			saveHero(s,m);
+			saveModifiers(s,m);
+			
+			bw.write(s.toString());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try{
+				if(bw!=null)
+					bw.close();
+				if(fw!=null)
+					fw.close();
+			} catch(IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	private void saveLayout(StringBuilder s, Map m){
+		int h =m.getHeigth() ;
+		int w = m.getWidth();
+		s.append(w+" "+h+"\n");
+		for(int i=0;i<h;i++){
+			for(int j=0; j<w;j++){
+				if(m.getSquare(j, i) instanceof Square &&m.getSquare(j, i).getClass()!=Square.class){  //si la case est un mur
+					s.append("1");
+				}else{
+					s.append(0);
+				}
+			}
+			s.append("\n");
+		}
+	}
+	private void saveHero(StringBuilder s, Map m){
+		for(Square sq :m){
+			if(sq.getEntity() instanceof Hero){
+				s.append("0 "+sq.getPosX()+" "+sq.getPosY()+" "+sq.getEntity().getHp()+" "+sq.getEntity().getAttack()+"\n");
+			}
+		}
+	}
+	
+	private void saveModifiers(StringBuilder s, Map m){
+		int x;
+		int y;
+		Entity entite;
+		for(Square sq : m){
+			x=sq.getPosX();
+			y=sq.getPosY();
+			for(Effect e : sq){
+				s.append("1 "+e.getType()+" "+x+" "+y+" ");
+				switch (e.getType()){
+				case 1:
+					break;
+				case 2:
+					s.append(((SecretPassage) e).getPosXSortie()+" "+((SecretPassage) e).getPosYSortie());
+					break;
+				case 3:
+					s.append(((Trap)e).getDamage());
+					break;
+				case 4:
+					s.append(((Magic)e).getHealing());
+					break;
+				}
+				s.append("\n");
+			}
+			entite=sq.getEntity();
+			if(entite!=null && !(entite instanceof Hero)){
+				s.append("2 ");
+				if(entite instanceof Goblin){
+					s.append("1 ");
+				}else if(entite instanceof Ghost){
+					s.append("2 ");
+				}
+				s.append(x+" "+y+" "+entite.getHp()+" "+entite.getAttack()+" "+entite.getAttack()+" "+((Monster) entite).getDifficulty()+"\n");
+			}
+		}
 		
 	}
 
+	/**
+	 * load map number idMap
+	 * to load the saved game, you need to use idMap = -1
+	 * 
+	 */
 	@Override
 	public Map load(int idMap) throws CorruptDataException{
 		String nomMap = "map"+idMap+".map";
@@ -51,11 +152,12 @@ public class MapTxtDAO implements MapDAO{
 			 ClassLoader classLoader = getClass().getClassLoader();
 			File file = new File(classLoader.getResource("maps/"+nomMap).getFile());
 			 br = new BufferedReader(new FileReader(file));
+			 loadMapNumber(m);
 			 loadMapSize(m);
 			 loadMapTile(m);
 			 Hero h = loadHero(m); //Obligatoire pour donner une cible aux monstres crées aprés
 			 loadModifiers(m,h);
-	     } catch (IOException e) {
+	     } catch (IOException |NullPointerException n) {
 	    	 throw new CorruptDataException("Probléme de formatage du fichier");
 	     }finally {
 	         try {
@@ -69,6 +171,16 @@ public class MapTxtDAO implements MapDAO{
 		 return m;
 	}
 	
+	private void loadMapNumber(Map m) throws IOException {
+		String line;
+		String[] s;
+		if((line = br.readLine()) != null){
+			s= line.split(" ");
+			m.setLevelNumber(Integer.valueOf(s[0]));
+		}
+		
+	}
+	
 	private Hero loadHero(Map m) throws IOException, CorruptDataException {
 		Hero h =null ;
 		String line;
@@ -78,6 +190,11 @@ public class MapTxtDAO implements MapDAO{
 			if(s[0].equals("0")){	
 				int posx = Integer.parseInt(s[1]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 				int posy = Integer.parseInt(s[2]);
+				if(posx<0 || posy<0){
+					int[] posAlea = generationPosHero(m);
+					posx = posAlea[0];
+					posy = posAlea[1];
+				}
 				int vie = Integer.parseInt(s[3]);
 				int attaque= Integer.parseInt(s[4]);
 				Square sq = m.getSquare(posx, posy);
@@ -89,6 +206,29 @@ public class MapTxtDAO implements MapDAO{
 		}
 		return h;
 		
+	}
+
+	private int[] generationPosHero(Map m ){
+		Random rand = new Random();
+		boolean good = false;
+		int newX = 0;
+		int newY = 0;
+		while(!good) {
+			good = true;
+			newX = rand.nextInt(m.getWidth());
+			newY = rand.nextInt(m.getHeigth());
+			if(m.getSquare(newX,newY).getEntity() != null){
+				good=false;
+			}
+			if ( m.getSquare(newX,newY).getIsWall()) {
+				good = false;
+			}
+			if (m.getSquare(newX,newY).iterator().hasNext()){ // si effet on recommence
+				good = false;
+			}
+		}
+		return new int[] {newX,newY};
+
 	}
 
 
@@ -149,10 +289,12 @@ public class MapTxtDAO implements MapDAO{
 			e=new SecretPassage(x,y);
 			break;
 		case "3":
-			e=new Trap();
+			int d = Integer.parseInt(s[4]);
+			e=new Trap(d);
 			break;
 		case "4":
-			e=new Magic();
+			int h = Integer.parseInt(s[4]);
+			e=new Magic(h);
 			break;
 		default:
 			throw new CorruptDataException("Probléme de formatage des effets");
@@ -163,25 +305,52 @@ public class MapTxtDAO implements MapDAO{
 	private void loadEnnemies(Map m, String[] s, Hero h) throws CorruptDataException{
 		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 		int posy = Integer.parseInt(s[3]);
+		if(posx<0 || posy<0){
+			int[] posAlea = generationPosEnnemie(m , Integer.valueOf(s[1]));
+			posx = posAlea[0];
+			posy = posAlea[1];
+		}
 		int vie = Integer.parseInt(s[4]);
 		int attaque= Integer.parseInt(s[5]);
+		int difficulte = Integer.parseInt(s[6]);
+		if(difficulte<0 || difficulte >3){
+			throw new CorruptDataException("Probléme de formatage des ennemies(difficulte)");
+		}
 		Square sq = m.getSquare(posx, posy);
 		Monster mon =null;
 		switch(s[1]){
 		case "1":
-			mon = new Goblin(sq,vie,attaque,h);
+			mon = new Goblin(sq,vie,attaque,h, difficulte);
 			break;
 		case "2":
-			mon = new Ghost(sq,vie,attaque,h);
+			mon = new Ghost(sq,vie,attaque,h, difficulte);
 			break;
 		default:
-			throw new CorruptDataException("Probléme de formatage des ennemies");
+			throw new CorruptDataException("Probléme de formatage des ennemies(type)");
 		}
 		sq.setEntity(mon);
 
 	}
 
+	private int[] generationPosEnnemie(Map m, int type ){
+		Random rand = new Random();
+		boolean good = false;
+		int newX = 0;
+		int newY = 0;
+		while(!good) {
+			good = true;
+			newX = rand.nextInt(m.getWidth());
+			newY = rand.nextInt(m.getHeigth());
+			if(m.getSquare(newX,newY).getEntity() != null){
+				good=false;
+			}
+			if (type==1 && m.getSquare(newX,newY).getIsWall()) {
+				good = false;
+			}
+		}
+		return new int[] {newX,newY};
 
+	}
 
 	
 	

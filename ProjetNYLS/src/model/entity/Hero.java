@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Hero extends Playable {
 	public Hero(Square position, int hp, int atk) {
-		super(position, hp, atk, 14);
+		super(position, hp, atk, 2);
 		texture = TextureFactory.getInstance().getTexHero();
 	}
 
@@ -35,5 +35,4 @@ public class Hero extends Playable {
 		}
 		return ret;
 	}
-
 }

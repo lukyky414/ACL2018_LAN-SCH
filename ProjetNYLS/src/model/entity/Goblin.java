@@ -8,9 +8,9 @@ import java.awt.*;
 
 public class Goblin extends Monster {
 	
-	public Goblin(Square position, int hp, int atk, Hero target) {
-		super(position,hp, atk, 14, target);
-		texture = TextureFactory.getInstance().getTexGoblin();
+	public Goblin(Square position, int hp, int atk, Hero target, int difficulty) {
+		super(position,hp, atk, 10, target, difficulty);
+		texture = TextureFactory.getTexGoblin();
 	}
 
 
@@ -24,32 +24,18 @@ public class Goblin extends Monster {
 		Image ret = null;
 		switch(orientation){
 			case NORTH:
-				ret = texture.getSubimage(0, 138, 60, 65);
+				ret = texture.getSubimage(0, 138, 60, 58);
 				break;
 			case WEST:
 				ret = texture.getSubimage(0, 193, 60, 65);
 				break;
 			case SOUTH:
-				ret = texture.getSubimage(0, 0, 60, 70);
+				ret = texture.getSubimage(0, 0, 60, 65);
 				break;
 			case EAST:
-				ret = texture.getSubimage(0, 60, 60, 70);
+				ret = texture.getSubimage(0, 60, 60, 65);
 				break;
 		}
 		return ret;
-	}
-
-	/**
-	 * Choisis une nextPos avec une IA.
-	 * On ne calcule pas a chaque Frame le chemin,
-	 * mais a chaque deplacement.
-	 *
-	 * @return rien
-	 */
-	@Override
-	public void evolve(Cmd cmd){
-		if(cooldown == 0) {
-			this.nextPos = getNextPos(this.getPos(), this.iaEasy());
-		}
 	}
 }

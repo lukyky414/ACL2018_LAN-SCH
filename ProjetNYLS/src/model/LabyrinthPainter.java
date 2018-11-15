@@ -10,6 +10,7 @@ import engine.GamePainter;
 import model.entity.Entity;
 import model.entity.Movable;
 import model.factory.TextureFactory;
+import model.option.Option;
 import model.plateau.*;
 
 import javax.imageio.ImageIO;
@@ -25,8 +26,8 @@ public class LabyrinthPainter implements GamePainter {
 	/**
 	 * la taille des cases
 	 */
-	protected static final int WIDTH = 500;
-	protected static final int HEIGHT = 500;
+	protected static final int WIDTH = 800;
+	protected static final int HEIGHT = 800;
 	private FontMetrics metrics;
 	private int sizeX;
 	private int sizeY;
@@ -48,9 +49,7 @@ public class LabyrinthPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		Font font = new Font("Serif", Font.PLAIN, 30);
-		crayon.setFont(font);
-		metrics = crayon.getFontMetrics(font);
+
 		LabyrinthGame game = (LabyrinthGame) this.game;
 		GameState state = game.getState();
 		switch (state){
@@ -59,12 +58,29 @@ public class LabyrinthPainter implements GamePainter {
 				drawEntity(crayon);
 			break;
 			case PAUSE:
+				makeFont(crayon, "Serif", 30);
 				drawScreenPause(crayon);
+			break;
+			case OVER:
+				makeFont(crayon, "Serif", 60);
+				drawMap(crayon);
+				drawScreenOver(crayon);
 			break;
 			default:
 			break;
 		}
+	}
 
+	private void makeFont(Graphics2D crayon, String name, int size){
+		Font font = new Font(name, Font.PLAIN, size);
+		crayon.setFont(font);
+		metrics = crayon.getFontMetrics(font);
+	}
+
+	private void drawScreenOver(Graphics2D crayon) {
+		crayon.setColor(Color.RED);
+		int y = HEIGHT / 2;
+		writeText(crayon, "YOU DIED", y);
 	}
 
 	private void writeText(Graphics2D crayon, String text, int y){
@@ -73,15 +89,21 @@ public class LabyrinthPainter implements GamePainter {
 	}
 
 	private void drawScreenPause(Graphics2D crayon) {
-		int y = HEIGHT / 5;
+		Option opt = ((LabyrinthGame) this.game).getOption();
+		String[] listOption = opt.getListeOption();
 		crayon.setColor(Color.BLACK);
 		crayon.fillRect(0,0, WIDTH, HEIGHT);
-
+		int scale = HEIGHT / (listOption.length + 1);
+		int y = 0;
+		for (int i = 0; i != listOption.length; i++){
+			y = y + scale;
+			if (i == opt.getCurrent())
+				crayon.setColor(Color.RED);
+			else
+				crayon.setColor(Color.BLUE);
+			writeText(crayon, listOption[i], y);
+		}
 		crayon.setColor(Color.blue);
-		writeText(crayon, "Continue", y);
-		writeText(crayon, "Save", y * 2);
-		writeText(crayon, "Load", y * 3);
-		writeText(crayon, "Exit", y * 4);
 	}
 
 	private void drawEntity(Graphics2D crayon) {
@@ -94,29 +116,56 @@ public class LabyrinthPainter implements GamePainter {
 			x = entitie.getPos().getPosX() * sizeX;
 			y = entitie.getPos().getPosY() * sizeY;
 			sprite = entitie.getTexture();
+
 			if (sprite != null) {
 				sprite = sprite.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 				crayon.drawImage(sprite, x, y, null);
+
 			}
+			drawLifeBar(crayon, x, y, entitie);
 		}
 	}
 
+	private void drawLifeBar(Graphics2D crayon, int x, int y, Entity e){
+		Rectangle r = new Rectangle();
+		Rectangle r2 = new Rectangle();
+		crayon.setColor(Color.red);
+
+		r.height = (int) ((1d/12d) * (double)sizeY);
+		r.width = (int) (((double)e.getHp() / (double)e.getHpMax()) * (0.8d * (double)sizeX));
+
+		r.x = (int) ((double)x + (0.1d * (double)sizeX));
+		//r.y = (int) ((double)y + (1d/12d) * (double)sizeY);
+		r.y = y - r.height;
+
+		r2.x = r.x;
+		r2.y = r.y;
+		r2.height = r.height;
+		r2.width = (int) (0.8d * (double)sizeX);
+
+		crayon.drawRect(r2.x, r2.y, r2.width, r2.height);
+		crayon.fillRect(r.x, r.y, r.width, r.height);
+	}
+
 	private void drawMap(Graphics2D crayon) {
-		int x;
-		int y;
+		int x = 0;
+		int y = 0;
+		int i = 0;
+		int j = 0;
 		LabyrinthGame g = (LabyrinthGame) game;
 		Map map = g.getMap();
 		int width = map.getWidth();
 		int height = map.getHeigth();
 		sizeX = WIDTH / width;
 		sizeY = HEIGHT / height;
-		Image wall = TextureFactory.getInstance().getTexWall();
-		Image spriteEffect;
-		wall = wall.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
+		Image texWall = TextureFactory.getInstance().getTexWall();
+		Image wall = texWall.getScaledInstance(sizeX + 1, sizeY, Image.SCALE_DEFAULT);
 		Square sq;
 
-		for (int i = 0; i != height; i++){
-			for (int j = 0; j != width; j++) {
+		for (i = 0; i != height ; i++){
+			if (i == height - 1)
+				wall = texWall.getScaledInstance(sizeX, sizeY + 10, Image.SCALE_DEFAULT);
+			for (j = 0; j != width - 1; j++) {
 				y = i * sizeY;
 				x = j * sizeX;
 				sq = map.getSquare(j, i);
@@ -128,18 +177,26 @@ public class LabyrinthPainter implements GamePainter {
 					crayon.fillRect(x, y, sizeX, sizeY);
 				}
 				//Dessiner les effets de la case
-				for (Effect e : sq) {
-					spriteEffect = e.getTexture();
-					if (e instanceof SecretPassage) {
-						crayon.setColor(Color.RED);
-						crayon.drawLine(x, y, x + sizeX, y + sizeY);
-						crayon.drawLine(x + sizeX, y, x, y + sizeY);
-					} else if (e instanceof Treasure) {
-						spriteEffect = spriteEffect.getScaledInstance(sizeX, sizeY - 10, Image.SCALE_DEFAULT);
-						crayon.drawImage(spriteEffect, x, y, null);
+				drawEffect(crayon, x, y, sq);
+			}
+		}
+		wall = texWall.getScaledInstance(sizeX + 10, sizeY, Image.SCALE_DEFAULT);
+		x = x + sizeX;
+		for (i = 0; i != height; i++){
+			if (i == height - 1)
+				wall = texWall.getScaledInstance(sizeX + 10, sizeY + 10, Image.SCALE_DEFAULT);
+			y = i * sizeY;
+			crayon.drawImage(wall, x, y, null);
+		}
+	}
 
-					}
-				}
+	private void drawEffect(Graphics2D crayon, int x, int y, Square sq) {
+		Image spriteEffect;
+		for (Effect e : sq) {
+			spriteEffect = e.getTexture();
+			if(spriteEffect!=null) {
+				spriteEffect = spriteEffect.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
+				crayon.drawImage(spriteEffect, x, y, null);
 			}
 		}
 	}

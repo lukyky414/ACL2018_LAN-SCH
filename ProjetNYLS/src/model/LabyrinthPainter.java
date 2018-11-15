@@ -27,6 +27,7 @@ public class LabyrinthPainter implements GamePainter {
 	 */
 	protected static final int WIDTH = 500;
 	protected static final int HEIGHT = 500;
+	private FontMetrics metrics;
 	private int sizeX;
 	private int sizeY;
 
@@ -47,6 +48,9 @@ public class LabyrinthPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
+		Font font = new Font("Serif", Font.PLAIN, 30);
+		crayon.setFont(font);
+		metrics = crayon.getFontMetrics(font);
 		LabyrinthGame game = (LabyrinthGame) this.game;
 		GameState state = game.getState();
 		switch (state){
@@ -63,9 +67,21 @@ public class LabyrinthPainter implements GamePainter {
 
 	}
 
+	private void writeText(Graphics2D crayon, String text, int y){
+		int x = (WIDTH - metrics.stringWidth(text)) / 2;
+		crayon.drawString(text, x, y);
+	}
+
 	private void drawScreenPause(Graphics2D crayon) {
+		int y = HEIGHT / 5;
 		crayon.setColor(Color.BLACK);
 		crayon.fillRect(0,0, WIDTH, HEIGHT);
+
+		crayon.setColor(Color.blue);
+		writeText(crayon, "Continue", y);
+		writeText(crayon, "Save", y * 2);
+		writeText(crayon, "Load", y * 3);
+		writeText(crayon, "Exit", y * 4);
 	}
 
 	private void drawEntity(Graphics2D crayon) {

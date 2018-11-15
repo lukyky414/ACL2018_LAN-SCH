@@ -152,6 +152,9 @@ public class MapTxtDAO implements MapDAO{
 		case "3":
 			e=new Trap();
 			break;
+		case "4":
+			e=Magic();
+			break;
 		default:
 			throw new CorruptDataException("Probléme de formatage des effets");
 		}

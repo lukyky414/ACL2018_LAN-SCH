@@ -47,8 +47,25 @@ public class LabyrinthPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		drawMap(crayon);
-		drawEntity(crayon);
+		LabyrinthGame game = (LabyrinthGame) this.game;
+		GameState state = game.getState();
+		switch (state){
+			case RUN:
+				drawMap(crayon);
+				drawEntity(crayon);
+			break;
+			case PAUSE:
+				drawScreenPause(crayon);
+			break;
+			default:
+			break;
+		}
+
+	}
+
+	private void drawScreenPause(Graphics2D crayon) {
+		crayon.setColor(Color.BLACK);
+		crayon.fillRect(0,0, WIDTH, HEIGHT);
 	}
 
 	private void drawEntity(Graphics2D crayon) {

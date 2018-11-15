@@ -23,6 +23,7 @@ import model.plateau.Square;
 public class LabyrinthGame implements engine.Game {
 	private static int nbLevel = 3;
 	private int level =0 ;
+	private GameState state;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -52,6 +53,7 @@ public class LabyrinthGame implements engine.Game {
 		map = MapTxtDAO.getInstance().load(level);
 		//System.out.println(map.toString());
 
+		state = GameState.RUN;
 		loadEntity();
 	}
 
@@ -118,4 +120,11 @@ public class LabyrinthGame implements engine.Game {
 		return entites;
 	}
 
+	public GameState getState() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
+	}
 }

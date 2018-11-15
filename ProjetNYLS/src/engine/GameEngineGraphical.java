@@ -59,6 +59,7 @@ public class GameEngineGraphical {
 		
 		// boucle de game
 		while(true){
+			this.gameController.setPlayable(this.game.getHero());
 			while (!this.game.isFinished()) {
 				// demande controle utilisateur
 				Cmd c = this.gameController.getCommand();

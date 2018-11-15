@@ -52,11 +52,12 @@ public class LabyrinthGame implements engine.Game {
 		map = MapTxtDAO.getInstance().load(level);
 		//System.out.println(map.toString());
 
-		entites = new ArrayList<Movable>();
 		loadEntity();
 	}
 
 	private void loadEntity(){
+		entites = new ArrayList<Movable>();
+		this.hero = null;
 		Entity ent;
 		for(Square sq : map){
 			ent = sq.getEntity();
@@ -82,7 +83,6 @@ public class LabyrinthGame implements engine.Game {
 			level++;
 		}
 		map = MapTxtDAO.getInstance().load(level);
-		entites = new ArrayList<Movable>();
 		loadEntity();
 	}
 

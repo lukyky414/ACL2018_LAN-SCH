@@ -101,9 +101,11 @@ public class LabyrinthGame implements engine.Game {
 	 */
 	@Override
 	public void evolve(Cmd cmd) {
-		for(Movable e : entites){
-			e.evolve(cmd);
-			e.move();
+		if(state==GameState.RUN){
+			for(Movable e : entites){
+				e.evolve(cmd);
+				e.move();
+			}
 		}
 		
 	}

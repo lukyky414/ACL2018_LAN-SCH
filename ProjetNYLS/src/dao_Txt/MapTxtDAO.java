@@ -75,7 +75,6 @@ public class MapTxtDAO implements MapDAO{
 		String[] s;
 		if((line = br.readLine()) != null){
 			s= line.split(" ");
-			System.out.println(s[0]);
 			if(s[0].equals("0")){	
 				int posx = Integer.parseInt(s[1]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 				int posy = Integer.parseInt(s[2]);
@@ -102,7 +101,6 @@ public class MapTxtDAO implements MapDAO{
 	private void loadMapTile(Map m) throws IOException{
 		int height = m.getHeigth();
 		int width = m.getWidth();
-		System.out.println("height : " + height);
 		int c = 0;
 		String line;
 		while((line = br.readLine()) != null && c<height){ 

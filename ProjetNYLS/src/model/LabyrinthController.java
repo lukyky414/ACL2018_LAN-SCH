@@ -25,11 +25,14 @@ public class LabyrinthController implements GameController {
 	 * dans les deplacements
 	 */
 	private Playable hero;
-	
+	private LabyrinthGame game;
+
 	/**
 	 * Construction du controleur par defaut le controleur n'a pas de commande
+	 * @param game
 	 */
-	public LabyrinthController() {
+	public LabyrinthController(LabyrinthGame game) {
+		this.game = game;
 		this.commandeEnCours = Cmd.IDLE;
 	}
 
@@ -71,6 +74,12 @@ public class LabyrinthController implements GameController {
 		case 'D':
 			this.commandeEnCours = Cmd.RIGHT;
 			break;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			if (game.getState() == GameState.RUN)
+				game.setState(GameState.PAUSE);
+			else
+				game.setState(GameState.RUN);
 		}
 
 		this.notifyHero();

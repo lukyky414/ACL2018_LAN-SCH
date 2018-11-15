@@ -16,11 +16,12 @@ public class TextureFactory {
 
     private TextureFactory(){
         try {
-            texWall = ImageIO.read(new File("texture/texWall.png"));
-            texHero = ImageIO.read(new File("texture/texHero.png"));
-            texGoblin = ImageIO.read(new File("texture/texGoblin.png"));
-            texGhost = ImageIO.read(new File("texture/texGhost.png"));
-            texChest = ImageIO.read(new File("texture/texChest.png"));
+            ClassLoader classLoader = getClass().getClassLoader();
+            texWall = ImageIO.read(new File(classLoader.getResource("texture/texWall.png").getFile()));
+            texHero = ImageIO.read(new File(classLoader.getResource("texture/texHero.png").getFile()));
+            texGoblin = ImageIO.read(new File(classLoader.getResource("texture/texGoblin.png").getFile()));
+            texGhost = ImageIO.read(new File(classLoader.getResource("texture/texGhost.png").getFile()));
+            texChest = ImageIO.read(new File(classLoader.getResource("texture/texChest.png").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }

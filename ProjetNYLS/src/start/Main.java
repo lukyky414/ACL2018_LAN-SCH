@@ -16,7 +16,7 @@ public class Main {
 		// creation du jeu particulier et de son afficheur
 		LabyrinthGame game = new LabyrinthGame("helpFilePacman.txt");
 		LabyrinthPainter painter = new LabyrinthPainter(game);
-		LabyrinthController controller = new LabyrinthController();
+		LabyrinthController controller = new LabyrinthController(game);
 
 		// classe qui lance le moteur de jeu generique
 		GameEngineGraphical engine = new GameEngineGraphical(game, painter, controller);

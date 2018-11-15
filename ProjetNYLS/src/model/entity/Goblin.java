@@ -24,16 +24,16 @@ public class Goblin extends Monster {
 		Image ret = null;
 		switch(orientation){
 			case NORTH:
-				ret = texture.getSubimage(0, 138, 60, 65);
+				ret = texture.getSubimage(0, 138, 60, 58);
 				break;
 			case WEST:
 				ret = texture.getSubimage(0, 193, 60, 65);
 				break;
 			case SOUTH:
-				ret = texture.getSubimage(0, 0, 60, 70);
+				ret = texture.getSubimage(0, 0, 60, 65);
 				break;
 			case EAST:
-				ret = texture.getSubimage(0, 60, 60, 70);
+				ret = texture.getSubimage(0, 60, 60, 65);
 				break;
 		}
 		return ret;

@@ -78,6 +78,7 @@ public class LabyrinthPainter implements GamePainter {
 		sizeX = WIDTH / width;
 		sizeY = HEIGHT / height;
 		Image wall = TextureFactory.getInstance().getTexWall();
+		Image spriteEffect;
 		wall = wall.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 		Square sq;
 
@@ -95,13 +96,14 @@ public class LabyrinthPainter implements GamePainter {
 				}
 				//Dessiner les effets de la case
 				for (Effect e : sq) {
+					spriteEffect = e.getTexture();
 					if (e instanceof SecretPassage) {
 						crayon.setColor(Color.RED);
 						crayon.drawLine(x, y, x + sizeX, y + sizeY);
 						crayon.drawLine(x + sizeX, y, x, y + sizeY);
 					} else if (e instanceof Treasure) {
-						crayon.setColor(Color.YELLOW);
-						crayon.drawOval(x, y, sizeX, sizeY);
+						spriteEffect = spriteEffect.getScaledInstance(sizeX, sizeY - 10, Image.SCALE_DEFAULT);
+						crayon.drawImage(spriteEffect, x, y, null);
 
 					}
 				}

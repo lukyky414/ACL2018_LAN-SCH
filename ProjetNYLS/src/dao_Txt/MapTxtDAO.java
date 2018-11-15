@@ -131,7 +131,7 @@ public class MapTxtDAO implements MapDAO{
 				loadEnnemies(m,s,h);
 				break;
 			default:
-				throw new CorruptDataException("Probléme de formatage des modificateurs");
+				throw new CorruptDataException("Probléme de formatage des modificateurs: code inconnu "+s[0]);
 			}
 		}
 	}

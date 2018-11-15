@@ -67,10 +67,21 @@ public class Map implements Iterable<Square> {
 		}
 		return sb.toString();
 	}
-
+	
+	/**
+	 * signal au niveau qu'un trésor à été pris
+	 * 
+	 */
 
 	public void treasureTaken() {
 		levelFinished=true;
+	}
+	/**
+	 * 
+	 * @return true si le niveau est terminé
+	 */
+	public boolean isFinished(){
+		return levelFinished;
 	}
 	
 	public void addEffect(int x, int y, Effect e){

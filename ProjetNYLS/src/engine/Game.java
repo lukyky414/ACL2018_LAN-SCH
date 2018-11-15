@@ -1,5 +1,7 @@
 package engine;
 
+import exceptions.CorruptDataException;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -20,5 +22,11 @@ public interface Game {
 	 * @return true si et seulement si le jeu est fini
 	 */
 	public boolean isFinished();
+	
+	/**
+	 * @throws CorruptDataException 
+	 * 
+	 */
+	public void loadNextLevel() throws CorruptDataException;
 
 }

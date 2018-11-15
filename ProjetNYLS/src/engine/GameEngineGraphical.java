@@ -1,5 +1,7 @@
 package engine;
 
+import exceptions.CorruptDataException;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -54,17 +56,27 @@ public class GameEngineGraphical {
 		// creation de l'interface graphique
 		this.gui = new GraphicalInterface(this.gamePainter,this.gameController);
 
+		
 		// boucle de game
-		while (!this.game.isFinished()) {
-			// demande controle utilisateur
-			Cmd c = this.gameController.getCommand();
-			// fait evoluer le game
-			this.game.evolve(c);
-			// affiche le game
-			this.gui.paint();
-			// met en attente
-			Thread.sleep(50);
+		while(true){
+			while (!this.game.isFinished()) {
+				// demande controle utilisateur
+				Cmd c = this.gameController.getCommand();
+				// fait evoluer le game
+				this.game.evolve(c);
+				// affiche le game
+				this.gui.paint();
+				// met en attente
+				Thread.sleep(50);
+			}
+			try {
+				game.loadNextLevel();
+			} catch (CorruptDataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 	}
 
 }

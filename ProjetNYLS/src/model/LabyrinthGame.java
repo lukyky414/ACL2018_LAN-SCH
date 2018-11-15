@@ -25,6 +25,8 @@ import model.plateau.Square;
  * 
  */
 public class LabyrinthGame implements engine.Game {
+	private static int nbLevel = 3;
+	private int level =0 ;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -51,8 +53,8 @@ public class LabyrinthGame implements engine.Game {
 			System.out.println("Help not available");
 		}
 
-		map = MapTxtDAO.getInstance().load(0);
-		System.out.println(map.toString());
+		map = MapTxtDAO.getInstance().load(level);
+		//System.out.println(map.toString());
 
 		entites = new ArrayList<Movable>();
 		loadEntity();
@@ -71,10 +73,24 @@ public class LabyrinthGame implements engine.Game {
 	public Map getMap(){
 		return map;
 	}
+	
+	/**
+	 * load the next level, if there is none, reload the current one
+	 * @throws CorruptDataException
+	 */
+	
+	public void loadNextLevel() throws CorruptDataException{
+		if(level<nbLevel){
+			level++;
+		}
+		map = MapTxtDAO.getInstance().load(level);
+		entites = new ArrayList<Movable>();
+		loadEntity();
+	}
 
 	/**
 	 * faire evoluer le jeu avec la commande actuelle.
-	 * Est executee toutes les 100ms
+	 * Est executee toutes les 50ms
 	 * 
 	 * @param cmd
 	 */
@@ -92,8 +108,7 @@ public class LabyrinthGame implements engine.Game {
 	 */
 	@Override
 	public boolean isFinished() {
-		// le jeu n'est jamais fini
-		return false;
+		return map.isFinished();
 	}
 	
 	public ArrayList<Movable> getEntities(){

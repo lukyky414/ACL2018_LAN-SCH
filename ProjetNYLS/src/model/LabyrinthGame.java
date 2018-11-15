@@ -10,6 +10,7 @@ import engine.Cmd;
 import engine.Game;
 import exceptions.CorruptDataException;
 import model.entity.*;
+import model.option.Option;
 import model.plateau.Map;
 import model.plateau.Square;
 
@@ -24,6 +25,7 @@ public class LabyrinthGame implements engine.Game {
 	private static int nbLevel = 3;
 	private int level =0 ;
 	private GameState state;
+	private Option option;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -39,6 +41,7 @@ public class LabyrinthGame implements engine.Game {
 
 	public LabyrinthGame(String source) throws CorruptDataException {
 		BufferedReader helpReader;
+		option = new Option();
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
 			String ligne;
@@ -49,7 +52,6 @@ public class LabyrinthGame implements engine.Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
-
 		map = MapTxtDAO.getInstance().load(level);
 		//System.out.println(map.toString());
 
@@ -128,5 +130,9 @@ public class LabyrinthGame implements engine.Game {
 
 	public void setState(GameState state) {
 		this.state = state;
+	}
+
+	public Option getOption() {
+		return option;
 	}
 }

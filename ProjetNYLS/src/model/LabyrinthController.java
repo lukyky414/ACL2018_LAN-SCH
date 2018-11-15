@@ -53,36 +53,54 @@ public class LabyrinthController implements GameController {
 	 */
 	public void keyPressed(KeyEvent e) {
 
-		switch (e.getKeyChar()) {
-		// si on appuie sur 'z',commande joueur est haut
-		case 'z':
-		case 'Z':
-			this.commandeEnCours = Cmd.UP;
-			break;
-		// si on appuie sur 'q',commande joueur est gauche
-		case 'q':
-		case 'Q':
-			this.commandeEnCours = Cmd.LEFT;
-			break;
-		// si on appuie sur 's',commande joueur est bas
-		case 's':
-		case 'S':
-			this.commandeEnCours = Cmd.DOWN;
-			break;
-		// si on appuie sur 'd',commande joueur est droite
-		case 'd':
-		case 'D':
-			this.commandeEnCours = Cmd.RIGHT;
-			break;
+		if (game.getState() == GameState.RUN){
+			gereKeyRun(e);
+		}
+		else if (game.getState() == GameState.PAUSE){
+			gereKeyPause(e);
+		}
+		this.notifyHero();
+	}
+
+	private void gereKeyPause(KeyEvent e) {
+		switch (e.getKeyCode()){
+			case KeyEvent.VK_DOWN:
+				game.getOption().addCurrent(1);
+				break;
+			case KeyEvent.VK_UP:
+				game.getOption().subCurrent(1);
+				break;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			if (game.getState() == GameState.RUN)
-				game.setState(GameState.PAUSE);
-			else
-				game.setState(GameState.RUN);
+			game.setState(GameState.RUN);
 		}
+	}
 
-		this.notifyHero();
+	private void gereKeyRun(KeyEvent e) {
+		switch (e.getKeyChar()) {
+			// si on appuie sur 'z',commande joueur est haut
+			case 'z':
+			case 'Z':
+				this.commandeEnCours = Cmd.UP;
+				break;
+			// si on appuie sur 'q',commande joueur est gauche
+			case 'q':
+			case 'Q':
+				this.commandeEnCours = Cmd.LEFT;
+				break;
+			// si on appuie sur 's',commande joueur est bas
+			case 's':
+			case 'S':
+				this.commandeEnCours = Cmd.DOWN;
+				break;
+			// si on appuie sur 'd',commande joueur est droite
+			case 'd':
+			case 'D':
+				this.commandeEnCours = Cmd.RIGHT;
+				break;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+			game.setState(GameState.PAUSE);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import engine.GamePainter;
 import model.entity.Entity;
 import model.entity.Movable;
 import model.factory.TextureFactory;
+import model.option.Option;
 import model.plateau.*;
 
 import javax.imageio.ImageIO;
@@ -73,16 +74,21 @@ public class LabyrinthPainter implements GamePainter {
 	}
 
 	private void drawScreenPause(Graphics2D crayon) {
-		int y = HEIGHT / 6;
+		Option opt = ((LabyrinthGame) this.game).getOption();
+		String[] listOption = opt.getListeOption();
 		crayon.setColor(Color.BLACK);
 		crayon.fillRect(0,0, WIDTH, HEIGHT);
-
+		int scale = HEIGHT / (listOption.length + 1);
+		int y = 0;
+		for (int i = 0; i != listOption.length; i++){
+			y = y + scale;
+			if (i == opt.getCurrent())
+				crayon.setColor(Color.RED);
+			else
+				crayon.setColor(Color.BLUE);
+			writeText(crayon, listOption[i], y);
+		}
 		crayon.setColor(Color.blue);
-		writeText(crayon, "Continue", y);
-		writeText(crayon, "New game", y * 2);
-		writeText(crayon, "Save", y * 3);
-		writeText(crayon, "Load", y * 4);
-		writeText(crayon, "Exit", y * 5);
 	}
 
 	private void drawEntity(Graphics2D crayon) {

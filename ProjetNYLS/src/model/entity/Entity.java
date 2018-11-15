@@ -41,6 +41,7 @@ public abstract class Entity {
 		else return false;
 	}
 
+	public void setHp(int pv){this.hp = pv;}
 	public void diminuerHp(int attackPoint){
 		this.hp = hp-attackPoint;
 	}

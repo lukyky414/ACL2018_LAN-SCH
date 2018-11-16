@@ -1,8 +1,15 @@
 package model.option;
 
+import model.GameState;
+import model.LabyrinthGame;
+import org.omg.PortableInterceptor.INACTIVE;
+
+import java.util.Map;
+
 public class Option {
     private String[] listeOption;
     private int current;
+
 
     public Option(){
         listeOption = new String[5];
@@ -30,6 +37,17 @@ public class Option {
 
     public int getCurrent(){
         return current;
+    }
+
+    public void doOption(LabyrinthGame game){
+        switch (current){
+            case 0:
+                game.setState(GameState.RUN);
+            break;
+            case 4:
+                game.setState(GameState.END);
+                break;
+        }
     }
 
     public String toString(){

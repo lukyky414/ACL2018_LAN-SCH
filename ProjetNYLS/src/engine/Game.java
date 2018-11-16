@@ -1,6 +1,7 @@
 package engine;
 
 import exceptions.CorruptDataException;
+import model.GameState;
 import model.entity.Hero;
 
 /**
@@ -36,4 +37,5 @@ public interface Game {
 	 */
 	public void loadNextLevel() throws CorruptDataException;
 
+	public GameState getState();
 }

@@ -70,6 +70,9 @@ public class LabyrinthController implements GameController {
 			case KeyEvent.VK_UP:
 				game.getOption().subCurrent(1);
 				break;
+			case KeyEvent.VK_ENTER:
+				game.getOption().doOption(game);
+				break;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			game.setState(GameState.RUN);

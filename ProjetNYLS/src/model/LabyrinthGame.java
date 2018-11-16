@@ -119,7 +119,8 @@ public class LabyrinthGame implements engine.Game {
 	public boolean isFinished() {
 		return map.isFinished();
 	}
-	
+
+
 	public ArrayList<Movable> getEntities(){
 		return entites;
 	}

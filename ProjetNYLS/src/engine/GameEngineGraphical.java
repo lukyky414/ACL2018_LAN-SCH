@@ -1,6 +1,7 @@
 package engine;
 
 import exceptions.CorruptDataException;
+import model.GameState;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -58,7 +59,7 @@ public class GameEngineGraphical {
 
 		
 		// boucle de game
-		while(true){
+		while((game.getState() != GameState.END)){
 			this.gameController.setPlayable(this.game.getHero());
 			while (!this.game.isFinished()) {
 				// demande controle utilisateur
@@ -67,8 +68,8 @@ public class GameEngineGraphical {
 				this.game.evolve(c);
 				// affiche le game
 				this.gui.paint();
-				// met en attente
-				Thread.sleep(50);
+				// met en attente = fps
+				Thread.sleep(15);
 			}
 			try {
 				game.loadNextLevel();
@@ -77,7 +78,6 @@ public class GameEngineGraphical {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 
 }

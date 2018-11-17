@@ -10,8 +10,8 @@ import java.awt.*;
 public class Ghost extends Monster{
 
 	public Ghost(Square position, int hp, int atk, Hero target) {
-		super(position,hp, atk, 5, target);
-		texture = TextureFactory.getInstance().getTexGhost();
+		super(position,hp, atk, 5, target, 1);
+		texture = TextureFactory.getTexGhost();
 	}
 
 	@Override
@@ -37,21 +37,6 @@ public class Ghost extends Monster{
 				break;
 		}
 		return ret;
-	}
-
-	/**
-	 * Choisis une nextPos avec une IA.
-	 * On ne calcule pas a chaque Frame le chemin,
-	 * mais a chaque deplacement.
-	 *
-	 * @return rien
-	 */
-	@Override
-	public void evolve(Cmd cmd){
-		if(cooldown == 0) {
-			//this.nextPos = getNextPos(this.getPos(), cmd);
-			this.nextPos = getNextPos(this.getPos(), this.iaEasy());
-		}
 	}
 
 	/**

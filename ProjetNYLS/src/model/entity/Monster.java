@@ -12,12 +12,80 @@ public abstract class Monster extends Movable {
 	static private Random rdm = new Random();
 	private Hero target;
 
-	public Monster(Square position, int hp, int atk, int cooldown, Hero target) {
+	private int difficulty;
+
+	/**
+	 * Permet de creer un tableau d'action,
+	 * facilite la selection d'une difficulte d'ia.
+	 */
+	interface iaAction {
+		Cmd ia();
+	}
+	private iaAction[] iaActions;
+
+	public Monster(Square position, int hp, int atk, int cooldown, Hero target, int difficulty) {
 		super(position,hp, atk, cooldown);
 		this.target = target;
+
+		if(difficulty < 0 || difficulty > 3)
+			throw new IllegalArgumentException("La difficulte choisie n'existe pas.");
+		this.difficulty = difficulty;
+
+		/*
+		 * Cree un tableau de methode.
+		 * en gros: iaActions = new iaAction[]{
+		 * 	new iaAction() { @Override Cmd ia(){ return Cmd.IDLA;}},
+		 * 	new iaAction() { @Override Cmd ia(){ return iaEasy();}},
+		 * 	new iaAction() { @Override Cmd ia(){ return iaMedium();}},
+		 * 	new iaAction() { @Override Cmd ia(){ return iaHard();}}
+		 * }
+		 */
+		iaActions = new iaAction[] {
+				() -> Cmd.IDLE,
+				this::iaEasy,
+				this::iaMedium,
+				this::iaHard
+		};
 	}
 
-	public abstract String getType();
+	/**
+	 * On verifie que l'entite sur la prochaine case est un joueur pour l'attaquer.
+	 *
+	 * @return true si valide (voir classe Movable).
+	 */
+	@Override
+	boolean canMove(){
+		if(nextPos != null && nextPos.getEntity() != null){
+			if(nextPos.getEntity() instanceof Playable)
+				this.attackEntity(nextPos.getEntity());
+		}
+		return super.canMove();
+	}
+
+	/**
+	 * Il faut aussi diminuer la vitesse de deplacement.
+	 */
+	@Override
+	public void move(){
+		if(cooldown-- == 0){
+			super.move();
+		}
+	}
+
+	/**
+	 * Permet d'activer l'IA.
+	 * On ne lance pas l'IA a chaque frame, mais avant chaque deplacement.
+	 *  difficulty 0 -> ne bouge pas
+	 *
+	 * @param cmd, la commande actuelle (est totalement ignoree)
+	 */
+	@Override
+	public void evolve(Cmd cmd){
+		if(cooldown == 0) {
+			this.nextPos = getNextPos(this.getPos(), this.iaActions[difficulty].ia());
+		}
+	}
+
 	/**
 	 * Deplacement aleatoire pour une ia facile.
 	 *
@@ -44,43 +112,21 @@ public abstract class Monster extends Movable {
 
 	/**
 	 * Se rapprocher en X ou en Y.
-	 * Maniere peu efficace, qui reduit d'abord la distance la plus courte.
+	 * Est peut etre trop puissante pour le fantome, qui devrait se rapprocher de la distance la plus courte d'abord
 	 *
 	 * @return Cmd - la direction choisie
 	 */
-	protected Cmd iaMedium1(){
+	protected Cmd iaMedium(){
 		return null;
 	}
 
 	/**
-	 * Verifie si la prochaine case soit est un mur, soit contient deja une entite
-	 * Cette methode peut etre Override pour changer le deplacement (fantome)
-	 * 		Attention, une case ne contient qu'une entite
-	 * 	On ne teste que si l'entité qui est en face est un joueur.
-	 * 	Le monstre n'attaquera pas ses semblables
+	 * Se rapprocher en X ou en Y.
+	 * Maniere peu efficace, qui reduit d'abord la distance la plus courte.
 	 *
-	 * @return false (si mur ou entite), true si valide
+	 * @return Cmd - la direction choisie
 	 */
-	@Override
-	boolean canMove(){
-		if(nextPos.getEntity() != null){
-			if(nextPos.getEntity() instanceof Playable)
-				this.attackEntity(nextPos.getEntity());
-		}
-		return super.canMove();
+	protected Cmd iaHard(){
+		return null;
 	}
-
-	/**
-	 * Il faut aussi diminuer la vitesse de deplacement
-	 *
-	 * @return rien
-	 */
-	@Override
-	public void move(){
-		if(cooldown-- == 0){
-			super.move();
-		}
-	}
-
-	public abstract Image getTexture();
 }

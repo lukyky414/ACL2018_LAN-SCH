@@ -7,11 +7,9 @@ import model.plateau.Wall;
 import java.awt.*;
 
 public abstract class Movable extends Entity {
-
-
 	protected Square nextPos = null;
-	protected int cooldown;
-	protected int base_cooldown;
+	int cooldown;
+	private int base_cooldown;
 
 	public Movable(Square position, int hp, int atk, int cooldown) {
 		super(position,hp,atk);
@@ -22,7 +20,7 @@ public abstract class Movable extends Entity {
 	/**
 	 * Verifie si la prochaine case soit est un mur, soit contient deja une entite
 	 * Cette methode peut etre Override pour changer le deplacement (fantome)
-	 * 		Attention, une case ne contient qu'une entite
+	 *
 	 * @return false (si mur ou entite), true si valide
 	 */
 	boolean canMove(){
@@ -37,17 +35,18 @@ public abstract class Movable extends Entity {
 
 	/**
 	 * Choisis une nextPos avec ou sans direction.
+	 * Cette methode sera precisee dans les classes filles.
 	 *
-	 * @return rien
+	 * @param cmd, la commande actuelle.
 	 */
 	public abstract void evolve(Cmd cmd);
 
 
 	/**
 	 * Bouge en fonction de la prochaine direction,
-	 * seulement si le cooldown est a zero.
+	 * Le deplacement ne s'effectue que si la prochaine position est valide (canMove).
 	 *
-	 * @return rien
+	 * La gestion du cooldown pour eviter qu'une entite ne se deplace toutes les frames est gere dans les classes filles.
 	 */
 	public void move(){
 		this.resetCooldown();
@@ -80,11 +79,14 @@ public abstract class Movable extends Entity {
 			this.getPos().triggerEffects(this);
 		}
 	}
+
 	/**
-	 * Retourne, en fonction d'une direction et d'une case donnee,
-	 * la prochaine position.
+	 * Retourne une postion, en fonction d'une direction et d'une case donnee.
 	 *
-	 * @return Une position
+	 * @param pos, la position de depart
+	 * @param dir, la direction de deplacement
+	 *
+	 * @return La prochaine direction
 	 */
 	public static Square getNextPos(Square pos, Cmd dir){
 		int x = 0, y = 0;
@@ -109,11 +111,11 @@ public abstract class Movable extends Entity {
 		return pos.getMap().getSquare(x, y);
 	}
 
-	public void resetCooldown(){
+	/**
+	 * Remet le cooldown a sa valeur de base.
+	 * S'effectue apres chaques deplacements.
+	 */
+	private void resetCooldown(){
 		this.cooldown = this.base_cooldown;
 	}
-
-
-	public abstract String getType();
-	public abstract Image getTexture();
 }

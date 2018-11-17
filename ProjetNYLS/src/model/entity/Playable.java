@@ -16,15 +16,13 @@ public abstract class Playable extends Movable{
 		firstCmd = Cmd.IDLE;
 	}
 
-
-	public abstract String getType();
-
 	/**
 	 * Choisis une nextPos avec la direction appuyee.
-	 * Il n'est pas necessaire de limiter la vitesse
-	 * a laquelle une commande est prise en compte.
+	 * Il n'est pas necessaire de limiter la vitesse a laquelle une commande est prise en compte.
 	 *
-	 * @return rien
+	 * Cette methode est appellee directement depuis le LabyrinthController pour plus de reactivite.
+	 *
+	 * @param cmd, la commande actuelle
 	 */
 	public void evolve(Cmd cmd){
 		if(cmd != Cmd.IDLE || firstCmd != Cmd.IDLE)
@@ -34,10 +32,8 @@ public abstract class Playable extends Movable{
 	}
 
 	/**
-	 * Permet de remettre a zero le lastCmd,
+	 * Permet de remettre a zero le lastCmd ou firstCmd pour la prise en compte d'une commande,
 	 * et de limiter la vitesse de deplacement
-	 *
-	 * @return rien
 	 */
 	@Override
 	public void move() {
@@ -49,19 +45,19 @@ public abstract class Playable extends Movable{
 		}
 	}
 
-	/** @Override de la fonction canMove() de Movable.
+	/**
+	 * Override de la fonction canMove() de Movable.
 	 * On implémente en plus le cas où l'entité qui se trouve sur la prochaine case
-	 * est un monstre. Si oui, on attaque.
+	 * est un monstre pour l'attaquer.
+	 *
+	 * @return true si la case est valide (voir classe Movable).
 	 */
 	@Override
 	boolean canMove(){
-		if(nextPos == null)
-			return false;
-		if(nextPos.getEntity() != null){
+		if(nextPos != null && nextPos.getEntity() != null){
 			if(nextPos.getEntity() instanceof Monster)
 				this.attackEntity(nextPos.getEntity());
 		}
 		return super.canMove();
 	}
-	public abstract Image getTexture();
 }

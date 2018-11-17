@@ -20,4 +20,14 @@ public class SecretPassage extends Effect {
 		}
 	}
 
+	@Override
+	public int getType() {
+		return 2;
+	}
+	public int getPosXSortie(){
+		return destX;
+	}
+	public int getPosYSortie(){
+		return destY;
+	}
 }

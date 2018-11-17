@@ -1,12 +1,15 @@
 package dao_Txt;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import exceptions.CorruptDataException;
 
+import model.entity.Entity;
 import model.entity.Ghost;
 import model.entity.Goblin;
 import model.entity.Hero;
@@ -39,8 +42,94 @@ public class MapTxtDAO implements MapDAO{
 	
 	@Override
 	public void save(Map m) {  //Normalement pas utilisé, peut être utile pour creation de map
-		
-		
+		File f  = new File("ProjetNYLS/ressources/saves/save1.map");
+		StringBuilder s = new StringBuilder();
+		FileWriter fw =null;
+		BufferedWriter bw=null;
+		try {
+			if(!f.exists()){
+				f.createNewFile();
+			}
+			fw = new FileWriter(f);
+			bw = new BufferedWriter(fw);
+			saveLayout(s,m);
+			s.append("\n");
+			saveHero(s,m);
+			saveModifiers(s,m);
+			
+			bw.write(s.toString());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try{
+				if(bw!=null)
+					bw.close();
+				if(fw!=null)
+					fw.close();
+			} catch(IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	private void saveLayout(StringBuilder s, Map m){
+		int h =m.getHeigth() ;
+		int w = m.getWidth();
+		s.append(w+" "+h+"\n");
+		for(int i=0;i<h;i++){
+			for(int j=0; j<w;j++){
+				if(m.getSquare(j, i) instanceof Square &&m.getSquare(j, i).getClass()!=Square.class){  //si la case est un mur
+					s.append("1");
+				}else{
+					s.append(0);
+				}
+			}
+			s.append("\n");
+		}
+	}
+	private void saveHero(StringBuilder s, Map m){
+		for(Square sq :m){
+			if(sq.getEntity() instanceof Hero){
+				s.append("0 "+sq.getPosX()+" "+sq.getPosY()+" "+sq.getEntity().getHp()+" "+sq.getEntity().getAttack()+"\n");
+			}
+		}
+	}
+	
+	private void saveModifiers(StringBuilder s, Map m){
+		int x;
+		int y;
+		Entity entite;
+		for(Square sq : m){
+			x=sq.getPosX();
+			y=sq.getPosY();
+			for(Effect e : sq){
+				s.append("1 "+e.getType()+" "+x+" "+y+" ");
+				switch (e.getType()){
+				case 1:
+					break;
+				case 2:
+					s.append(((SecretPassage) e).getPosXSortie()+" "+((SecretPassage) e).getPosYSortie());
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				}
+				s.append("\n");
+			}
+			entite=sq.getEntity();
+			if(entite!=null && !(entite instanceof Hero)){
+				s.append("2 ");
+				if(entite instanceof Goblin){
+					s.append("1 ");
+				}else if(entite instanceof Ghost){
+					s.append("2 ");
+				}
+				s.append(x+" "+y+" "+entite.getHp()+" "+entite.getAttack()+"\n");
+			}
+		}
 	}
 
 	@Override

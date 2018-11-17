@@ -18,4 +18,9 @@ public class Treasure extends Effect {
 		}
 	}
 
+	@Override
+	public int getType() {
+		return 1;
+	}
+
 }

@@ -18,5 +18,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="easymock-3.1" level="project" />
+    <orderEntry type="library" name="cglib:cglib:3.2.9" level="project" />
+    <orderEntry type="library" name="objenesis-3.0.1" level="project" />
   </component>
 </module>

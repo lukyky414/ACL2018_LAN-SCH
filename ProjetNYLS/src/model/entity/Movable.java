@@ -74,7 +74,6 @@ public abstract class Movable extends Entity {
 				}
 			}
 			this.getPos().setEntity(null);
-			this.nextPos.setEntity(this);
 			this.setPos(nextPos);
 			this.nextPos = null;
 

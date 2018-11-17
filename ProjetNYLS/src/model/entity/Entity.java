@@ -15,9 +15,8 @@ public abstract class Entity {
 	public Entity(Square position, int hp, int atk){
 		this.hp = hp;
 		this.attack = atk;
-		this.position = position;
-		position.setEntity(this);
-		orientation = orientation.NORTH;
+		setPos(position);
+		orientation = Orientation.NORTH;
 		texture = null;
 
 	}
@@ -27,8 +26,11 @@ public abstract class Entity {
 	public void setPos(Square position){
 		if(position == null)
 			throw new NullPointerException("Position nulle a Entity");
+		if(position.getEntity() != null)
+			throw new NullPointerException("Position possede deja une entite"); //TODO changer le type d'exception
 
 		this.position = position;
+		position.setEntity(this);
 	}
 
 

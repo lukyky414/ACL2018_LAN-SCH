@@ -17,5 +17,10 @@ public class Treasure extends Effect {
 			s.treasureTaken();
 		}
 	}
+	
+	@Override
+	public int getType() {
+		return 1;
+	}
 
 }

@@ -12,4 +12,9 @@ public class Trap extends Effect {
 
 	}
 
+	@Override
+	public int getType() {
+		return 3;
+	}
+
 }

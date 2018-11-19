@@ -10,4 +10,9 @@ public class Magic extends Effect {
         if(h instanceof Hero)
             h.setHp(h.getHp()+1);
     }
+
+	@Override
+	public int getType() {
+		return 4;
+	}
 }

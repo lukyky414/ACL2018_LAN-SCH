@@ -11,7 +11,7 @@ public class testDAO {
 	public static void main(String[] args) throws CorruptDataException{
 		MapTxtDAO d =  MapTxtDAO.getInstance();
 		Map m = d.load(0);
-				
+		d.save(m);		
 	}
 
 }

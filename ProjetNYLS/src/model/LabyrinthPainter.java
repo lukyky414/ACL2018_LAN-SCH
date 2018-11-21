@@ -101,11 +101,35 @@ public class LabyrinthPainter implements GamePainter {
 			x = entitie.getPos().getPosX() * sizeX;
 			y = entitie.getPos().getPosY() * sizeY;
 			sprite = entitie.getTexture();
+
 			if (sprite != null) {
 				sprite = sprite.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 				crayon.drawImage(sprite, x, y, null);
+
 			}
+			drawLifeBar(crayon, x, y, entitie);
 		}
+	}
+
+	private void drawLifeBar(Graphics2D crayon, int x, int y, Entity e){
+		Rectangle r = new Rectangle();
+		Rectangle r2 = new Rectangle();
+		crayon.setColor(Color.red);
+
+		r.height = (int) ((1d/12d) * (double)sizeY);
+		r.width = (int) (((double)e.getHp() / (double)e.getHpMax()) * (0.8d * (double)sizeX));
+
+		r.x = (int) ((double)x + (0.1d * (double)sizeX));
+		//r.y = (int) ((double)y + (1d/12d) * (double)sizeY);
+		r.y = y - r.height;
+
+		r2.x = r.x;
+		r2.y = r.y;
+		r2.height = r.height;
+		r2.width = (int) (0.8d * (double)sizeX);
+
+		crayon.drawRect(r2.x, r2.y, r2.width, r2.height);
+		crayon.fillRect(r.x, r.y, r.width, r.height);
 	}
 
 	private void drawMap(Graphics2D crayon) {

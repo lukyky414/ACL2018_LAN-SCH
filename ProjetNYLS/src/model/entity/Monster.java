@@ -48,19 +48,6 @@ public abstract class Monster extends Movable {
 		};
 	}
 
-	/**
-	 * On verifie que l'entite sur la prochaine case est un joueur pour l'attaquer.
-	 *
-	 * @return true si valide (voir classe Movable).
-	 */
-	@Override
-	boolean canMove(){
-		if(nextPos != null && nextPos.getEntity() != null){
-			if(nextPos.getEntity() instanceof Playable)
-				this.attackEntity(nextPos.getEntity());
-		}
-		return super.canMove();
-	}
 
 	/**
 	 * Il faut aussi diminuer la vitesse de deplacement.

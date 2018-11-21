@@ -9,10 +9,12 @@ public abstract class Entity {
 	protected Square position;
 	protected BufferedImage texture;
 	protected int hp;
+	protected int hpMax;
 	protected int attack;
 	protected Orientation orientation;
 
 	public Entity(Square position, int hp, int atk){
+		this.hpMax = hp;
 		this.hp = hp;
 		this.attack = atk;
 		setPos(position);
@@ -43,6 +45,7 @@ public abstract class Entity {
 
 	//fonctions necessaires à l'attaque d'une entité
 	public int getHp(){return this.hp;}
+	public int getHpMax(){return this.hpMax;}
 	public int getAttack(){return this.attack;}
 
 	/**
@@ -57,6 +60,8 @@ public abstract class Entity {
 	}
 
 	public void setHp(int pv){this.hp = pv;}
+	public void setHpMax(int hp){this.hpMax = hp;}
+
 
 	/**
 	 * Diminue les points de vie de l'entite de la valeur precise

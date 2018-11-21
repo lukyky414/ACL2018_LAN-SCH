@@ -41,8 +41,8 @@ public class MapTxtDAO implements MapDAO{
 	}
 	
 	@Override
-	public void save(Map m) {  //Normalement pas utilisé, peut être utile pour creation de map
-		File f  = new File("ProjetNYLS/ressources/saves/save1.map");
+	public void save(Map m) {  
+		File f  = new File("ProjetNYLS/ressources/maps/map-1.map");
 		StringBuilder s = new StringBuilder();
 		FileWriter fw =null;
 		BufferedWriter bw=null;
@@ -53,7 +53,7 @@ public class MapTxtDAO implements MapDAO{
 			fw = new FileWriter(f);
 			bw = new BufferedWriter(fw);
 			saveLayout(s,m);
-			s.append("\n");
+			s.append("\n"); //toujours une ligne vide entre le layout et les modifiers
 			saveHero(s,m);
 			saveModifiers(s,m);
 			
@@ -133,6 +133,11 @@ public class MapTxtDAO implements MapDAO{
 		
 	}
 
+	/**
+	 * load map number idMap
+	 * to load the saved game, you need to use idMap = -1
+	 * 
+	 */
 	@Override
 	public Map load(int idMap) throws CorruptDataException{
 		String nomMap = "map"+idMap+".map";

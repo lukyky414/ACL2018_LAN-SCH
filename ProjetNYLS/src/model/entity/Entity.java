@@ -80,12 +80,9 @@ public abstract class Entity {
 	 * @param e, l'entite attaquee
 	 */
 	public void attackEntity(Entity e){
-		while((!e.isDead()) && (!this.isDead()))
-		{
+		if(!(e.isDead()))
 			e.diminuerHp(this.attack);
-			this.diminuerHp(e.getAttack());
-			System.out.println("Vie de l'entite 1 : " + this.getHp() +"\nVie de l'entite 2 : " + e.getHp() + "\n" );
-		}
+		System.out.println("Vie de l'entite 1 : " + this.getHp() +"\nVie de l'entite 2 : " + e.getHp() + "\n" );
 		if(e.isDead())
 			System.out.println("L'entite 2 est morte");
 		if(this.isDead())

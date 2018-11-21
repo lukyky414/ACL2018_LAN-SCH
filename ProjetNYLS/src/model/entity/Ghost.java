@@ -50,8 +50,6 @@ public class Ghost extends Monster{
 		if(nextPos == null)
 			return false;
 		if(nextPos.getEntity() != null){
-			if(nextPos.getEntity() instanceof Playable)
-				this.attackEntity(nextPos.getEntity());
 			return false;
 		}
 		return true;

@@ -23,7 +23,7 @@ import model.plateau.Square;
  */
 public class LabyrinthGame implements engine.Game {
 	private static int nbLevel = 3;
-	private int level =0 ;
+	//private int level =0 ;
 	private GameState state;
 	private Option option;
 
@@ -52,7 +52,7 @@ public class LabyrinthGame implements engine.Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
-		map = MapTxtDAO.getInstance().load(level);
+		map = MapTxtDAO.getInstance().load(0);
 		//System.out.println(map.toString());
 
 		state = GameState.RUN;
@@ -83,10 +83,10 @@ public class LabyrinthGame implements engine.Game {
 	 */
 	
 	public void loadNextLevel() throws CorruptDataException{
-		if(level<nbLevel){
-			level++;
+		if(map.getLevelNumber()<nbLevel){
+			map.setLevelNumber(map.getLevelNumber()+1);
 		}
-		map = MapTxtDAO.getInstance().load(level);
+		map = MapTxtDAO.getInstance().load(map.getLevelNumber());
 		loadEntity();
 	}
 

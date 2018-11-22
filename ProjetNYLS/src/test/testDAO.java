@@ -18,6 +18,7 @@ public class testDAO {
 	public void testSaveLoad(){
 		MapTxtDAO d =  MapTxtDAO.getInstance();
 		Map m = new Map();
+		m.setLevelNumber(2);
 		m.setSize(2, 2);
 		m.setTileType(0, 0, "Square");
 		m.setTileType(0, 1, "Wall");
@@ -43,6 +44,11 @@ public class testDAO {
 		} catch (CorruptDataException e) {
 			assert(false):"Données non conformes/fichier non accessible";
 		}
+	}
+	@Test(expected = CorruptDataException.class)
+	public void testLoadException() throws CorruptDataException {
+		MapTxtDAO d =  MapTxtDAO.getInstance();
+		Map m = d.load(Integer.MAX_VALUE);
 	}
 
 }

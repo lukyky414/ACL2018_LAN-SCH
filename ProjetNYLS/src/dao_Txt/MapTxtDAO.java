@@ -52,6 +52,7 @@ public class MapTxtDAO implements MapDAO{
 			}
 			fw = new FileWriter(f);
 			bw = new BufferedWriter(fw);
+			s.append(m.getLevelNumber()+"\n");  //enregistre le numero du niveau pour pouvoir reprendre au même stade
 			saveLayout(s,m);
 			s.append("\n"); //toujours une ligne vide entre le layout et les modifiers
 			saveHero(s,m);
@@ -146,11 +147,12 @@ public class MapTxtDAO implements MapDAO{
 			 ClassLoader classLoader = getClass().getClassLoader();
 			File file = new File(classLoader.getResource("maps/"+nomMap).getFile());
 			 br = new BufferedReader(new FileReader(file));
+			 loadMapNumber(m);
 			 loadMapSize(m);
 			 loadMapTile(m);
 			 Hero h = loadHero(m); //Obligatoire pour donner une cible aux monstres crées aprés
 			 loadModifiers(m,h);
-	     } catch (IOException e) {
+	     } catch (IOException |NullPointerException n) {
 	    	 throw new CorruptDataException("Probléme de formatage du fichier");
 	     }finally {
 	         try {
@@ -162,6 +164,16 @@ public class MapTxtDAO implements MapDAO{
 	            }
 	        }
 		 return m;
+	}
+	
+	private void loadMapNumber(Map m) throws IOException {
+		String line;
+		String[] s;
+		if((line = br.readLine()) != null){
+			s= line.split(" ");
+			m.setLevelNumber(Integer.valueOf(s[0]));
+		}
+		
 	}
 	
 	private Hero loadHero(Map m) throws IOException, CorruptDataException {

@@ -16,6 +16,7 @@ public class Map implements Iterable<Square> {
 
 	
 	public Map(int x, int y){
+		this();
 		setSize(x,y);
 	}
 	
@@ -38,13 +39,15 @@ public class Map implements Iterable<Square> {
 		return level;
 	}
 	public void setTileType(int x,int y ,String s){
-		switch (s){
-		case "Wall":
-			cases[y][x]= new Wall(x, y,this);
-			break;
-		default:
-			cases[y][x]= new Square(x, y,this);
-			break;
+		if(x >= 0 && x <= getWidth() && y >= 0 && y <= getHeigth()) {
+			switch (s){
+			case "Wall":
+				cases[y][x]= new Wall(x, y,this);
+				break;
+			default:
+				cases[y][x]= new Square(x, y,this);
+				break;
+			}
 		}
 	}
 

@@ -75,12 +75,14 @@ public abstract class Monster extends Movable {
 	}
 
 	public void attack(){
-		if(this.canAttack() && (!this.alreadyAttacked()) && this.cooldown == base_cooldown) {
+		if(this.canAttack()) {
 			ArrayList<Entity> entitiesAround = this.getPos().lookAround();
 			if(!entitiesAround.isEmpty()){
 				for(Entity e : entitiesAround){
-					if (!(e.isDead()))
-						e.diminuerHp(this.attack);
+					if(e == target) {
+						if (!(e.isDead()))
+							e.diminuerHp(this.attack);
+					}
 				}
 			}
 			resetCooldown();

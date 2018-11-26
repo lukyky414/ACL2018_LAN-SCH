@@ -85,7 +85,7 @@ public abstract class Entity {
 	 *
 	 */
 	public void attack(){
-		if(this.canAttack() && (!this.alreadyAttacked()) && this.cooldown == base_cooldown) {
+		if(this.canAttack()) {
 			ArrayList<Entity> entitiesAround = this.getPos().lookAround();
 			if(!entitiesAround.isEmpty()){
 				for(Entity e : entitiesAround){
@@ -100,16 +100,11 @@ public abstract class Entity {
 	}
 
 	protected boolean canAttack() {
-		if(this.isDead() || (this.getAttack() == 0))
+		if(this.isDead() || (cooldown != base_cooldown))
 			return false;
 		return true;
 	}
 
-	protected boolean alreadyAttacked(){
-		if(cooldown != base_cooldown)
-			return true;
-		return false;
-	}
 
 	/**
 	 * Permet d'eviter l'utilisation de "instance of"

@@ -37,7 +37,7 @@ public class testEffect {
 		m.setTileType(0, 1, "Square");
 		SecretPassage e = new SecretPassage(1,1);
 		m.getSquare(0, 0).addEffect(e);
-		Goblin h = new Goblin(m.getSquare(0, 0),1,1,null);
+		Goblin h = new Goblin(m.getSquare(0, 0),1,1,null, 0);
 		e.trigger(h, m.getSquare(0, 0));
 		assertEquals(h.getPos().getPosX(),1);
 		assertEquals(h.getPos().getPosY(),1);
@@ -52,7 +52,7 @@ public class testEffect {
 		SecretPassage e = new SecretPassage(1,1);
 		m.getSquare(0, 0).addEffect(e);
 		Hero h = new Hero(m.getSquare(0, 0),1,1);
-		Goblin gobuta = new Goblin(m.getSquare(1, 1),1,1,h);
+		Goblin gobuta = new Goblin(m.getSquare(1, 1),1,1,h, 0);
 		e.trigger(h, m.getSquare(0, 0));
 		assertEquals(h.getPos().getPosX(),0);
 		assertEquals(h.getPos().getPosY(),0);

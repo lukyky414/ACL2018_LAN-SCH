@@ -41,7 +41,8 @@ public class MapTxtDAO implements MapDAO{
 	}
 	
 	@Override
-	public void save(Map m) {  
+	public void save(Map m) {
+		//TODO No such File Directory: Utiliser comme avant le classLoader? Chemin IntelliJ -> "ressources/maps/map-1.map".
 		File f  = new File("ProjetNYLS/ressources/maps/map-1.map");
 		StringBuilder s = new StringBuilder();
 		FileWriter fw =null;
@@ -99,6 +100,7 @@ public class MapTxtDAO implements MapDAO{
 	}
 	
 	private void saveModifiers(StringBuilder s, Map m){
+		//TODO Difficulte d'une entite?
 		int x;
 		int y;
 		Entity entite;
@@ -268,6 +270,7 @@ public class MapTxtDAO implements MapDAO{
 	}
 	
 	private void loadEnnemies(Map m, String[] s, Hero h) throws CorruptDataException{
+		//TODO Difficulte de l'entite?
 		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 		int posy = Integer.parseInt(s[3]);
 		int vie = Integer.parseInt(s[4]);
@@ -276,10 +279,10 @@ public class MapTxtDAO implements MapDAO{
 		Monster mon =null;
 		switch(s[1]){
 		case "1":
-			mon = new Goblin(sq,vie,attaque,h);
+			mon = new Goblin(sq,vie,attaque,h, 2);
 			break;
 		case "2":
-			mon = new Ghost(sq,vie,attaque,h);
+			mon = new Ghost(sq,vie,attaque,h, 1);
 			break;
 		default:
 			throw new CorruptDataException("Probléme de formatage des ennemies");

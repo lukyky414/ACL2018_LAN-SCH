@@ -23,7 +23,7 @@ public abstract class Movable extends Entity {
 	 *
 	 * @return false (si mur ou entite), true si valide
 	 */
-	boolean canMove(){
+	protected boolean canMove(Square nextPos){
 		if(nextPos == null)
 			return false;
 		if(nextPos.getEntity() != null)
@@ -50,7 +50,7 @@ public abstract class Movable extends Entity {
 	 */
 	public void move(){
 		this.resetCooldown();
-		if (canMove()) {
+		if (canMove(this.nextPos)) {
 			
 			int x = nextPos.getPosX() - this .getPos().getPosX();
 			int y = nextPos.getPosY() - this .getPos().getPosY();

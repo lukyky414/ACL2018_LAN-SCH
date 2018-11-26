@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 class testGHOST extends Ghost {
 
 	public testGHOST(Square position, int hp, int atk, Hero target) {
-		super(position, hp, atk, target);
+		super(position, hp, atk, target, 0);
 	}
 
 	public void setNextPos(Square position){

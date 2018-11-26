@@ -104,7 +104,56 @@ public abstract class Monster extends Movable {
 	 * @return Cmd - la direction choisie
 	 */
 	protected Cmd iaMedium(){
-		return null;
+		int distX = target.getPos().getPosX() - this.getPos().getPosX(); //Positif = monstre a gauche // Negatif = monstre a droite
+		int distY = target.getPos().getPosY() - this.getPos().getPosY(); //Positif = monstre en haut // Negatif = monstre en bas
+
+		Cmd dirH = Cmd.IDLE;
+		Cmd dirV = Cmd.IDLE;
+
+		//Pour un rapprochement Horizontal
+		if(distX > 0)
+			dirH = Cmd.RIGHT;
+		if(distX < 0)
+			dirH = Cmd.LEFT;
+
+		//Pour un rapprochement Vertical
+		if(distY > 0)
+			dirV = Cmd.DOWN;
+		if(distY < 0)
+			dirV = Cmd.UP;
+
+		if(Math.abs(distX) < Math.abs(distY)){
+			//Distance verticale plus grande -> priorite au rapprochement Vertical.
+
+			if(dirV == Cmd.IDLE || !canMove(getNextPos(this.getPos(), dirV))){
+				//Si on est sur le meme axe horizontal (distance Y = 0) (target Y = Monster Y) -> dirV = IDLE
+				//Si on ne peut se rapprocher Verticalement (mur) (bord de map) (entite bloquante) -> canMove = false
+				//Alors: on se rapproche Horizontalement.
+				return dirH;
+
+				//Pas de test a faire: si on est sur le meme axe horizontal -> impossible (target.pos = monster.pos) ou alors target = monster.
+				//si le deplacement est impossible (par ex: coince dans un coin et le hero de l'autre cote: on ne bouge pas (ia pas intelligente))
+			}
+
+			//Aucun probleme, on se rapproche
+			return dirV;
+		}
+		else{
+			//Distance horizontale plus grande -> priorite au rapporchement Horizontal.
+
+			if(dirH == Cmd.IDLE || !canMove(getNextPos(this.getPos(), dirH))){
+				//Si on est sur le meme axe vertical (distance X = 0) (target X = Monster X) -> dirH = IDLE
+				//Si on ne peut se rapprocher horizontalement (mur) (bord de map) (entite bloquante) -> canMove = false
+				//Alors: on se rapproche Verticalement.
+				return dirV;
+
+				//Pas de test a faire: si on est sur le meme axe vertical -> impossible (target.pos = monster.pos) ou alors target = monster.
+				//si le deplacement est impossible (par ex: coince dans un coin et le hero de l'autre cote: on ne bouge pas (ia pas intelligente))
+			}
+
+			//Aucun probleme, on se rapproche
+			return dirH;
+		}
 	}
 
 	/**
@@ -114,6 +163,6 @@ public abstract class Monster extends Movable {
 	 * @return Cmd - la direction choisie
 	 */
 	protected Cmd iaHard(){
-		return null;
+		return Cmd.IDLE;
 	}
 }

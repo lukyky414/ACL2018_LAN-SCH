@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class Goblin extends Monster {
 	
-	public Goblin(Square position, int hp, int atk, Hero target) {
-		super(position,hp, atk, 14, target, 1);
+	public Goblin(Square position, int hp, int atk, Hero target, int difficulty) {
+		super(position,hp, atk, 14, target, difficulty);
 		texture = TextureFactory.getTexGoblin();
 	}
 

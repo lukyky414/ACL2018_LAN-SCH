@@ -9,8 +9,8 @@ import java.awt.*;
 
 public class Ghost extends Monster{
 
-	public Ghost(Square position, int hp, int atk, Hero target) {
-		super(position,hp, atk, 5, target, 1);
+	public Ghost(Square position, int hp, int atk, Hero target, int difficulty) {
+		super(position,hp, atk, 5, target, difficulty);
 		texture = TextureFactory.getTexGhost();
 	}
 
@@ -46,7 +46,7 @@ public class Ghost extends Monster{
 	 * @return false (entite), true si valide
 	 */
 	@Override
-	boolean canMove(){
+	protected boolean canMove(Square nextPos){
 		if(nextPos == null)
 			return false;
 		if(nextPos.getEntity() != null){

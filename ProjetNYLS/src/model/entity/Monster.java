@@ -5,6 +5,7 @@ import model.plateau.Square;
 import model.plateau.Wall;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Monster extends Movable {
@@ -164,5 +165,18 @@ public abstract class Monster extends Movable {
 	 */
 	protected Cmd iaHard(){
 		return Cmd.IDLE;
+	}
+}
+
+class Inondation{
+	Square _startPos;
+	ArrayList<Square> _visitedPos;
+	ArrayList<Square> _toVisitPos;
+
+	public Inondation(Square startPos){
+		this._startPos = startPos;
+		this._visitedPos = new ArrayList<>();
+		this._visitedPos.add(startPos);
+		this._toVisitPos = new ArrayList<>();
 	}
 }

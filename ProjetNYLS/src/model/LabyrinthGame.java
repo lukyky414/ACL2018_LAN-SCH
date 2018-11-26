@@ -104,24 +104,29 @@ public class LabyrinthGame implements engine.Game {
 	@Override
 	public void evolve(Cmd cmd) {
 		if(state==GameState.RUN){
+
 			for(Movable e : entites){
 				e.evolve(cmd);
 				e.move();
 			}
+
 			for(Movable e : entites){
 				e.attack();
-				if(e.isDead()) {
-					e.getPos().setEntity(null);
-					for(int i =0; i< entites.size(); i++){
-						if (entites.get(i) == e) {
-							entites.remove(i);
-							break;
-						}
-					}
-				}
 			}
+
+			deleteDead();
 		}
 		
+	}
+
+	private void deleteDead(){
+		for(int i = 0; i < entites.size(); i++){
+			if(entites.get(i).isDead()){
+				entites.get(i).getPos().setEntity(null);
+				entites.remove(i);
+				i--;
+			}
+		}
 	}
 
 	/**

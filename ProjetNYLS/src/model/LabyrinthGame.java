@@ -108,6 +108,9 @@ public class LabyrinthGame implements engine.Game {
 				e.evolve(cmd);
 				e.move();
 			}
+			for(Movable e : entites){
+				e.attack();
+			}
 		}
 		
 	}

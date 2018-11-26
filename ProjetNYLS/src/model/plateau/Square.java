@@ -65,6 +65,26 @@ public class Square implements Iterable<Effect> {
     	}
     }
 
+	public ArrayList<Entity> lookAround(){
+		ArrayList<Entity> entitiesAround = new ArrayList<Entity>();
+		int x = this.getPosX();
+		int y = this.getPosY();
+		Square posUp = this.getMap().getSquare(x, y-1);
+		Square posLeft = this.getMap().getSquare(x-1, y);
+		Square posRight = this.getMap().getSquare(x+1, y);
+		Square posDown = this.getMap().getSquare(x, y+1);
+
+		if(posUp.getEntity() != null)
+			entitiesAround.add(posUp.getEntity());
+		if(posLeft.getEntity() != null)
+			entitiesAround.add(posLeft.getEntity());
+		if(posRight.getEntity() != null)
+			entitiesAround.add(posRight.getEntity());
+		if(posDown.getEntity() != null)
+			entitiesAround.add(posDown.getEntity());
+		return entitiesAround;
+	}
+
 	@Override
 	public Iterator<Effect> iterator() {
 		return effets.iterator();

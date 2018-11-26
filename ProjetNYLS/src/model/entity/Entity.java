@@ -4,6 +4,7 @@ import model.plateau.Square;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class Entity {
 	protected Square position;
@@ -77,17 +78,28 @@ public abstract class Entity {
 	 * Tant que l'un ou l'autre n'est pas mort, l'entité this va diminuer les points de vie de l'autre
 	 * Et simultanément va voir ses points de vie baisser en fonction de l'attaque de son ennemi
 	 *
-	 * @param e, l'entite attaquee
 	 */
-	public void attackEntity(Entity e){
-		if(!(e.isDead()))
-			e.diminuerHp(this.attack);
-		System.out.println("Vie de l'entite 1 : " + this.getHp() +"\nVie de l'entite 2 : " + e.getHp() + "\n" );
-		if(e.isDead())
-			System.out.println("L'entite 2 est morte");
-		if(this.isDead())
-			System.out.println("L'entite 1 est morte");
+	public void attack(){
+		if(this.canAttack()) {
+			ArrayList<Entity> entitiesAround = this.getPos().lookAround();
+			if(!entitiesAround.isEmpty()){
+				for(Entity e : entitiesAround){
+					if (!(e.isDead()))
+						e.diminuerHp(this.attack);
+					System.out.println("Vie de l'entite 1 : " + this.getHp() + "\nVie de l'entite 2 : " + e.getHp() + "\n");
+					if (e.isDead())
+						System.out.println("L'entite 2 est morte");
+					if (this.isDead())
+						System.out.println("L'entite 1 est morte");
+				}
+			}
+		}
+	}
 
+	private boolean canAttack() {
+		if(this.isDead() || (this.getAttack() == 0))
+			return false;
+		return true;
 	}
 
 	/**
@@ -120,4 +132,6 @@ public abstract class Entity {
 	public void setOrientation(Orientation o){
 		orientation=o;
 	}
+
+
 }

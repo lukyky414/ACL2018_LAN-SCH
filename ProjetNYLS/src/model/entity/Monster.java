@@ -74,6 +74,19 @@ public abstract class Monster extends Movable {
 		}
 	}
 
+	public void attack(){
+		if(this.canAttack() && (!this.alreadyAttacked()) && this.cooldown == base_cooldown) {
+			ArrayList<Entity> entitiesAround = this.getPos().lookAround();
+			if(!entitiesAround.isEmpty()){
+				for(Entity e : entitiesAround){
+					if (!(e.isDead()))
+						e.diminuerHp(this.attack);
+				}
+			}
+			resetCooldown();
+		}
+	}
+
 	/**
 	 * Deplacement aleatoire pour une ia facile.
 	 *

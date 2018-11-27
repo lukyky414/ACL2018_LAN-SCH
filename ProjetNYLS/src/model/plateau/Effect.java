@@ -19,4 +19,5 @@ public abstract class Effect {
 	public abstract void trigger(Entity h,Square s);
 	
 	public abstract int getType();
+
 }

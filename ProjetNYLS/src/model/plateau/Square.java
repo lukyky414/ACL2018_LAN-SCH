@@ -9,7 +9,8 @@ public class Square implements Iterable<Effect> {
 	int posx;
 	int posy;
 	boolean isWall;
-	Set<Effect> effets;
+	ArrayList<Integer> listeSuppr;
+	ArrayList<Effect> effets;
 	Map map;
 
 	Entity entity;
@@ -18,7 +19,7 @@ public class Square implements Iterable<Effect> {
 		posx=x;
 		posy=y;
 		entity = null;
-		effets = new HashSet<Effect>();
+		effets = new ArrayList<Effect>();
 		map=m;
 		isWall = false;
 	}
@@ -63,6 +64,12 @@ public class Square implements Iterable<Effect> {
     	for (Effect e: effets){
     		e.trigger(h,this);
     	}
+    	for (int i =0; i<effets.size();i++){
+			if(listeSuppr.contains(effets.get(i).getType())){
+				effets.remove(i);
+				i--;
+			}
+		}
     }
 
 	public ArrayList<Entity> lookAround(){
@@ -110,5 +117,8 @@ public class Square implements Iterable<Effect> {
 	@Override
 	public Iterator<Effect> iterator() {
 		return effets.iterator();
+	}
+	public void addSuppr (int i){
+		listeSuppr.add(i);
 	}
 }

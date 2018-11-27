@@ -42,7 +42,6 @@ public class MapTxtDAO implements MapDAO{
 	
 	@Override
 	public void save(Map m) {
-		//TODO No such File Directory: Utiliser comme avant le classLoader? Chemin IntelliJ -> "ressources/maps/map-1.map".
 		//File f  = new File("ProjetNYLS/ressources/maps/map-1.map");
 		ClassLoader classLoader = getClass().getClassLoader();
 		File f = new File(classLoader.getResource("maps/map-1.map").getFile());
@@ -102,7 +101,6 @@ public class MapTxtDAO implements MapDAO{
 	}
 	
 	private void saveModifiers(StringBuilder s, Map m){
-		//TODO Difficulte d'une entite?
 		int x;
 		int y;
 		Entity entite;
@@ -132,7 +130,7 @@ public class MapTxtDAO implements MapDAO{
 				}else if(entite instanceof Ghost){
 					s.append("2 ");
 				}
-				s.append(x+" "+y+" "+entite.getHp()+" "+entite.getAttack()+"\n");
+				s.append(x+" "+y+" "+entite.getHp()+" "+entite.getAttack()+" "+entite.getAttack()+" "+entite.getDifficulty()+"\n");
 			}
 		}
 		
@@ -277,17 +275,21 @@ public class MapTxtDAO implements MapDAO{
 		int posy = Integer.parseInt(s[3]);
 		int vie = Integer.parseInt(s[4]);
 		int attaque= Integer.parseInt(s[5]);
+		int difficulte = Integer.parseInt(s[6]);
+		if(difficulte<0 || difficulte >3){
+			throw new CorruptDataException("Probléme de formatage des ennemies(difficulte)");
+		}
 		Square sq = m.getSquare(posx, posy);
 		Monster mon =null;
 		switch(s[1]){
 		case "1":
-			mon = new Goblin(sq,vie,attaque,h, 2);
+			mon = new Goblin(sq,vie,attaque,h, difficulte);
 			break;
 		case "2":
-			mon = new Ghost(sq,vie,attaque,h, 1);
+			mon = new Ghost(sq,vie,attaque,h, difficulte);
 			break;
 		default:
-			throw new CorruptDataException("Probléme de formatage des ennemies");
+			throw new CorruptDataException("Probléme de formatage des ennemies(type)");
 		}
 		sq.setEntity(mon);
 

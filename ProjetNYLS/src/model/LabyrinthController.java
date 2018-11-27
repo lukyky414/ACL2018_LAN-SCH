@@ -60,6 +60,15 @@ public class LabyrinthController implements GameController {
 		else if (game.getState() == GameState.PAUSE){
 			gereKeyPause(e);
 		}
+		else if (game.getState() == GameState.OVER){
+			gereKeyEnd(e);
+		}
+	}
+
+	private void gereKeyEnd(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			game.newGame();
+		}
 	}
 
 	private void gereKeyPause(KeyEvent e) {

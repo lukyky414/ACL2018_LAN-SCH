@@ -49,9 +49,7 @@ public class LabyrinthPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		Font font = new Font("Serif", Font.PLAIN, 30);
-		crayon.setFont(font);
-		metrics = crayon.getFontMetrics(font);
+
 		LabyrinthGame game = (LabyrinthGame) this.game;
 		GameState state = game.getState();
 		switch (state){
@@ -60,12 +58,29 @@ public class LabyrinthPainter implements GamePainter {
 				drawEntity(crayon);
 			break;
 			case PAUSE:
+				makeFont(crayon, "Serif", 30);
 				drawScreenPause(crayon);
+			break;
+			case OVER:
+				makeFont(crayon, "Serif", 60);
+				drawMap(crayon);
+				drawScreenOver(crayon);
 			break;
 			default:
 			break;
 		}
+	}
 
+	private void makeFont(Graphics2D crayon, String name, int size){
+		Font font = new Font(name, Font.PLAIN, size);
+		crayon.setFont(font);
+		metrics = crayon.getFontMetrics(font);
+	}
+
+	private void drawScreenOver(Graphics2D crayon) {
+		crayon.setColor(Color.RED);
+		int y = HEIGHT / 2;
+		writeText(crayon, "YOU DIED", y);
 	}
 
 	private void writeText(Graphics2D crayon, String text, int y){

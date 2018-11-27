@@ -126,6 +126,9 @@ public class LabyrinthGame implements engine.Game {
 				i--;
 			}
 		}
+		if (hero.isDead()){
+			state = GameState.OVER;
+		}
 	}
 
 	/**

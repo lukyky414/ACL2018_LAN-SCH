@@ -1,5 +1,5 @@
 package model;
 
 public enum GameState {
-    RUN, PAUSE, END;
+    RUN, PAUSE, EXIT, OVER;
 }

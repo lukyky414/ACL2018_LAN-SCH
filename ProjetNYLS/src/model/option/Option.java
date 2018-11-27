@@ -54,7 +54,7 @@ public class Option {
             	game.loadGame();
             	break;
             case 4:
-                game.setState(GameState.END);
+                game.setState(GameState.EXIT);
                 break;
         }
     }

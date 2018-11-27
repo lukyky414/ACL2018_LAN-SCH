@@ -152,4 +152,25 @@ public class LabyrinthGame implements engine.Game {
 	public Option getOption() {
 		return option;
 	}
+	
+	public void saveGame(){
+		MapTxtDAO.getInstance().save(map);
+	}
+	public void loadGame(){
+		try {
+			map = MapTxtDAO.getInstance().load(-1);
+			loadEntity();
+		} catch (CorruptDataException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void newGame(){
+		try {
+			map = MapTxtDAO.getInstance().load(0);
+			loadEntity();
+		} catch (CorruptDataException e) {
+			e.printStackTrace();
+		}
+	}
 }

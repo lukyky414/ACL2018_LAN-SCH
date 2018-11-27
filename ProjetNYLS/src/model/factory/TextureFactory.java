@@ -12,6 +12,7 @@ public class TextureFactory {
     private static BufferedImage texGoblin;
     private static BufferedImage texGhost;
     private static BufferedImage texChest;
+    private static BufferedImage texPortal;
     private static TextureFactory instance = new TextureFactory();
 
     private TextureFactory(){
@@ -22,6 +23,7 @@ public class TextureFactory {
             texGoblin = ImageIO.read(new File(classLoader.getResource("texture/texGoblin.png").getFile()));
             texGhost = ImageIO.read(new File(classLoader.getResource("texture/texGhost.png").getFile()));
             texChest = ImageIO.read(new File(classLoader.getResource("texture/texChest.png").getFile()));
+            texPortal = ImageIO.read(new File(classLoader.getResource("texture/texPortal.png").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,6 +39,10 @@ public class TextureFactory {
 
     public static BufferedImage getTexChest() {
         return texChest;
+    }
+
+    public static BufferedImage getTexPortal() {
+        return texPortal;
     }
 
     public BufferedImage getTexWall(){

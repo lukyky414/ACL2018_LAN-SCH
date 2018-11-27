@@ -83,15 +83,15 @@ public abstract class Movable extends Entity {
 		int y = pos2.getPosY() - pos1.getPosY();
 
 		switch(x){
-			case(-1):
-				return Cmd.LEFT;
 			case(1):
+				return Cmd.LEFT;
+			case(-1):
 				return Cmd.RIGHT;
 			case(0):
 				switch(y){
-					case(-1):
-						return Cmd.UP;
 					case(1):
+						return Cmd.UP;
+					case(-1):
 						return Cmd.DOWN;
 				}
 		}

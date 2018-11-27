@@ -1,13 +1,16 @@
 package model.plateau;
 
 import model.entity.Entity;
+import model.factory.TextureFactory;
 
 public class SecretPassage extends Effect {
 	private int destX;
 	private int destY;
 	public SecretPassage(int x, int y){
+		super();
 		destX=x;
 		destY=y;
+		texture = TextureFactory.getTexPortal();
 	}
 
 	@Override

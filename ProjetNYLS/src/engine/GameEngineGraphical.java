@@ -62,6 +62,7 @@ public class GameEngineGraphical {
 		while((game.getState() != GameState.EXIT)){
 			this.gameController.setPlayable(this.game.getHero());
 			while (!this.game.isFinished()) {
+				this.gameController.setPlayable(this.game.getHero());
 				// fait evoluer le game
 				this.game.evolve();
 				// affiche le game

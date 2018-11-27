@@ -66,9 +66,7 @@ public class LabyrinthController implements GameController {
 	}
 
 	private void gereKeyEnd(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			game.newGame();
-		}
+		game.newGame();
 	}
 
 	private void gereKeyPause(KeyEvent e) {

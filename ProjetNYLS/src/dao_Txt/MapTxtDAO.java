@@ -130,7 +130,7 @@ public class MapTxtDAO implements MapDAO{
 				}else if(entite instanceof Ghost){
 					s.append("2 ");
 				}
-				s.append(x+" "+y+" "+entite.getHp()+" "+entite.getAttack()+" "+entite.getAttack()+" "+entite.getDifficulty()+"\n");
+				s.append(x+" "+y+" "+entite.getHp()+" "+entite.getAttack()+" "+entite.getAttack()+" "+((Monster) entite).getDifficulty()+"\n");
 			}
 		}
 		

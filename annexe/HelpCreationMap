@@ -1,0 +1,35 @@
+Pour créer une Map.map:
+
+On donne le numéro du niveau (permet de determiner quels sont les niveaux suivants) \n
+
+On donne longueur+" "+hauteur   \n
+
+on donne le "layout" de la map: longueur caractéres sur hauteur lignes (avec 0 pour un Square et 1 pour un Wall) \n
+
+
+on passe une ligne
+ 
+ pour la suite, toutes les valeurs sont séparés par un espace " " (Les positions sont comptés à partir de 0 0 coin haut gauche)
+ 
+on donne le heros : 0(code du heros) posX posY Vie attaque  \n 
+on ecrit tous les modificateurs (1 par ligne) 
+La premiere valeur est le code de type (1 pour un effet, 2 pour un ennemi)
+La deuxiéme valeur est le sous type
+Pour les effets : 1=Treasure , 2= SecretPassage, 3=Trap , 4=Magic
+pour les monstres: 1=Goblin, 2 = Ghost
+Les valeurs 3 et 4 indiquent la case de l'effet/monstre avec posX posY 
+
+Si la ligne est un SecretPassage on ajoute 2 valeurs : PosXSortie PosYSortie
+Si la ligne est un Monstre on ajoute les valeurs : Vie Attaque NiveauIA
+
+
+exemples:
+
+Goblin sur la case 3 4  avec 6 PV et 2 attaque IA forte
+2 2 3 4 6 2 3
+
+Treasure sur case 2 6
+1 1 2 6
+
+Heros en case 1 1 1PV 1attaque:
+0 1 1 1 1

@@ -22,6 +22,7 @@ public class Square implements Iterable<Effect> {
 		effets = new ArrayList<Effect>();
 		map=m;
 		isWall = false;
+		listeSuppr = new ArrayList<Integer>();
 	}
 	
 	public void addEffect(Effect e){
@@ -70,6 +71,7 @@ public class Square implements Iterable<Effect> {
 				i--;
 			}
 		}
+    	listeSuppr.clear();
     }
 
 	public ArrayList<Entity> lookAround(){

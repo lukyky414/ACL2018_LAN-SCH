@@ -8,13 +8,10 @@ import java.awt.*;
 
 public abstract class Movable extends Entity {
 	protected Square nextPos = null;
-	int cooldown;
-	private int base_cooldown;
 
 	public Movable(Square position, int hp, int atk, int cooldown) {
-		super(position,hp,atk);
-			this.base_cooldown = cooldown;
-			this.cooldown = cooldown;
+		super(position,hp,atk, cooldown);
+
 	}
 
 	/**
@@ -133,11 +130,4 @@ public abstract class Movable extends Entity {
 		return pos.getMap().getSquare(x, y);
 	}
 
-	/**
-	 * Remet le cooldown a sa valeur de base.
-	 * S'effectue apres chaques deplacements.
-	 */
-	private void resetCooldown(){
-		this.cooldown = this.base_cooldown;
-	}
 }

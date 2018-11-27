@@ -13,14 +13,19 @@ public abstract class Entity {
 	protected int hpMax;
 	protected int attack;
 	protected Orientation orientation;
+	int cooldown;
+	protected int base_cooldown;
 
-	public Entity(Square position, int hp, int atk){
+
+	public Entity(Square position, int hp, int atk, int cooldown){
 		this.hpMax = hp;
 		this.hp = hp;
 		this.attack = atk;
 		setPos(position);
 		orientation = Orientation.NORTH;
 		texture = null;
+		this.base_cooldown = cooldown;
+		this.cooldown = cooldown;
 
 	}
 
@@ -86,21 +91,20 @@ public abstract class Entity {
 				for(Entity e : entitiesAround){
 					if (!(e.isDead()))
 						e.diminuerHp(this.attack);
-					System.out.println("Vie de l'entite 1 : " + this.getHp() + "\nVie de l'entite 2 : " + e.getHp() + "\n");
-					if (e.isDead())
-						System.out.println("L'entite 2 est morte");
-					if (this.isDead())
-						System.out.println("L'entite 1 est morte");
+
 				}
 			}
+			resetCooldown();
 		}
+
 	}
 
-	private boolean canAttack() {
-		if(this.isDead() || (this.getAttack() == 0))
+	protected boolean canAttack() {
+		if(this.isDead() || (cooldown != base_cooldown))
 			return false;
 		return true;
 	}
+
 
 	/**
 	 * Permet d'eviter l'utilisation de "instance of"
@@ -133,5 +137,11 @@ public abstract class Entity {
 		orientation=o;
 	}
 
-
+	/**
+	 * Remet le cooldown a sa valeur de base.
+	 * S'effectue apres chaques deplacements.
+	 */
+	protected void resetCooldown(){
+		this.cooldown = this.base_cooldown;
+	}
 }

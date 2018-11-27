@@ -43,7 +43,9 @@ public class MapTxtDAO implements MapDAO{
 	@Override
 	public void save(Map m) {
 		//TODO No such File Directory: Utiliser comme avant le classLoader? Chemin IntelliJ -> "ressources/maps/map-1.map".
-		File f  = new File("ProjetNYLS/ressources/maps/map-1.map");
+		//File f  = new File("ProjetNYLS/ressources/maps/map-1.map");
+		ClassLoader classLoader = getClass().getClassLoader();
+		File f = new File(classLoader.getResource("maps/map-1.map").getFile());
 		StringBuilder s = new StringBuilder();
 		FileWriter fw =null;
 		BufferedWriter bw=null;

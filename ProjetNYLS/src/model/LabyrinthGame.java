@@ -109,7 +109,8 @@ public class LabyrinthGame implements engine.Game {
 			}
 
 			for(Movable e : entites){
-				e.attack();
+				if(e instanceof Monster)
+					e.attack();
 			}
 
 			deleteDead();

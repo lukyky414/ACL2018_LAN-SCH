@@ -160,6 +160,7 @@ public class LabyrinthGame implements engine.Game {
 		try {
 			map = MapTxtDAO.getInstance().load(-1);
 			loadEntity();
+			setState(GameState.RUN);
 		} catch (CorruptDataException e) {
 			e.printStackTrace();
 		}
@@ -169,6 +170,7 @@ public class LabyrinthGame implements engine.Game {
 		try {
 			map = MapTxtDAO.getInstance().load(0);
 			loadEntity();
+			setState(GameState.RUN);
 		} catch (CorruptDataException e) {
 			e.printStackTrace();
 		}

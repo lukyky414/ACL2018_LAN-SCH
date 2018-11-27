@@ -60,8 +60,9 @@ public class GameEngineGraphical {
 		
 		// boucle de game
 		while((game.getState() != GameState.END)){
-			this.gameController.setPlayable(this.game.getHero());
+
 			while (!this.game.isFinished()) {
+				this.gameController.setPlayable(this.game.getHero());
 				// fait evoluer le game
 				this.game.evolve();
 				// affiche le game

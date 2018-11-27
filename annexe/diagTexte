@@ -2,7 +2,7 @@
 hide empty methods
 hide empty field
 
-GameEngineGraphical --> "0..1" GraphicalInterface
+/'GameEngineGraphical --> "0..1" GraphicalInterface
 GameEngineGraphical --> "0..1" GamePainter
 GameEngineGraphical --> "0..1" Game
 GameEngineGraphical --> "0..1" GameController
@@ -13,7 +13,7 @@ GameController <.. LabyrinthController
 Game <.. LabyrinthGame
 GamePainter <.. LabyrinthPainter
 LabyrinthGame "0..1" <-- LabyrinthPainter
-
+Option "1" <-- LabyrinthGame 
 
 
 Interface GamePainter
@@ -21,33 +21,35 @@ Interface GamePainter
 Interface Game
 
 Interface GameController
-
+'/
 abstract Effect
 abstract Entity
 abstract Movable
 abstract Playable
 'abstract Monster
 abstract AbstractDAOFactory
+'enum Orientation
 
 'CASES -EFFETS
 
-LabyrinthGame --> Map
+'LabyrinthGame --> Map
 Map --> "*" Square
 Square "1"--> "0..1" Entity
 Square <.. Wall : evite un couplage fort entre Wall et Effet
 Square --> "*" Effect
-/'
-Effect <.. Magic
-Effect <.. Treasure
-Effect <.. Trap
-Effect <.. SecretPassage
-'/
+
+'Effect <.. Magic
+'Effect <.. Treasure
+'Effect <.. Trap
+'Effect <.. SecretPassage
+
 
 
 'ENTITE
 
-LabyrinthGame --> "1" Hero
+'LabyrinthGame --> "1" Hero
 Entity <.. Movable 
+'Entity --> "1" Orientation
 Movable <.. Playable
 Playable <.. Hero
 /'
@@ -63,6 +65,15 @@ MapDAO <.. MapTxtDAO
 ConcreteTxtFactory -- MapTxtDAO
 Map <-- MapDAO : creates
 
+'Factory
+/'package factory{
+    class TextureFactory
+}
+'Exception
+package exceptions{
+    class CorruptDataException
+}'/
 
 @enduml
+
 

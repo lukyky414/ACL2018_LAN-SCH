@@ -13,12 +13,9 @@ import model.entity.Hero;
 public interface Game {
 
 	/**
-	 * methode qui contient l'evolution du jeu en fonction de la commande
-	 * 
-	 * @param userCmd
-	 *            commande utilisateur
+	 * methode qui contient l'evolution du jeu
 	 */
-	public void evolve(Cmd userCmd);
+	public void evolve();
 
 	/**
 	 * Chaque jeu doit posseder un hero. Voidi la maniere de le recuperer

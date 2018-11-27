@@ -179,16 +179,9 @@ public class LabyrinthPainter implements GamePainter {
 		Image spriteEffect;
 		for (Effect e : sq) {
 			spriteEffect = e.getTexture();
-			if (e instanceof SecretPassage) {
-				crayon.setColor(Color.RED);
-				crayon.drawLine(x, y, x + sizeX, y + sizeY);
-				crayon.drawLine(x + sizeX, y, x, y + sizeY);
-			} else if (e instanceof Treasure) {
-				spriteEffect = spriteEffect.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
-				crayon.drawImage(spriteEffect, x, y, null);
-
+			spriteEffect = spriteEffect.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
+			crayon.drawImage(spriteEffect, x, y, null);
 			}
-		}
 	}
 
 	@Override

@@ -97,16 +97,14 @@ public class LabyrinthGame implements engine.Game {
 
 	/**
 	 * faire evoluer le jeu avec la commande actuelle.
-	 * Est executee toutes les 50ms
-	 * 
-	 * @param cmd
+	 * Est executee toutes les 15ms
 	 */
 	@Override
-	public void evolve(Cmd cmd) {
+	public void evolve() {
 		if(state==GameState.RUN){
 
 			for(Movable e : entites){
-				e.evolve(cmd);
+				e.evolve();
 				e.move();
 			}
 
@@ -153,5 +151,26 @@ public class LabyrinthGame implements engine.Game {
 
 	public Option getOption() {
 		return option;
+	}
+	
+	public void saveGame(){
+		MapTxtDAO.getInstance().save(map);
+	}
+	public void loadGame(){
+		try {
+			map = MapTxtDAO.getInstance().load(-1);
+			loadEntity();
+		} catch (CorruptDataException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void newGame(){
+		try {
+			map = MapTxtDAO.getInstance().load(0);
+			loadEntity();
+		} catch (CorruptDataException e) {
+			e.printStackTrace();
+		}
 	}
 }

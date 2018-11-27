@@ -64,11 +64,9 @@ public abstract class Monster extends Movable {
 	 * Permet d'activer l'IA.
 	 * On ne lance pas l'IA a chaque frame, mais avant chaque deplacement.
 	 *  difficulty 0 -> ne bouge pas
-	 *
-	 * @param cmd, la commande actuelle (est totalement ignoree)
 	 */
 	@Override
-	public void evolve(Cmd cmd){
+	public void evolve(){
 		if(cooldown == 0) {
 			this.nextPos = getNextPos(this.getPos(), this.iaActions[difficulty].ia());
 		}
@@ -181,17 +179,59 @@ public abstract class Monster extends Movable {
 	protected Cmd iaHard(){
 		return Cmd.IDLE;
 	}
-}
 
-class Inondation{
-	Square _startPos;
-	ArrayList<Square> _visitedPos;
-	ArrayList<Square> _toVisitPos;
+	//#########################
+	//#                       #
+	//#  Pour l'IA difficile  #
+	//#                       #
+	//#########################
 
-	public Inondation(Square startPos){
-		this._startPos = startPos;
-		this._visitedPos = new ArrayList<>();
-		this._visitedPos.add(startPos);
-		this._toVisitPos = new ArrayList<>();
+	class Inondation{
+		Square _startPos;
+		Square _finisPos;
+		ArrayList<Square> _visitedPos;
+		ArrayList<Square> _toVisitPos;
+
+		public Inondation(Square startPos, Square finishPos){
+			this._startPos = startPos;
+			this._finisPos = finishPos;
+			this._visitedPos = new ArrayList<>();
+			this._visitedPos.add(startPos);
+			this._toVisitPos = new ArrayList<>();
+			this._toVisitPos.addAll(startPos.neighboor());
+		}
+
+		private void oneIteration(){
+
+		}
+	}
+
+	class mySquare{
+		public mySquare father;
+		public Square thisPos;
+
+		public mySquare(Square pos, mySquare father){
+			this.father = father;
+			this.thisPos = pos;
+		}
+
+		public mySquare getSecondSon(){
+			mySquare first = this;
+			mySquare second = this;
+
+			while(first.father != null){
+				second = first;
+				first = first.father;
+			}
+
+			return second;
+		}
+
+		public Cmd getNextDir(){
+			mySquare next = getSecondSon();
+			mySquare first = next.father;
+
+			return getDirection(first.thisPos, next.thisPos);
+		}
 	}
 }

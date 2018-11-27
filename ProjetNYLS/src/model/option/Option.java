@@ -43,7 +43,16 @@ public class Option {
         switch (current){
             case 0:
                 game.setState(GameState.RUN);
-            break;
+                break;
+            case 1:
+            	game.newGame();
+            	break;
+            case 2:
+            	game.saveGame();
+            	break;
+            case 3:
+            	game.loadGame();
+            	break;
             case 4:
                 game.setState(GameState.END);
                 break;

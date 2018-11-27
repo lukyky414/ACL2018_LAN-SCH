@@ -62,10 +62,8 @@ public class GameEngineGraphical {
 		while((game.getState() != GameState.END)){
 			this.gameController.setPlayable(this.game.getHero());
 			while (!this.game.isFinished()) {
-				// demande controle utilisateur
-				Cmd c = this.gameController.getCommand();
 				// fait evoluer le game
-				this.game.evolve(c);
+				this.game.evolve();
 				// affiche le game
 				this.gui.paint();
 				// met en attente = fps

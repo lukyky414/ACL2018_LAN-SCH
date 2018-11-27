@@ -36,4 +36,6 @@ public class Hero extends Playable {
 		return ret;
 	}
 
+	public void evolve(){}
+
 }

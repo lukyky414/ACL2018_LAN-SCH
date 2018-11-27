@@ -36,10 +36,8 @@ public abstract class Movable extends Entity {
 	/**
 	 * Choisis une nextPos avec ou sans direction.
 	 * Cette methode sera precisee dans les classes filles.
-	 *
-	 * @param cmd, la commande actuelle.
 	 */
-	public abstract void evolve(Cmd cmd);
+	public abstract void evolve();
 
 
 	/**
@@ -52,25 +50,20 @@ public abstract class Movable extends Entity {
 		this.resetCooldown();
 		if (canMove(this.nextPos)) {
 			
-			int x = nextPos.getPosX() - this .getPos().getPosX();
-			int y = nextPos.getPosY() - this .getPos().getPosY();
-			
-			switch(x){
-			case(-1):
-				this.setOrientation(Orientation.WEST);
-				break;
-			case(1):
-				this.setOrientation(Orientation.EAST);
-				break;
-			case(0):
-				switch(y){
-				case(-1):
-					this.setOrientation(Orientation.NORTH);
+			switch(getDirection(nextPos, getPos())){
+				case LEFT:
+					setOrientation(Orientation.WEST);
 					break;
-				case(1):
-					this.setOrientation(Orientation.SOUTH);
+				case RIGHT:
+					setOrientation(Orientation.EAST);
 					break;
-				}
+				case UP:
+					setOrientation(Orientation.NORTH);
+					break;
+				case DOWN:
+					setOrientation(Orientation.SOUTH);
+					break;
+
 			}
 			this.getPos().setEntity(null);
 			this.setPos(nextPos);
@@ -78,6 +71,35 @@ public abstract class Movable extends Entity {
 
 			this.getPos().triggerEffects(this);
 		}
+	}
+
+	/**
+	 * Donne la direction par rapport au deplacement d'une position vers une autre.
+	 *
+	 * @param pos1, la position de depart
+	 * @param pos2, la position d'arrivee
+	 *
+	 * @return la direction permettant d'aller de pos1 vers pos2
+	 */
+	protected static Cmd getDirection(Square pos1, Square pos2){
+		int x = pos2.getPosX() - pos1.getPosX();
+		int y = pos2.getPosY() - pos1.getPosY();
+
+		switch(x){
+			case(-1):
+				return Cmd.LEFT;
+			case(1):
+				return Cmd.RIGHT;
+			case(0):
+				switch(y){
+					case(-1):
+						return Cmd.UP;
+					case(1):
+						return Cmd.DOWN;
+				}
+		}
+
+		return Cmd.IDLE;
 	}
 
 	/**

@@ -99,7 +99,7 @@ public abstract class Entity {
 
 	}
 
-	protected boolean canAttack() {
+	public boolean canAttack() {
 		if(this.isDead() || (cooldown != base_cooldown))
 			return false;
 		return true;

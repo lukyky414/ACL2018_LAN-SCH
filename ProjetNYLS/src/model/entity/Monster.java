@@ -4,7 +4,6 @@ import engine.Cmd;
 import model.plateau.Square;
 import model.plateau.Wall;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -177,7 +176,13 @@ public abstract class Monster extends Movable {
 	 * @return Cmd - la direction choisie
 	 */
 	protected Cmd iaHard(){
-		return Cmd.IDLE;
+		Inondation in = new Inondation(this.getPos(), target.getPos());
+		Cmd dir = in.getFastestDir();
+		return dir;
+	}
+
+	public int getDifficulty(){
+		return this.difficulty;
 	}
 
 	//#########################
@@ -186,23 +191,66 @@ public abstract class Monster extends Movable {
 	//#                       #
 	//#########################
 
+	class iFoundIt extends Exception {
+		mySquare sq;
+
+		public iFoundIt(mySquare sq){
+			this.sq = sq;
+		}
+
+		public mySquare getSquare(){
+			return sq;
+		}
+	}
+
 	class Inondation{
 		Square _startPos;
 		Square _finisPos;
 		ArrayList<Square> _visitedPos;
-		ArrayList<Square> _toVisitPos;
+		ArrayList<mySquare> _toVisitPos;
 
 		public Inondation(Square startPos, Square finishPos){
 			this._startPos = startPos;
 			this._finisPos = finishPos;
 			this._visitedPos = new ArrayList<>();
-			this._visitedPos.add(startPos);
 			this._toVisitPos = new ArrayList<>();
-			this._toVisitPos.addAll(startPos.neighboor());
+			this._toVisitPos.add(new mySquare(startPos, null));
 		}
 
-		private void oneIteration(){
+		public Cmd getFastestDir(){
+			try{
+				while(_toVisitPos.size() > 0){
+					oneIteration();
+				}
+			} catch (iFoundIt err) {
+				mySquare tmp = err.getSquare().getFirstSon();
+				System.out.println(_startPos.getPosX() + "," + _startPos.getPosY() + " to " + tmp.thisPos.getPosX() + "," + tmp.thisPos.getPosY());
+				System.out.println(err.getSquare().getNextDir());
+				return err.getSquare().getNextDir();
+			}
+			return Cmd.IDLE;
+		}
 
+		private void oneIteration() throws iFoundIt {
+			int i, lenght = _toVisitPos.size();
+			for(i = 0; i < lenght; i++){
+				mySquare actual = _toVisitPos.get(i);
+
+				if(actual.thisPos == _finisPos)
+					throw new iFoundIt(actual);
+
+				if(!_visitedPos.contains(actual.thisPos)) {
+					for (Square s : actual.thisPos.neighboor()) {
+						if (!_visitedPos.contains(s) && !(s instanceof Wall)) {
+							_toVisitPos.add(new mySquare(s, actual));
+						}
+					}
+					_visitedPos.add(actual.thisPos);
+				}
+			}
+
+			for(i = 0; i < lenght; i++)
+				_toVisitPos.remove(0);
 		}
 	}
 
@@ -215,9 +263,9 @@ public abstract class Monster extends Movable {
 			this.thisPos = pos;
 		}
 
-		public mySquare getSecondSon(){
+		public mySquare getFirstSon(){
 			mySquare first = this;
-			mySquare second = this;
+			mySquare second = null;
 
 			while(first.father != null){
 				second = first;
@@ -228,7 +276,7 @@ public abstract class Monster extends Movable {
 		}
 
 		public Cmd getNextDir(){
-			mySquare next = getSecondSon();
+			mySquare next = getFirstSon();
 			mySquare first = next.father;
 
 			return getDirection(first.thisPos, next.thisPos);

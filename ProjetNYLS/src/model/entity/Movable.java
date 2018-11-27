@@ -3,6 +3,7 @@ package model.entity;
 import engine.Cmd;
 import model.plateau.Square;
 import model.plateau.Wall;
+import org.easymock.internal.matchers.Or;
 
 import java.awt.*;
 
@@ -46,8 +47,8 @@ public abstract class Movable extends Entity {
 	public void move(){
 		this.resetCooldown();
 		if (canMove(this.nextPos)) {
-			
-			switch(getDirection(nextPos, getPos())){
+
+			switch(getDirection(getPos(), nextPos)){
 				case LEFT:
 					setOrientation(Orientation.WEST);
 					break;
@@ -60,7 +61,6 @@ public abstract class Movable extends Entity {
 				case DOWN:
 					setOrientation(Orientation.SOUTH);
 					break;
-
 			}
 			this.getPos().setEntity(null);
 			this.setPos(nextPos);
@@ -84,15 +84,15 @@ public abstract class Movable extends Entity {
 
 		switch(x){
 			case(1):
-				return Cmd.LEFT;
-			case(-1):
 				return Cmd.RIGHT;
+			case(-1):
+				return Cmd.LEFT;
 			case(0):
 				switch(y){
 					case(1):
-						return Cmd.UP;
-					case(-1):
 						return Cmd.DOWN;
+					case(-1):
+						return Cmd.UP;
 				}
 		}
 

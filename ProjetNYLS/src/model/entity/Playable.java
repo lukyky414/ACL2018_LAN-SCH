@@ -19,7 +19,7 @@ public abstract class Playable extends Movable {
 	/**
 	 * Choisis une nextPos avec la direction appuyee.
 	 * Il n'est pas necessaire de limiter la vitesse a laquelle une commande est prise en compte.
-	 * <p>
+	 * 
 	 * Cette methode est appellee directement depuis le LabyrinthController pour plus de reactivite.
 	 *
 	 * @param cmd, la commande actuelle
@@ -30,6 +30,8 @@ public abstract class Playable extends Movable {
 		if (lastCmd == Cmd.IDLE)
 			firstCmd = Cmd.IDLE;
 	}
+
+	public void evolve(){}
 
 	/**
 	 * Permet de remettre a zero le lastCmd ou firstCmd pour la prise en compte d'une commande,

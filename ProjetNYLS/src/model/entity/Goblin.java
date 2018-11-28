@@ -9,7 +9,7 @@ import java.awt.*;
 public class Goblin extends Monster {
 	
 	public Goblin(Square position, int hp, int atk, Hero target, int difficulty) {
-		super(position,hp, atk, 14, target, difficulty);
+		super(position,hp, atk, 10, target, difficulty);
 		texture = TextureFactory.getTexGoblin();
 	}
 

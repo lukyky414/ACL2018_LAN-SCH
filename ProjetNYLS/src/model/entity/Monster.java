@@ -1,6 +1,8 @@
 package model.entity;
 
 import engine.Cmd;
+import model.plateau.Effect;
+import model.plateau.SecretPassage;
 import model.plateau.Square;
 import model.plateau.Wall;
 
@@ -224,8 +226,6 @@ public abstract class Monster extends Movable {
 				}
 			} catch (iFoundIt err) {
 				mySquare tmp = err.getSquare().getFirstSon();
-				System.out.println(_startPos.getPosX() + "," + _startPos.getPosY() + " to " + tmp.thisPos.getPosX() + "," + tmp.thisPos.getPosY());
-				System.out.println(err.getSquare().getNextDir());
 				return err.getSquare().getNextDir();
 			}
 			return Cmd.IDLE;
@@ -237,12 +237,28 @@ public abstract class Monster extends Movable {
 				mySquare actual = _toVisitPos.get(i);
 
 				if(actual.thisPos == _finisPos)
-					throw new iFoundIt(actual);
+					throw new iFoundIt(actual);//*/
+
 
 				if(!_visitedPos.contains(actual.thisPos)) {
-					for (Square s : actual.thisPos.neighboor()) {
+					//Permet au monstre de passer dans un passage secret.
+					for(Effect e : actual.thisPos){
+						if(e instanceof SecretPassage){
+							int x = ((SecretPassage) e).getPosXSortie();
+							int y = ((SecretPassage) e).getPosYSortie();
+							Square sq = actual.thisPos.getMap().getSquare(x, y);
+							mySquare msq = new mySquare(sq , actual);
+							if(sq != null && !_visitedPos.contains(sq) && !(sq instanceof Wall))
+								_toVisitPos.add(msq);
+						}
+					}
+
+					//Inondation
+					ArrayList<Square> l = actual.thisPos.neighboor();
+					for (Square s : l) {
+						mySquare msq = new mySquare(s , actual);
 						if (!_visitedPos.contains(s) && !(s instanceof Wall)) {
-							_toVisitPos.add(new mySquare(s, actual));
+							_toVisitPos.add(msq);
 						}
 					}
 					_visitedPos.add(actual.thisPos);

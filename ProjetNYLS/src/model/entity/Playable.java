@@ -40,7 +40,6 @@ public abstract class Playable extends Movable {
 		if (cooldown-- == 0) {
 			this.nextPos = Movable.getNextPos(this.getPos(), lastCmd);
 			firstCmd = lastCmd;
-			lastCmd = Cmd.IDLE;
 			super.move();
 		}
 	}

@@ -10,7 +10,7 @@ import java.awt.*;
 public class Ghost extends Monster{
 
 	public Ghost(Square position, int hp, int atk, Hero target, int difficulty) {
-		super(position,hp, atk, 5, target, difficulty);
+		super(position,hp, atk, 10, target, difficulty);
 		texture = TextureFactory.getTexGhost();
 	}
 

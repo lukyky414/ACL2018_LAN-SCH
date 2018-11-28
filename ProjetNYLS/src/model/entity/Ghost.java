@@ -54,4 +54,13 @@ public class Ghost extends Monster{
 		}
 		return true;
 	}
+
+	/**
+	 * Utilise dans l'IA difficile.
+	 * Le fantome peut passer dans les murs.
+	 */
+	@Override
+	protected boolean validityTest(Square sq){
+		return sq != null/* && !(sq instanceof Wall)*/;
+	}
 }

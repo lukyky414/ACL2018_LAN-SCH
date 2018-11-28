@@ -50,6 +50,10 @@ public abstract class Monster extends Movable {
 		};
 	}
 
+	public int getDifficulty(){
+		return this.difficulty;
+	}
+
 
 	/**
 	 * Il faut aussi diminuer la vitesse de deplacement.
@@ -178,13 +182,19 @@ public abstract class Monster extends Movable {
 	 * @return Cmd - la direction choisie
 	 */
 	protected Cmd iaHard(){
-		Inondation in = new Inondation(this.getPos(), target.getPos());
-		Cmd dir = in.getFastestDir();
-		return dir;
-	}
+		this._startPos = this.getPos();
+		this._finisPos = target.getPos();
+		this._visitedPos = new ArrayList<>();
+		this._toVisitPos = new ArrayList<>();
+		this._toVisitPos.add(new mySquare(_startPos, null));
 
-	public int getDifficulty(){
-		return this.difficulty;
+		while(_toVisitPos.size() > 0){
+			mySquare msq = oneIteration();
+			if(msq != null)
+				return msq.getNextDir();
+		}
+
+		return Cmd.IDLE;
 	}
 
 	//#########################
@@ -193,83 +203,67 @@ public abstract class Monster extends Movable {
 	//#                       #
 	//#########################
 
-	class iFoundIt extends Exception {
-		mySquare sq;
+	private Square _startPos;
+	private Square _finisPos;
+	private ArrayList<Square> _visitedPos;
+	private ArrayList<mySquare> _toVisitPos;
 
-		public iFoundIt(mySquare sq){
-			this.sq = sq;
-		}
+	/**
+	 * On fait des inondations par plusieurs iteration.
+	 * J'ai donc sorti l'iteration de la boucle pour la mettre ici.
+	 */
+	private mySquare oneIteration() {
+		int i, lenght = _toVisitPos.size();
+		for(i = 0; i < lenght; i++){
+			mySquare actual = _toVisitPos.get(i);
 
-		public mySquare getSquare(){
-			return sq;
-		}
-	}
-
-	class Inondation{
-		Square _startPos;
-		Square _finisPos;
-		ArrayList<Square> _visitedPos;
-		ArrayList<mySquare> _toVisitPos;
-
-		public Inondation(Square startPos, Square finishPos){
-			this._startPos = startPos;
-			this._finisPos = finishPos;
-			this._visitedPos = new ArrayList<>();
-			this._toVisitPos = new ArrayList<>();
-			this._toVisitPos.add(new mySquare(startPos, null));
-		}
-
-		public Cmd getFastestDir(){
-			try{
-				while(_toVisitPos.size() > 0){
-					oneIteration();
-				}
-			} catch (iFoundIt err) {
-				mySquare tmp = err.getSquare().getFirstSon();
-				return err.getSquare().getNextDir();
-			}
-			return Cmd.IDLE;
-		}
-
-		private void oneIteration() throws iFoundIt {
-			int i, lenght = _toVisitPos.size();
-			for(i = 0; i < lenght; i++){
-				mySquare actual = _toVisitPos.get(i);
-
-				if(actual.thisPos == _finisPos)
-					throw new iFoundIt(actual);//*/
+			if(actual.thisPos == _finisPos)
+				return actual;
 
 
-				if(!_visitedPos.contains(actual.thisPos)) {
-					//Permet au monstre de passer dans un passage secret.
-					for(Effect e : actual.thisPos){
-						if(e instanceof SecretPassage){
-							int x = ((SecretPassage) e).getPosXSortie();
-							int y = ((SecretPassage) e).getPosYSortie();
-							Square sq = actual.thisPos.getMap().getSquare(x, y);
-							mySquare msq = new mySquare(sq , actual);
-							if(sq != null && !_visitedPos.contains(sq) && !(sq instanceof Wall))
-								_toVisitPos.add(msq);
-						}
-					}
-
-					//Inondation
-					ArrayList<Square> l = actual.thisPos.neighboor();
-					for (Square s : l) {
-						mySquare msq = new mySquare(s , actual);
-						if (!_visitedPos.contains(s) && !(s instanceof Wall)) {
+			if(!_visitedPos.contains(actual.thisPos)) {
+				//Permet au monstre de passer dans un passage secret.
+				for(Effect e : actual.thisPos){
+					if(e instanceof SecretPassage){
+						int x = ((SecretPassage) e).getPosXSortie();
+						int y = ((SecretPassage) e).getPosYSortie();
+						Square sq = actual.thisPos.getMap().getSquare(x, y);
+						mySquare msq = new mySquare(sq , actual);
+						if(validityTest(sq) && !_visitedPos.contains(sq))
 							_toVisitPos.add(msq);
-						}
 					}
-					_visitedPos.add(actual.thisPos);
 				}
-			}
 
-			for(i = 0; i < lenght; i++)
-				_toVisitPos.remove(0);
+				//Inondation
+				ArrayList<Square> l = actual.thisPos.neighboor();
+				for (Square s : l) {
+					mySquare msq = new mySquare(s , actual);
+					if (validityTest(s) && !_visitedPos.contains(s)) {
+						_toVisitPos.add(msq);
+					}
+				}
+				_visitedPos.add(actual.thisPos);
+			}
 		}
+
+		for(i = 0; i < lenght; i++)
+			_toVisitPos.remove(0);
+
+		return null;
 	}
 
+	/**
+	 * Savoir sur quelle case on peut inonder.
+	 * On inonde donc toutes les cases (!= null) qui ne sont pas des murs.
+	 */
+	protected boolean validityTest(Square sq){
+		return sq != null && !(sq instanceof Wall);
+	}
+
+	/**
+	 * Utile pour l'IA difficile, on garde en memoire pendant l'inondation,
+	 * quelle case a inonde la case actuelle.
+	 */
 	class mySquare{
 		public mySquare father;
 		public Square thisPos;

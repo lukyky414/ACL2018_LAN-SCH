@@ -20,6 +20,7 @@ pour les monstres: 1=Goblin, 2 = Ghost
 Les valeurs 3 et 4 indiquent la case de l'effet/monstre avec posX posY 
 
 Si la ligne est un SecretPassage on ajoute 2 valeurs : PosXSortie PosYSortie
+Si la ligne est un Trap/Magic on ajoute 1 valeur : Damage/Healing
 Si la ligne est un Monstre on ajoute les valeurs : Vie Attaque NiveauIA
 
 

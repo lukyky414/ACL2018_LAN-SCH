@@ -116,8 +116,10 @@ public class MapTxtDAO implements MapDAO{
 					s.append(((SecretPassage) e).getPosXSortie()+" "+((SecretPassage) e).getPosYSortie());
 					break;
 				case 3:
+					s.append(((Trap)e).getDamage());
 					break;
 				case 4:
+					s.append(((Magic)e).getHealing());
 					break;
 				}
 				s.append("\n");
@@ -258,10 +260,12 @@ public class MapTxtDAO implements MapDAO{
 			e=new SecretPassage(x,y);
 			break;
 		case "3":
-			e=new Trap();
+			int d = Integer.parseInt(s[4]);
+			e=new Trap(d);
 			break;
 		case "4":
-			e=new Magic();
+			int h = Integer.parseInt(s[4]);
+			e=new Magic(h);
 			break;
 		default:
 			throw new CorruptDataException("Probléme de formatage des effets");
@@ -270,7 +274,6 @@ public class MapTxtDAO implements MapDAO{
 	}
 	
 	private void loadEnnemies(Map m, String[] s, Hero h) throws CorruptDataException{
-		//TODO Difficulte de l'entite?
 		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 		int posy = Integer.parseInt(s[3]);
 		int vie = Integer.parseInt(s[4]);

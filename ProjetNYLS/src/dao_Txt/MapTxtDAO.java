@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 
 import exceptions.CorruptDataException;
 
@@ -189,6 +190,11 @@ public class MapTxtDAO implements MapDAO{
 			if(s[0].equals("0")){	
 				int posx = Integer.parseInt(s[1]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 				int posy = Integer.parseInt(s[2]);
+				if(posx<0 || posy<0){
+					int[] posAlea = generationPosHero(m);
+					posx = posAlea[0];
+					posy = posAlea[1];
+				}
 				int vie = Integer.parseInt(s[3]);
 				int attaque= Integer.parseInt(s[4]);
 				Square sq = m.getSquare(posx, posy);
@@ -200,6 +206,29 @@ public class MapTxtDAO implements MapDAO{
 		}
 		return h;
 		
+	}
+
+	private int[] generationPosHero(Map m ){
+		Random rand = new Random();
+		boolean good = false;
+		int newX = 0;
+		int newY = 0;
+		while(!good) {
+			good = true;
+			newX = rand.nextInt(m.getWidth());
+			newY = rand.nextInt(m.getHeigth());
+			if(m.getSquare(newX,newY).getEntity() != null){
+				good=false;
+			}
+			if ( m.getSquare(newX,newY).getIsWall()) {
+				good = false;
+			}
+			if (m.getSquare(newX,newY).iterator().hasNext()){ // si effet on recommence
+				good = false;
+			}
+		}
+		return new int[] {newX,newY};
+
 	}
 
 
@@ -276,6 +305,11 @@ public class MapTxtDAO implements MapDAO{
 	private void loadEnnemies(Map m, String[] s, Hero h) throws CorruptDataException{
 		int posx = Integer.parseInt(s[2]);  //coordonnées en x et y de la case sur laquelle s'applique l'effet
 		int posy = Integer.parseInt(s[3]);
+		if(posx<0 || posy<0){
+			int[] posAlea = generationPosEnnemie(m , Integer.valueOf(s[1]));
+			posx = posAlea[0];
+			posy = posAlea[1];
+		}
 		int vie = Integer.parseInt(s[4]);
 		int attaque= Integer.parseInt(s[5]);
 		int difficulte = Integer.parseInt(s[6]);
@@ -298,7 +332,25 @@ public class MapTxtDAO implements MapDAO{
 
 	}
 
+	private int[] generationPosEnnemie(Map m, int type ){
+		Random rand = new Random();
+		boolean good = false;
+		int newX = 0;
+		int newY = 0;
+		while(!good) {
+			good = true;
+			newX = rand.nextInt(m.getWidth());
+			newY = rand.nextInt(m.getHeigth());
+			if(m.getSquare(newX,newY).getEntity() != null){
+				good=false;
+			}
+			if (type==1 && m.getSquare(newX,newY).getIsWall()) {
+				good = false;
+			}
+		}
+		return new int[] {newX,newY};
 
+	}
 
 	
 	

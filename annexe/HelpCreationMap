@@ -23,6 +23,8 @@ Si la ligne est un SecretPassage on ajoute 2 valeurs : PosXSortie PosYSortie
 Si la ligne est un Trap/Magic on ajoute 1 valeur : Damage/Healing
 Si la ligne est un Monstre on ajoute les valeurs : Vie Attaque NiveauIA
 
+Pour les ennemis et le hero; il est possible de donner des positions aléatoires en donnant des valeurs negatives pour posX et posY;
+
 
 exemples:
 

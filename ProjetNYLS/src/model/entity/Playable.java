@@ -19,7 +19,7 @@ public abstract class Playable extends Movable {
 	/**
 	 * Choisis une nextPos avec la direction appuyee.
 	 * Il n'est pas necessaire de limiter la vitesse a laquelle une commande est prise en compte.
-	 * 
+	 *
 	 * Cette methode est appellee directement depuis le LabyrinthController pour plus de reactivite.
 	 *
 	 * @param cmd, la commande actuelle

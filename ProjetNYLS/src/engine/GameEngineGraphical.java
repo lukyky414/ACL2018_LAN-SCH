@@ -57,9 +57,10 @@ public class GameEngineGraphical {
 		// creation de l'interface graphique
 		this.gui = new GraphicalInterface(this.gamePainter,this.gameController);
 
-		
 		// boucle de game
-		while((game.getState() != GameState.EXIT)){
+		while(true){
+			if (this.game.getState() == GameState.EXIT)
+				this.gui.dispose();
 			this.gameController.setPlayable(this.game.getHero());
 			while (!this.game.isFinished()) {
 				this.gameController.setPlayable(this.game.getHero());
@@ -69,6 +70,8 @@ public class GameEngineGraphical {
 				this.gui.paint();
 				// met en attente = fps
 				Thread.sleep(15);
+				if (this.game.getState() == GameState.EXIT)
+					this.gui.dispose();
 			}
 			try {
 				game.loadNextLevel();

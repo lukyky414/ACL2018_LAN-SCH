@@ -49,6 +49,7 @@ public class GraphicalInterface  {
 
 	public void dispose(){
 		f.dispose();
+		System.exit(0);
 	}
 	
 }

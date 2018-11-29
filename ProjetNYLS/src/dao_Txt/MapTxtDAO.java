@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Random;
 
 import exceptions.CorruptDataException;
@@ -46,24 +47,26 @@ public class MapTxtDAO implements MapDAO{
 	@Override
 	public void save(Map m) {
 		//File f  = new File("ProjetNYLS/ressources/maps/map-1.map");
-		ClassLoader classLoader = getClass().getClassLoader();
-		File f = new File(classLoader.getResource("maps/map-1.map").getFile());
+		//ClassLoader classLoader = getClass().getClassLoader();
+		//File f = new File(classLoader.getResource("maps/map-1.map").getFile());
 		StringBuilder s = new StringBuilder();
 		FileWriter fw =null;
 		BufferedWriter bw=null;
+		PrintWriter writer=null;
 		try {
-			if(!f.exists()){
+			/*if(!f.exists()){
 				f.createNewFile();
-			}
-			fw = new FileWriter(f);
-			bw = new BufferedWriter(fw);
+			}*/
+			//fw = new FileWriter(f);
+			//bw = new BufferedWriter(fw);
+			writer = new PrintWriter("map-1.map");
 			s.append(m.getLevelNumber()+"\n");  //enregistre le numero du niveau pour pouvoir reprendre au même stade
 			saveLayout(s,m);
 			s.append("\n"); //toujours une ligne vide entre le layout et les modifiers
 			saveHero(s,m);
 			saveModifiers(s,m);
 			
-			bw.write(s.toString());
+			writer.write(s.toString());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -74,6 +77,9 @@ public class MapTxtDAO implements MapDAO{
 					bw.close();
 				if(fw!=null)
 					fw.close();
+				if(writer!=null)
+					writer.close();
+					
 			} catch(IOException ex) {
 				ex.printStackTrace();
 			}
@@ -153,9 +159,13 @@ public class MapTxtDAO implements MapDAO{
 		 try {
 			 //ClassLoader classLoader = getClass().getClassLoader();
 			//File file = new File(classLoader.getResource("maps/"+nomMap).getFile());
-			 InputStream is = getClass().getResourceAsStream("/maps/"+nomMap);
-			 InputStreamReader isr  = new InputStreamReader(is);
-			 br = new BufferedReader(isr);
+			 if(idMap != -1) {
+				 InputStream is = getClass().getResourceAsStream("/maps/"+nomMap);
+				 InputStreamReader isr  = new InputStreamReader(is);
+				 br = new BufferedReader(isr);
+			 }else {
+				 br = new BufferedReader(new FileReader("map-1.map"));
+			 }
 			 loadMapNumber(m);
 			 loadMapSize(m);
 			 loadMapTile(m);

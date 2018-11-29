@@ -22,7 +22,7 @@ import model.plateau.Square;
  * 
  */
 public class LabyrinthGame implements engine.Game {
-	private static int nbLevel = 3;
+	private static int nbLevel = 4;
 	//private int level =0 ;
 	private GameState state;
 	private Option option;

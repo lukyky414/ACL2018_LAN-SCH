@@ -19,13 +19,13 @@ public class TextureFactory {
     private TextureFactory(){
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            texWall = ImageIO.read(new File(classLoader.getResource("texture/texWall.png").getFile()));
-            texHero = ImageIO.read(new File(classLoader.getResource("texture/texHero.png").getFile()));
-            texGoblin = ImageIO.read(new File(classLoader.getResource("texture/texGoblin.png").getFile()));
-            texGhost = ImageIO.read(new File(classLoader.getResource("texture/texGhost.png").getFile()));
-            texChest = ImageIO.read(new File(classLoader.getResource("texture/texChest.png").getFile()));
-            texPortal = ImageIO.read(new File(classLoader.getResource("texture/texPortal.png").getFile()));
-            texHealingPotion = ImageIO.read(new File(classLoader.getResource("texture/texHealingPotion.png").getFile()));
+            texWall = ImageIO.read(classLoader.getResourceAsStream("texture/texWall.png"));
+            texHero = ImageIO.read(classLoader.getResourceAsStream("texture/texHero.png"));
+            texGoblin = ImageIO.read(classLoader.getResourceAsStream("texture/texGoblin.png"));
+            texGhost = ImageIO.read(classLoader.getResourceAsStream("texture/texGhost.png"));
+            texChest = ImageIO.read(classLoader.getResourceAsStream("texture/texChest.png"));
+            texPortal = ImageIO.read(classLoader.getResourceAsStream("texture/texPortal.png"));
+            texHealingPotion = ImageIO.read(classLoader.getResourceAsStream("texture/texHealingPotion.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

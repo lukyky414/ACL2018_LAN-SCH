@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Random;
 
 import exceptions.CorruptDataException;
@@ -149,9 +151,11 @@ public class MapTxtDAO implements MapDAO{
 		String nomMap = "map"+idMap+".map";
 		Map m = new Map();
 		 try {
-			 ClassLoader classLoader = getClass().getClassLoader();
-			File file = new File(classLoader.getResource("maps/"+nomMap).getFile());
-			 br = new BufferedReader(new FileReader(file));
+			 //ClassLoader classLoader = getClass().getClassLoader();
+			//File file = new File(classLoader.getResource("maps/"+nomMap).getFile());
+			 InputStream is = getClass().getResourceAsStream("/maps/"+nomMap);
+			 InputStreamReader isr  = new InputStreamReader(is);
+			 br = new BufferedReader(isr);
 			 loadMapNumber(m);
 			 loadMapSize(m);
 			 loadMapTile(m);
